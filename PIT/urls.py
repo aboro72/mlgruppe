@@ -4,6 +4,7 @@ from . import views
 app_name = "pit"
 
 urlpatterns = [
-    path('', views.info, name='info'),
+    path('', views.schiene_chart, name='info'),
+    path('update_status/<int:item_id>/', views.update_status, name='update_status'),
 
 ]

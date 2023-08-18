@@ -1,0 +1,120 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIT Übersicht</title>
+    <!-- Bootstrap 5.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="container mt-5">
+    <!-- Überschrift -->
+    <h1 class="text-center mb-5">PIT Übersicht</h1>
+
+    <div class="row">
+        <!-- Schiene Tortendiagramm auf der linken Seite -->
+        <div class="col-md-6 d-flex flex-column align-items-center" style="height: 450px;">
+            <h3 class="mb-3">Schienen</h3>
+            <canvas id="schieneChart" class="flex-grow-1"></canvas>
+        </div>
+
+        <!-- Server Tortendiagramm auf der rechten Seite -->
+        <div class="col-md-6 d-flex flex-column align-items-center" style="height: 450px;">
+            <h3 class="mb-3">Server</h3>
+            <canvas id="serverChart" class="flex-grow-1"></canvas>
+        </div>
+    </div>
+    </br></br>
+    <!-- Tabelle für Server und Schienen, die zurückgesetzt werden müssen -->
+    <div class="mt-5">
+        <h2 class="text-center mb-4">Zurückzusetzende Geräte</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Typ</th>
+                    <th>Status</th>
+                    <th>Aktion</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items_to_reset %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.get_type_display }}</td>
+                    <td contenteditable="true">{{ item.status }}</td>
+                    <td>
+                        {% if request.user.groups.all.0.name == "pit" or request.user.is_superuser %}
+                        <form method="post" action="{% url 'pit:update_status' item.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success">Erledigt</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Schiene Tortendiagramm
+    var schieneCtx = document.getElementById('schieneChart').getContext('2d');
+    var schieneData = {
+        labels: ['Lager', 'Unterwegs', 'Zurücksetzen', 'Imagen'],
+        datasets: [{
+            data: [
+                {{ lager_count }},
+                {{ unterwegs_count }},
+                {{ zurücksetzen_count }},
+                {{ imagen_count }}
+            ],
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
+            hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+        }]
+    };
+    var schienePieChart = new Chart(schieneCtx, {
+        type: 'pie',
+        data: schieneData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+
+    // Server Tortendiagramm
+    var serverCtx = document.getElementById('serverChart').getContext('2d');
+    var serverData = {
+        labels: ['Lager', 'Unterwegs', 'Zurücksetzen'],
+        datasets: [{
+            data: [
+                {{ server_lager_count }},
+                {{ server_unterwegs_count }},
+                {{ server_zurücksetzen_count }}
+            ],
+            backgroundColor: ['#FF9999', '#66B2FF', '#FFCC66'],
+            hoverBackgroundColor: ['#FF6666', '#3399FF', '#FFB366']
+        }]
+    };
+    var serverPieChart = new Chart(serverCtx, {
+        type: 'pie',
+        data: serverData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+});
+</script>
+
+</body>
+</html>
+
