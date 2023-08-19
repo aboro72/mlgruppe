@@ -7,7 +7,20 @@ from .models import Schiene, Server
 
 
 def schiene_chart(request):
-    # Zählen Sie die Anzahl der Schienen für jeden Status
+    """
+    Zähle die Anzahl der Schienen für jeden Status
+
+    ** Models **
+    ``model``
+    :model:`pit.Schiene`
+    :model:`pit.Server`
+
+    **Template:**
+
+    :template:`pit/schiene_chart.html`
+
+
+    """
     lager_count = Schiene.objects.filter(status='Lager').count()
     unterwegs_count = Schiene.objects.filter(status='Unterwegs').count()
     zurücksetzen_count = Schiene.objects.filter(status='Zurücksetzen').count()
@@ -39,6 +52,10 @@ def schiene_chart(request):
 
 
 def update_status(request, item_id):
+    '''
+    :views: ´schiene_char´
+    :return: ´schiene_char´
+    '''
     try:
         item = Schiene.objects.get(pk=item_id)
     except Schiene.DoesNotExist:

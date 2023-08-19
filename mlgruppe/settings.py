@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'start.apps.StartConfig',
     'Orga.apps.OrgaConfig',
-    'PIT.apps.PitConfig',
+    'pit.apps.PitConfig',
 ]
 
 MIDDLEWARE = [

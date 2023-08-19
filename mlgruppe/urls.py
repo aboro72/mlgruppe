@@ -21,6 +21,6 @@ urlpatterns = [
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
     path('', include('start.urls')),
-    path('pit/', include('PIT.urls')),
+    path('pit/', include('pit.urls')),
     path('orga/', include('Orga.urls')),
 ]
