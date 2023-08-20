@@ -55,14 +55,17 @@ class FestplattenImage(models.Model):
         return self.name
 
 
+2
+
+
 class Kurs(models.Model):
     """
     Dieses Modell repräsentiert einen Kurs, der von einem Trainer geleitet wird und eine eindeutige VA-Nummer hat.
     """
-    name = models.CharField(max_length=255)
+    kurz_art = models.CharField(max_length=255)
     va_nummer = models.CharField(max_length=255, unique=True)
     trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
-    adresse = models.ForeignKey(Adresse, on_delete=models.CASCADE)
+    kunde = models.ForeignKey(Kunde, on_delete=models.CASCADE, default="Ich bin eine Beispiel Kaserne")
 
     def __str__(self):
         return self.name
@@ -91,7 +94,10 @@ class Schiene(models.Model):
     def __str__(self):
         return self.name
 
+
 2
+
+
 class Server(models.Model):
     """
     Dieses Modell repräsentiert einen Server und seinen Status
@@ -118,6 +124,8 @@ class SchieneBewegung(models.Model):
     ziel_adresse = models.ForeignKey(Adresse, related_name='ziel_adresse', on_delete=models.CASCADE)
     rueckholung_datum = models.DateField(null=True, blank=True)
     weiterleitung_datum = models.DateField(null=True, blank=True)
+    weiterleitung_kunde = models.ForeignKey(Kunde, related_name='weiterleitung_kundr', null=True, blank=True,
+                                            on_delete=models.CASCADE)
     weiterleitung_adresse = models.ForeignKey(Adresse, related_name='weiterleitung_adresse', null=True, blank=True,
                                               on_delete=models.CASCADE)
 

@@ -55,6 +55,25 @@
             </tbody>
         </table>
     </div>
+    <p></p>
+    <div class="mt-5 shadow">
+        <table>
+            <tr>
+                <th>Schiene</th>
+                <th>Aktueller Status</th>
+                <th>Nächster Schritt</th>
+                <th>Nächstes Datum</th>
+            </tr>
+            {% for schiene_info in schienen_infos %}
+            <tr>
+                <td>{{ schiene_info.schiene.name }}</td>
+                <td>{{ schiene_info.aktueller_status }}</td>
+                <td>{{ schiene_info.naechster_schritt }}</td>
+                <td>{{ schiene_info.naechstes_datum }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
 </div>
 {% endblock %}
 

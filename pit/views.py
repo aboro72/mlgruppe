@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.shortcuts import render
-from .models import Schiene, Server
+from .models import Schiene, Server, SchieneBewegung
 
 
 def schiene_chart(request):
@@ -65,3 +65,32 @@ def update_status(request, item_id):
     item.save()
 
     return redirect('schiene_chart')
+
+
+def schienen_uebersicht(request):
+    schienen = Schiene.objects.all()
+    schienen_infos = []
+
+    for schiene in schienen:
+        letzte_bewegung = SchieneBewegung.objects.filter(schiene=schiene).order_by('-datum_versand').first()
+
+        if letzte_bewegung:
+            aktueller_status = letzte_bewegung.kunde.name
+            naechster_schritt = "Zurückholen" if letzte_bewegung.rueckholung_datum else "Weiterleiten"
+            naechstes_datum = letzte_bewegung.rueckholung_datum if letzte_bewegung.rueckholung_datum else letzte_bewegung.weiterleitung_datum
+        else:
+            aktueller_status = schiene.get_status_display()
+            naechster_schritt = "Weiterleiten"
+            naechstes_datum = schiene.datum_kms_aktivierung
+
+        schienen_infos.append({
+            'schiene': schiene,
+            'aktueller_status': aktueller_status,
+            'naechster_schritt': naechster_schritt,
+            'naechstes_datum': naechstes_datum
+        })
+
+    context = {
+        'schienen_infos': schienen_infos
+    }
+    return render(request, 'schienen_uebersicht.html', context)
