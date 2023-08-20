@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'start.apps.StartConfig',
     'Orga.apps.OrgaConfig',
     'pit.apps.PitConfig',
+
 ]
 
 MIDDLEWARE = [

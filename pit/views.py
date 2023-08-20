@@ -43,9 +43,12 @@ def schiene_chart(request):
     # Hole die Server und Schienen, die zurückgesetzt werden müssen
     items_to_reset = list(Schiene.objects.filter(status='Zurücksetzen')) + list(
         Server.objects.filter(status='Zurücksetzen'))
+    # Hole die Schienen, die zurückgeholt werden müssen
+    schienen_to_reset = SchieneBewegung.objects.filter(rueckholung_datum__isnull=False).order_by('rueckholung_datum')
 
     context.update({
-        'items_to_reset': items_to_reset
+        'items_to_reset': items_to_reset,
+        'schienen_to_reset': schienen_to_reset  # Füge diese Linie hinzu
     })
 
     return render(request, 'pit/schiene_chart.html', context)

@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 {% block title %}PIT Übersicht {%endblock%}
+
 {% block content %}
+<nav class="navbar bg-body-tertiary">
+  <form class="container-fluid justify-content-start">
+    <a href="#zuruecksetzen" class="btn btn-sm btn-outline-secondary" type="button">Zurückzusetzende Geräte</a>
+    <a href="#holen" class="btn btn-sm btn-outline-secondary" type="button">Zurückzuholende Schienen</a>
+  </form>
+</nav>
 <div class="container mt-5">
     <!-- Überschrift -->
     <h1 class="text-center mb-5 shadow">PIT Übersicht</h1>
@@ -25,7 +32,7 @@
     <hr>
 
     <!-- Tabelle für Server und Schienen, die zurückgesetzt werden müssen -->
-    <div class="mt-5 shadow">
+    <div  id="zuruecksetzen" class="mt-5 shadow">
         <h2 class="text-center mb-4">Zurückzusetzende Geräte</h2>
         <table class="table table-bordered">
             <thead>
@@ -56,26 +63,61 @@
         </table>
     </div>
     <p></p>
-    <div class="mt-5 shadow">
-        <table>
+    <!-- Tabelle für Schienen, die zurückgeholt werden müssen -->
+<div id="holen" class="mt-5 shadow">
+    <h2 class="text-center mb-4">Zurückzuholende Schienen</h2>
+    <table class="table table-bordered">
+        <thead>
             <tr>
-                <th>Schiene</th>
-                <th>Aktueller Status</th>
-                <th>Nächster Schritt</th>
-                <th>Nächstes Datum</th>
+                <th>Name der Schiene</th>
+                <th>Kunde</th>
+                <th>Rückholungsdatum</th>
+                <th>Aktion</th>
             </tr>
-            {% for schiene_info in schienen_infos %}
+        </thead>
+        <tbody>
+            {% for schiene_bewegung in schienen_to_reset %}
             <tr>
-                <td>{{ schiene_info.schiene.name }}</td>
-                <td>{{ schiene_info.aktueller_status }}</td>
-                <td>{{ schiene_info.naechster_schritt }}</td>
-                <td>{{ schiene_info.naechstes_datum }}</td>
+                <td>{{ schiene_bewegung.schiene.name }}</td>
+                <td>{{ schiene_bewegung.kunde.name }}</td>
+                <td>{{ schiene_bewegung.rueckholung_datum }}</td>
+                <td>
+                    {% if request.user.groups.all.0.name == "pit" or request.user.is_superuser %}
+                    <form method="post" action="{% url 'pit:update_status' schiene_bewegung.schiene.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success">Zurücksetzen</button>
+                    </form>
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
-        </table>
-    </div>
+        </tbody>
+    </table>
+</div>
+</div>
+ <!-- "Nach oben"-Pfeil -->
+<div id="scrollToTop" class="scroll-to-top">
+  <i class="fa fa-angle-up"></i>
 </div>
 {% endblock %}
+
+<!-- Hinzugefügtes JavaScript -->
+<script>
+  // JavaScript zum Scrollen nach oben
+  const scrollToTopButton = document.getElementById("scrollToTop");
+
+  window.addEventListener("scroll", () => {
+    if (window.pageYOffset > 300) {
+      scrollToTopButton.classList.add("show");
+    } else {
+      scrollToTopButton.classList.remove("show");
+    }
+  });
+
+  scrollToTopButton.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+</script>
 
 
 
