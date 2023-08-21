@@ -1,0 +1,28 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Encyclopedia
+{% endblock %}
+
+{% block body %}
+    <h1>Seite bearbeiten</h1>
+    <h2 class="alert alert-warning" role="alert">Keine ä,ö,ü,ß möglich. Bitte so ersetzen: ö=oe ä=ae ß=ss usw.</h2>
+    <br/>
+    {% if user.is_authenticated %}
+    <form action="{% url 'wiki:save_edit' %}" method="POST">
+        {% csrf_token %}
+        <label>Titel:</label>
+        <input type="text" name="title" value="{{ title }}">
+        <br/>
+        <label>Markdown Inhalt:</label>
+        <br/>
+        <textarea name="content" rows="2" cols="20">{{ content }}</textarea>
+        <br/>
+        <input type="submit" value="Edit" class="btn btn-primary">
+    </form>
+    {% else %}
+          <div class="alert alert-danger" role="alert">
+                <h2> Sie haben keine Zugrifsrechte für diese Seite oder Sie sind nicht Angemeldet</h2>
+          </div>
+    {% endif %}
+{% endblock %}

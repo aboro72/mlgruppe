@@ -1,0 +1,23 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Encyclopedia
+{% endblock %}
+
+{% block body %}
+    <h1>Neue Seite</h1>
+    <h2 class="alert alert-warning" role="alert">Keine ä,ö,ü,ß möglich. Bitte so ersetzen: ö=oe ä=ae ß=ss usw.</h2>
+    <br/>
+    <form action="{% url 'wiki:new_page' %}" method="POST">
+        {% csrf_token %}
+        <label>Titel:</label>
+        <input type="text" name="title" placeholder="Titel eingeben">
+        <br/>
+        <label>Markdown Inhalt:</label>
+        <br/>
+        <textarea name="content" rows="2" cols="20"></textarea>
+        <br/>
+        <input type="submit" value="Neue Seite" class="btn btn-primary">
+    </form>
+
+{% endblock %}

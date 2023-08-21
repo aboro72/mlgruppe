@@ -1,0 +1,26 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Encyclopedia
+{% endblock %}
+
+{% block body %}
+{% if user.is_authenticated %}
+    <h1>Alle Seiten</h1>
+    		
+    <ul>
+        {% for entry in entries %}
+            <li><a href="{% url 'wiki:entry' title=entry %}">{{ entry }}</a></li>
+        {% endfor %}
+    </ul>
+
+{% else %}
+
+    <div class="alert alert-danger" role="alert">
+        <h2> Sie haben keine Zugrifsrechte für diese Seite oder Sie sind nicht Angemeldet</h2>
+	<h1> <a href={% url 'start:login' %}>Zum Login</a></h1>
+    </div>
+
+{% endif %}
+
+{% endblock %}
