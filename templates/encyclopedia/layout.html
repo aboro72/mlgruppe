@@ -11,7 +11,7 @@
     <body>
         <div class="row">
             <div class="sidebar col-lg-2 col-md-3">
-                <h2>PIT-Wiki</h2>
+                <h2>MLGruppe-Wiki</h2>
                 <form action="{% url 'wiki:search' %}" method="POST">
                     {% csrf_token %}
                     <input class="search" type="text" name="q" placeholder="Search Encyclopedia">
@@ -19,12 +19,12 @@
 
 
                 <div>
-                    <a href="{% url 'wiki:index' %}">Home</a>
+                    <a href="{% url 'start:index' %}">Home</a>
                 </div>
                 <div>
                     <a href="{% url 'wiki:rand' %}">Zufällige Seite</a>
                 </div>
-		{% endif %}
+
 		{% if user.is_authenticated%}
 		<div>
                     <a href="{% url 'wiki:new_page' %}">Neue Seite erstellen</a>

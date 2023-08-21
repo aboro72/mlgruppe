@@ -7,6 +7,11 @@ from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
 
+def index(request):
+    return render(request, "start/index.html")
+
+
+'''
 def login_view(request):
     if request.method == "POST":
         username = request.POST["username"]
@@ -37,9 +42,10 @@ def register_view(request):
     else:
         form = SignUpForm()
         return render(request, "website/register.html", {"form": form})
+'''
 
 
 def logout_view(request):
     logout(request)
     messages.success(request, "Logout successful")
-    return redirect("start:login")
+    return redirect("start:index")
