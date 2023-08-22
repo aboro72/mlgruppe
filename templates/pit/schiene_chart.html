@@ -63,8 +63,7 @@
         </table>
     </div>
     <p></p>
-    <!-- Tabelle für Schienen, die zurückgeholt werden müssen -->
-<div id="holen" class="mt-5 shadow">
+ <div id="holen" class="mt-5 shadow">
     <h2 class="text-center mb-4">Zurückzuholende Schienen</h2>
     <table class="table table-bordered">
         <thead>
@@ -85,7 +84,7 @@
                     {% if request.user.groups.all.0.name == "pit" or request.user.is_superuser %}
                     <form method="post" action="{% url 'pit:update_status' schiene_bewegung.schiene.id %}">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-success">Zurücksetzen</button>
+                        <button type="submit" class="btn btn-success">Zurückholen</button>
                     </form>
                     {% endif %}
                 </td>
@@ -94,6 +93,8 @@
         </tbody>
     </table>
 </div>
+
+
 </div>
  <!-- "Nach oben"-Pfeil -->
 <div id="scrollToTop" class="scroll-to-top">

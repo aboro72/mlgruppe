@@ -95,9 +95,6 @@ class Schiene(models.Model):
         return self.name
 
 
-2
-
-
 class Server(models.Model):
     """
     Dieses Modell repräsentiert einen Server und seinen Status
@@ -128,6 +125,11 @@ class SchieneBewegung(models.Model):
                                             on_delete=models.CASCADE)
     weiterleitung_adresse = models.ForeignKey(Adresse, related_name='weiterleitung_adresse', null=True, blank=True,
                                               on_delete=models.CASCADE)
+    # Neue Felder
+    dpd_beauftragt = models.BooleanField(default=False)
+    dpd_beauftragt_datum = models.DateField(null=True, blank=True)
+    geloescht = models.BooleanField(default=False)
+    geloescht_datum = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.schiene.name} - {self.kunde.name}"

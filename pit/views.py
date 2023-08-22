@@ -67,7 +67,7 @@ def update_status(request, item_id):
     item.status = 'Lager'
     item.save()
 
-    return redirect('schiene_chart')
+    return redirect('pit:info')
 
 
 def schienen_uebersicht(request):
@@ -81,19 +81,25 @@ def schienen_uebersicht(request):
             aktueller_status = letzte_bewegung.kunde.name
             naechster_schritt = "Zurückholen" if letzte_bewegung.rueckholung_datum else "Weiterleiten"
             naechstes_datum = letzte_bewegung.rueckholung_datum if letzte_bewegung.rueckholung_datum else letzte_bewegung.weiterleitung_datum
+            dpd_beauftragt = letzte_bewegung.dpd_beauftragt  # Neues Feld
+            geloescht = letzte_bewegung.geloescht  # Neues Feld
         else:
             aktueller_status = schiene.get_status_display()
             naechster_schritt = "Weiterleiten"
             naechstes_datum = schiene.datum_kms_aktivierung
+            dpd_beauftragt = False  # Neues Feld
+            geloescht = False  # Neues Feld
 
         schienen_infos.append({
             'schiene': schiene,
             'aktueller_status': aktueller_status,
             'naechster_schritt': naechster_schritt,
-            'naechstes_datum': naechstes_datum
+            'naechstes_datum': naechstes_datum,
+            'dpd_beauftragt': dpd_beauftragt,  # Neues Feld
+            'geloescht': geloescht  # Neues Feld
         })
 
     context = {
         'schienen_infos': schienen_infos
     }
-    return render(request, 'schienen_uebersicht.html', context)
+    return render(request, 'pit/schiene_chart.html', context)
