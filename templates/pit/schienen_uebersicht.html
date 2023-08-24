@@ -1,0 +1,79 @@
+{{% extends "base.html" %}
+
+{% block title %}Schienen Übersicht{% endblock %}
+
+{% block content %}
+
+<h1>Schienen Übersicht</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Schiene</th>
+            <th>Aktueller Status</th>
+            <th>Nächster Schritt</th>
+            <th>Nächstes Datum</th>
+            <th>DPD Beauftragt</th>
+            <th>Aktionen</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for schiene_info in schienen_infos %}
+        <tr>
+            <td>{{ schiene_info.schiene }}</td>
+            <td>{{ schiene_info.aktueller_status }}</td>
+            <td>{{ schiene_info.naechster_schritt }}</td>
+            <td>{{ schiene_info.naechstes_datum }}</td>
+            <td>
+                <!-- Checkbox für DPD Beauftragt -->
+                <input type="checkbox" id="dpd_beauftragt_{{ schiene_info.schiene.id }}" {% if schiene_info.dpd_beauftragt %} checked {% endif %}>
+
+            </td>
+            <td>
+                <button onclick="schieneZurueck({{ schiene_info.schiene.id }})" id="zurueck_{{ schiene_info.schiene.id }}" disabled>Zurück</button>
+                <button onclick="schieneWeiterleiten({{ schiene_info.schiene.id }})" id="weiterleiten_{{ schiene_info.schiene.id }}" disabled>Weiterleiten</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Bootstrap Modal für die Weiterleitung -->
+<div class="modal fade" id="weiterleitungModal" tabindex="-1" aria-labelledby="weiterleitungModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="weiterleitungModalLabel">Schiene weiterleiten</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="weiterleitenForm">
+                    <div class="mb-3">
+                        <label for="kunde" class="form-label">Kunde:</label>
+                        <select class="form-control" id="kunde" name="kunde">
+                            {% for kunde in kunden %}
+                                <option value="{{ kunde.id }}">{{ kunde.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="weiterleitungsDatum" class="form-label">Weiterleitungsdatum:</label>
+                        <input type="date" class="form-control" id="weiterleitungsDatum" name="weiterleitungsDatum">
+                    </div>
+                    <div class="mb-3">
+                        <label for="rueckholungDatum" class="form-label">Rückholungsdatum:</label>
+                        <input type="date" class="form-control" id="rueckholungDatum" name="rueckholungDatum">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+                <button type="button" id="submitWeiterleiten" class="btn btn-primary">Weiterleiten</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
