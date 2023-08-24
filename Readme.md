@@ -8,6 +8,11 @@ Was wird benötigt:
 
 Ich persönlich empfehle PyCharm CE https://www.jetbrains.com/products/compare/?product=pycharm&product=pycharm-ce
 
-In PyCharm ein ein vs Project starten und bei github anmelden
+In PyCharm einvs Project starten und bei github anmelden
 
-Das git runter laden und mit ''' pip install -r requirements.txt ''' im Terminal vom PyCharm ausführen.
+
+
+Das git runter laden
+Ein venv mit PyCharm erstellen(unten rechts das vorletzte den Punkt Add New Interpreter auswählen) und mit ''' pip install -r requirements.txt ''' im Terminal vom PyCharm ausführen.
+
+
