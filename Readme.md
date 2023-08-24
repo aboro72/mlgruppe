@@ -23,4 +23,4 @@ chart.js die Diagramme anzuzeigen.
 
 ## Warum Bootstrap 5.3 ?
 
-Ich bin kein Webdesigner im dem Sinne ich brauchte was für schnelle halbwegs nett anzusehende ergebnisse. 
+Ich bin kein Webdesigner im dem Sinne. Ich brauchte was für schnelle halbwegs nett anzusehende Ergebnisse. 
