@@ -80,6 +80,7 @@ def update_status(request, item_id):
 
 def schienen_uebersicht(request):
     schienen = Schiene.objects.filter(status='Unterwegs')
+    schienen_lager = Schiene.objects.filter(status='Lager')
     schienen_infos = []
     kunden = Kunde.objects.all()
 
@@ -94,7 +95,7 @@ def schienen_uebersicht(request):
         else:
             aktueller_status = schiene.get_status_display()
             naechster_schritt = "Weiterleiten"
-            naechstes_datum = None  # Änderung hier, ursprünglich war es SchieneBewegung.rueckholung_datum
+            naechstes_datum = None  # Änderung hier
 
         schienen_infos.append({
             'schiene': schiene,
@@ -109,8 +110,9 @@ def schienen_uebersicht(request):
     context = {
         'schienen_infos': schienen_infos,
         'kunden': kunden,
+        'schienen_lager': schienen_lager,  # Hier hinzugefügt
     }
-
+    print(schienen_lager.count())
     return render(request, 'pit/schienen_uebersicht.html', context)
 
 
@@ -172,3 +174,5 @@ def update_dpd_status(request):
     schiene.save()
 
     return JsonResponse({'status': 'success'})
+
+

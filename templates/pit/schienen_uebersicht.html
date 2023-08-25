@@ -1,11 +1,12 @@
-{{% extends "base.html" %}
+{% extends "base.html" %}
 
 {% block title %}Schienen Übersicht{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
-        <h1>Schienen Übersicht</h1>
+
     <div  class="mt-5 shadow">
+        <h1 class="text-center">Schienen Übersicht</h1>
         <table class="table">
             <thead>
                 <tr>
@@ -37,7 +38,29 @@
                 {% endfor %}
             </tbody>
         </table>
+    </div>
+    <div  class="mt-5 shadow">
+        <h1 class="text-center"> Debug Schienen im lager</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Schiene</th>
+                    <th>Aktueller Status</th>
 
+                </tr>
+            </thead>
+            <tbody>
+                {% for schiene_lager in schienen_lager %}
+                <tr>
+                    <td>{{ schiene_lager.name }}</td>
+                    <td>{{ schiene_lager.aktueller_status }}</td>
+
+
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
         <!-- Bootstrap Modal für die Weiterleitung -->
         <div class="modal fade" id="weiterleitungModal" tabindex="-1" aria-labelledby="weiterleitungModalLabel" aria-hidden="true">
             <div class="modal-dialog">
