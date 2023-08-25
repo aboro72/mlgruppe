@@ -44,7 +44,7 @@ class Kunde(models.Model):
         return f"{self.name} ({self.typ})"
 
 
-class FestplattenImage(models.Model):
+class FestplattenImageNotebook(models.Model):
     """
     Dieses Modell repräsentiert ein Festplatten-Image, das Servern oder Schienen zugeordnet werden kann.
     """
@@ -55,7 +55,26 @@ class FestplattenImage(models.Model):
         return self.name
 
 
-2
+class FestplattenImageServer(models.Model):
+    """
+    Dieses Modell repräsentiert ein Festplatten-Image, das Servern oder Schienen zugeordnet werden kann.
+    """
+    name = models.CharField(max_length=255, unique=True)
+    beschreibung = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
+
+
+class FestplattenImageWorkstation(models.Model):
+    """
+    Dieses Modell repräsentiert ein Festplatten-Image, das Servern oder Schienen zugeordnet werden kann.
+    """
+    name = models.CharField(max_length=255, unique=True)
+    beschreibung = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Kurs(models.Model):
@@ -84,7 +103,7 @@ class Schiene(models.Model):
     DruckerFuellstandB = models.IntegerField(default=100)
     Nighthawk = models.CharField(max_length=10, default='Beispiel: NH 01')
     datum_kms_aktivierung = models.DateField()
-    image = models.ForeignKey(FestplattenImage, on_delete=models.SET_NULL, null=True)
+    image = models.ForeignKey(FestplattenImageNotebook, on_delete=models.SET_NULL, null=True)
     Bemerkung = models.TextField(max_length=500, default="Fehler/Bemerkung")
 
     @property

@@ -78,7 +78,6 @@ def update_status(request, item_id):
     return redirect('pit:info')
 
 
-
 def schienen_uebersicht(request):
     schienen = Schiene.objects.filter(status='Unterwegs')
     schienen_infos = []
