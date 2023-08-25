@@ -21,6 +21,7 @@ class Person(models.Model):
     """
     name = models.CharField(max_length=255)
     adresse = models.ForeignKey(Adresse, on_delete=models.CASCADE)
+    Telefon = models.CharField(max_length=17, null=True, blank=True)
 
     class Meta:
         abstract = True
@@ -44,7 +45,7 @@ class Kunde(models.Model):
         return f"{self.name} ({self.typ})"
 
 
-class FestplattenImage(models.Model):
+class FestplattenImageNotebook(models.Model):
     """
     Dieses Modell repräsentiert ein Festplatten-Image, das Servern oder Schienen zugeordnet werden kann.
     """
@@ -55,17 +56,23 @@ class FestplattenImage(models.Model):
         return self.name
 
 
-2
+class FestplattenImageServer(models.Model):
+    """
+    Dieses Modell repräsentiert ein Festplatten-Image, das Servern oder Schienen zugeordnet werden kann.
+    """
+    name = models.CharField(max_length=255, unique=True)
+    beschreibung = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
 
 
-class Kurs(models.Model):
+class FestplattenImageWorkstation(models.Model):
     """
-    Dieses Modell repräsentiert einen Kurs, der von einem Trainer geleitet wird und eine eindeutige VA-Nummer hat.
+    Dieses Modell repräsentiert ein Festplatten-Image, das Servern oder Schienen zugeordnet werden kann.
     """
-    kurz_art = models.CharField(max_length=255)
-    va_nummer = models.CharField(max_length=255, unique=True)
-    trainer = models.ForeignKey(Trainer, on_delete=models.CASCADE)
-    kunde = models.ForeignKey(Kunde, on_delete=models.CASCADE, default="Ich bin eine Beispiel Kaserne")
+    name = models.CharField(max_length=255, unique=True)
+    beschreibung = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -84,7 +91,7 @@ class Schiene(models.Model):
     DruckerFuellstandB = models.IntegerField(default=100)
     Nighthawk = models.CharField(max_length=10, default='Beispiel: NH 01')
     datum_kms_aktivierung = models.DateField()
-    image = models.ForeignKey(FestplattenImage, on_delete=models.SET_NULL, null=True)
+    image = models.ForeignKey(FestplattenImageNotebook, on_delete=models.SET_NULL, null=True)
     Bemerkung = models.TextField(max_length=500, default="Fehler/Bemerkung")
 
     @property
@@ -118,18 +125,41 @@ class SchieneBewegung(models.Model):
     schiene = models.ForeignKey(Schiene, on_delete=models.CASCADE)
     datum_versand = models.DateField()
     kunde = models.ForeignKey(Kunde, on_delete=models.CASCADE)
-    ziel_adresse = models.ForeignKey(Adresse, related_name='ziel_adresse', on_delete=models.CASCADE)
     rueckholung_datum = models.DateField(null=True, blank=True)
     weiterleitung_datum = models.DateField(null=True, blank=True)
     weiterleitung_kunde = models.ForeignKey(Kunde, related_name='weiterleitung_kundr', null=True, blank=True,
                                             on_delete=models.CASCADE)
-    weiterleitung_adresse = models.ForeignKey(Adresse, related_name='weiterleitung_adresse', null=True, blank=True,
-                                              on_delete=models.CASCADE)
+
     # Neue Felder
     dpd_beauftragt = models.BooleanField(default=False)
     dpd_beauftragt_datum = models.DateField(null=True, blank=True)
-    geloescht = models.BooleanField(default=False)
-    geloescht_datum = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.schiene.name} - {self.kunde.name}"
+
+
+class Kurs(models.Model):
+    va_nummer = models.IntegerField(unique=True)  # Eindeutige VA-Nummer
+    thema = models.CharField(max_length=50, default='Outlook')
+    trainer = models.ForeignKey(Trainer, related_name='kurse', null=True, blank=True,
+                                on_delete=models.SET_NULL)  # Ein Trainer kann mehrere Kurse haben
+    kunde = models.ForeignKey(Kunde, related_name='kurse', null=True, blank=True,
+                              on_delete=models.SET_NULL)  # Ein Kunde kann mehrere Kurse haben
+    schiene = models.ForeignKey(Schiene, related_name='kurse', null=True, blank=True,
+                                on_delete=models.SET_NULL)  # Eine Schiene kann mehrere Kurse haben
+    server = models.ForeignKey(Server, related_name='kurse', null=True, blank=True,
+                               on_delete=models.SET_NULL)  # Ein Server kann mehrere Kurse haben
+    kurs_start = models.DateTimeField(null=True, blank=True)  # Startzeitpunkt des Kurses
+    kurs_ende = models.DateTimeField(null=True, blank=True)  # Endzeitpunkt des Kurses
+
+    def __str__(self):
+        return f"{self.va_nummer}"
+
+
+class Ansprechpartner(models.Model):
+    kunde = models.ForeignKey(Kunde, related_name='ansprechpartner', null=True, blank=True,
+                              on_delete=models.CASCADE)  # Geändert von Standort zu kunde und aktualisiert related_name
+    Anrede = models.CharField(max_length=255, choices=[('Frau', 'Frau'),
+                                                       ('Herr', 'Herr'),
+                                                       ], default='Herr')
+    Telefon = models.CharField(max_length=17, null=True, blank=True)

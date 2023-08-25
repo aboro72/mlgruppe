@@ -65,3 +65,49 @@ document.addEventListener('DOMContentLoaded', function() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 </script>
+
+<script>
+    let currentSchieneId; // Speichert die aktuelle Schiene-ID
+
+    function schieneZurueck(schieneId) {
+        // AJAX-Anfrage zum Zurücksetzen der Schiene
+        // ...
+    }
+
+    function schieneWeiterleiten(schieneId) {
+        currentSchieneId = schieneId; // Speichern Sie die aktuelle Schiene-ID
+        // Öffnen des Bootstrap-Modals
+        let weiterleitungModal = new bootstrap.Modal(document.getElementById('weiterleitungModal'));
+        weiterleitungModal.show();
+    }
+
+    // AJAX-Anfrage, wenn der Button im Modal gedrückt wird
+    document.getElementById('submitWeiterleiten').addEventListener('click', function() {
+        let kunde = document.getElementById('kunde').value;
+        let weiterleitungsDatum = document.getElementById('weiterleitungsDatum').value;
+        let rueckholungDatum = document.getElementById('rueckholungDatum').value;
+
+        // Ihre AJAX-Anfrage hier, verwenden Sie currentSchieneId und die Formulardaten
+        // ...
+    });
+</script>
+<script>
+  // Aktualisiertes JavaScript
+  document.addEventListener("DOMContentLoaded", function() {
+    // Referenzen zu den Elementen
+    const dpdCheckbox = document.getElementById("dpd_beauftragt");
+    const weiterleitenButton = document.getElementById("weiterleiten_button");
+    const zurueckButton = document.getElementById("zurueck_button");
+
+    // Event-Listener für das Checkbox-Element
+    dpdCheckbox.addEventListener("change", function() {
+      if(this.checked) {
+        weiterleitenButton.removeAttribute("disabled");
+        zurueckButton.removeAttribute("disabled");
+      } else {
+        weiterleitenButton.setAttribute("disabled", "disabled");
+        zurueckButton.setAttribute("disabled", "disabled");
+      }
+    });
+  });
+</script>
