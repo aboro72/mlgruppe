@@ -5,7 +5,7 @@
 <nav class="navbar bg-body-tertiary">
   <form class="container-fluid justify-content-start">
     <a href="#zuruecksetzen" class="btn btn-sm btn-outline-secondary" type="button">Zurückzusetzende Geräte</a>
-    <a href="#holen" class="btn btn-sm btn-outline-secondary" type="button">Zurückzuholende Schienen</a>
+    <a href="{% url 'pit:kueb' %}" class="btn btn-sm btn-outline-secondary" type="button">Zurückzuholende Schienen</a>
   </form>
 </nav>
 <div class="container mt-5">
@@ -63,6 +63,7 @@
         </table>
     </div>
     <p></p>
+ <!--
  <div id="holen" class="mt-5 shadow">
     <h2 class="text-center mb-4">Zurückzuholende Schienen</h2>
     <table class="table table-bordered">
@@ -93,7 +94,7 @@
         </tbody>
     </table>
 </div>
-
+-->
 
 </div>
  <!-- "Nach oben"-Pfeil -->

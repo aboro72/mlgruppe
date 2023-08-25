@@ -4,6 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from .models import Schiene, Server, SchieneBewegung, Kunde
+from datetime import datetime
 
 
 def schiene_chart(request):
@@ -77,50 +78,35 @@ def update_status(request, item_id):
     return redirect('pit:info')
 
 
+
 def schienen_uebersicht(request):
-    """
-    Zeigt eine Übersicht der Schienen und deren aktuellen Status.
-
-    **Models:**
-    - :model:`IhrAppname.Schiene`
-    - :model:`IhrAppname.SchieneBewegung`
-
-    **Template:**
-    - :template:`IhrAppname/schienen_uebersicht.html`
-    """
-
-    schienen = Schiene.objects.all()  # Hole alle Schienen aus der Datenbank
-    schienen_infos = []  # Eine leere Liste für die späteren Schieneninformationen
+    schienen = Schiene.objects.filter(status='Unterwegs')
+    schienen_infos = []
     kunden = Kunde.objects.all()
 
-    # Durchlaufen Sie alle Schienen und sammeln Sie die Informationen
     for schiene in schienen:
-        letzte_bewegung = SchieneBewegung.objects.filter(schiene=schiene).order_by('-datum_versand').first()
+        bewegungen = SchieneBewegung.objects.filter(schiene=schiene).order_by('datum_versand')
+        letzte_bewegung = bewegungen.last() if bewegungen.exists() else None
 
         if letzte_bewegung:
             aktueller_status = letzte_bewegung.kunde.name
             naechster_schritt = "Zurückholen" if letzte_bewegung.rueckholung_datum else "Weiterleiten"
-            naechstes_datum = letzte_bewegung.rueckholung_datum if letzte_bewegung.rueckholung_datum else letzte_bewegung.weiterleitung_datum
-            dpd_beauftragt = letzte_bewegung.dpd_beauftragt
-            geloescht = letzte_bewegung.geloescht
+            naechstes_datum = letzte_bewegung.rueckholung_datum or letzte_bewegung.weiterleitung_datum
         else:
             aktueller_status = schiene.get_status_display()
             naechster_schritt = "Weiterleiten"
-            naechstes_datum = schiene.datum_kms_aktivierung
-            dpd_beauftragt = False
-            geloescht = False
+            naechstes_datum = None  # Änderung hier, ursprünglich war es SchieneBewegung.rueckholung_datum
 
-        # Füge die gesammelten Informationen der aktuellen Schiene zur Liste hinzu
         schienen_infos.append({
             'schiene': schiene,
             'aktueller_status': aktueller_status,
             'naechster_schritt': naechster_schritt,
-            'naechstes_datum': naechstes_datum,
-            'dpd_beauftragt': dpd_beauftragt,
-            'geloescht': geloescht,
+            'naechstes_datum': naechstes_datum or datetime.min.date(),
         })
 
-    # Erstelle den Kontext für das Template
+    # Sortieren der Liste nach Datum
+    schienen_infos.sort(key=lambda x: x['naechstes_datum'] or datetime.min.date())
+
     context = {
         'schienen_infos': schienen_infos,
         'kunden': kunden,
@@ -187,5 +173,3 @@ def update_dpd_status(request):
     schiene.save()
 
     return JsonResponse({'status': 'success'})
-
-# ... (Ihr vorhandener Code für schiene_zurueck und schiene_weiterleiten)
