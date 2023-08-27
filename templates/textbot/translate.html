@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block title %} Code AI Fix code {% endblock %}
+{% block content %}
+<div class="container">
+<br/>
+<h1 class="text-center">Translate Text</h1>
+{% if response %}
+<pre>
+<code class="line-numbers language-text">
+{{ response }}
+
+</code>
+</pre>
+<br/><br/>
+
+
+<!-- Forms input -->
+<form method="POST" action="{% url 'textbot:translate' %}">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <textarea class="form-control" name="text" placeholder="Have A.I. fix My Text" rows="3"></textarea>
+    </div>
+    <select class="form-select" name="lang1">
+      <option selected>Select Language</option>
+      {% for x in lang_list %}
+        <option value="{{ x }}">{{ x }}</option>
+      {% endfor%}
+    </select>
+    <select class="form-select" name="lang2">
+      <option selected>Select target Language</option>
+      {% for x in lang_list %}
+        <option value="{{ x }}">{{ x }}</option>
+      {% endfor%}
+    </select>
+   <br/><br>
+     <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<br/>
+
+{% else %}
+
+<pre>
+<code class="line-numbers language-text">
+I am an example text
+</code>
+</pre>
+<br/><br/>
+<!-- Forms input -->
+<form method="POST" action="{%url 'textbot:translate'%}">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <textarea class="form-control" name="text" placeholder="Have A.I. fix My Text" rows="3">{{ text }}</textarea>
+    </div>
+    <select class="form-select" name="lang1">
+      <option selected>Select destination Language</option>
+      {% for x in lang_list %}
+        <option value="{{ x }}">{{ x }}</option>
+      {% endfor%}
+    </select>
+        <select class="form-select" name="lang2">
+      <option selected>Select target Language</option>
+      {% for x in lang_list %}
+        <option value="{{ x }}">{{ x }}</option>
+      {% endfor%}
+    </select>
+   <br/><br>
+     <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<br/>
+{% endif %}
+</div>
+{% endblock %}

@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'Orga.apps.OrgaConfig',
     'pit.apps.PitConfig',
     'mywiki.apps.MywikiConfig',
+    'textbot.apps.TextbotConfig',
+    'codebot.apps.CodebotConfig',
 
 ]
 

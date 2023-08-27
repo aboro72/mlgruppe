@@ -12,19 +12,22 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'wiki:index' %}">Wiki</a>
         </li>
- {% if user.is_authenticated %}
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'pit:info' %}">PIT</a>
+        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Gruppen
+            KI-TEST
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url 'pit:info' %}">PIT</a></li>
-            <li><a class="dropdown-item" href="#">Orga</a></li>
+            <li><a class="dropdown-item" href="{% url 'textbot:home' %}">Text Erzeugung</a></li>
+            <li><a class="dropdown-item" href="{% url 'codebot:suggest' %}">Code Erzeugung</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Allgemein</a></li>
           </ul>
         </li>
-  {% endif %}
+        {% endif %}
         <li class="nav-item">
           <a class="nav-link disabled" aria-disabled="true">Disabled</a>
         </li>
