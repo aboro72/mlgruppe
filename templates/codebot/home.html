@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %} Code AI Fix code {% endblock %}
+{% block content %}
+<div class="container">
+    <br/>
+    <h1 class="text-center">Fix Code</h1>
+    {% if response %}
+<pre>
+<code class="line-numbers language-{{ lang }}">
+    {{ response }}
+</code>
+</pre>
+    <br/><br/>
+    {% else %}
+<pre>
+<code class="line-numbers language-python">
+if name == "Beispiel":
+    print('Hallo Beispiel')
+else:
+    print('Hallo Unbekanntes Beispiel')
+</code>
+    </pre>
+    <br/><br/>
+    {% endif %}
+
+    <!-- Forms input -->
+    <form method="POST" action="{% url 'codebot:home' %}">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <textarea class="form-control" name="code" placeholder="Have A.I. fix My Code" rows="3">{{ code }}</textarea>
+        </div>
+        <select class="form-select" name="lang">
+            <option selected>Select Programming Language</option>
+            {% for x in lang_list %}
+            <option value="{{ x }}">{{ x }}</option>
+            {% endfor%}
+        </select>
+        <br/><br>
+        <button type="submit" class="btn btn-primary" id="submit-btn">Submit</button>
+    </form>
+    <br/>
+
+    <div class="alert alert-warning text-center" role="alert" id="loading-msg" style="display: none;">
+        I'm Thinking...
+    </div>
+
+</div>
+
+<script>
+    // Funktion zum Anzeigen des Ladezustands
+    document.querySelector("#submit-btn").addEventListener("click", function () {
+        document.querySelector("#loading-msg").style.display = "block";
+    });
+</script>
+
+{% endblock %}

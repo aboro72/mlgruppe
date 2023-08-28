@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %} Code AI Suggest {% endblock %}
+
+
+{% block content %}
+{% include 'messages.html' %}
+<div class="container">
+<br/>
+<h1 class="text-center">Create Text</h1>
+{% if response %}
+<pre>
+<code class="line-numbers language-md ">
+{{ response }}
+
+</code>
+</pre>
+<br/><br/>
+
+
+<!-- Forms input -->
+<form method="POST" action="{% url 'textbot:suggest' %}">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <textarea class="form-control" name="prompt" placeholder="Have A.I. create Text" rows="3"></textarea>
+    </div>
+    <select class="form-select" name="lang">
+      <option selected>Select Language</option>
+      {% for x in lang_list %}
+        <option value="{{ x }}">{{ x }}</option>
+      {% endfor%}
+    </select>
+   <br/><br>
+     <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<br/>
+
+{% else %}
+
+<pre>
+<code class="line-numbers language-text">
+Hier steht ein Beispiel Text
+</code>
+</pre>
+<br/><br/>
+<!-- Forms input -->
+<form method="POST" action="{%url 'textbot:suggest'%}">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <textarea class="form-control" name="text" placeholder="Have A.I. Create Text" rows="3">{{ prompt }}</textarea>
+    </div>
+    <select class="form-select" name="lang">
+      <option selected>Select Language</option>
+      {% for x in lang_list %}
+        <option value="{{ x }}">{{ x }}</option>
+      {% endfor%}
+    </select>
+   <br/><br>
+     <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<br/>
+{% endif %}
+</div>
+{% endblock %}
