@@ -162,4 +162,7 @@ class Ansprechpartner(models.Model):
     Anrede = models.CharField(max_length=255, choices=[('Frau', 'Frau'),
                                                        ('Herr', 'Herr'),
                                                        ], default='Herr')
+    vorname = models.CharField(max_length=255, null=True, blank=False)
+    nachname = models.CharField(max_length=255, null=False, blank=False, default='Müller/Meier/Schmitz')
+
     Telefon = models.CharField(max_length=17, null=True, blank=True)

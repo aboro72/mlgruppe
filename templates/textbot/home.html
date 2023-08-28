@@ -16,7 +16,6 @@
 </pre>
 <br/><br/>
 
-
 <!-- Forms input -->
 <form method="POST" action="{% url 'textbot:home' %}">
     {% csrf_token %}
@@ -39,7 +38,7 @@
 
 <pre>
 <code class="line-numbers language-text">
-Ich bin ein Beisoiel
+Ich bin ein Beispiel
 </code>
 </pre>
 <br/><br/>
@@ -61,5 +60,14 @@ Ich bin ein Beisoiel
 </form>
 <br/>
 {% endif %}
+        <div class="alert alert-warning text-center" role="alert" id="loading-msg" style="display: none;">
+        I'm Thinking...
+    </div>
 </div>
+<script>
+    // Funktion zum Anzeigen des Ladezustands
+    document.querySelector("#submit-btn").addEventListener("click", function () {
+        document.querySelector("#loading-msg").style.display = "block";
+    });
+</script>
 {% endblock %}
