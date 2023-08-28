@@ -166,7 +166,7 @@ def suggest(request):
                     model="gpt-3.5-turbo-16k-0613",
                     messages=[
                         {"role": "system", "content": "You are a helpful assistant."},
-                        {"role": "user", "content": f"Nur mit {lang} Code antworten. {prompt}"},
+                        {"role": "user", "content": f"Antworte nur mit {lang} Code ohne weitere erklärungen. {prompt}"},
                     ]
                 )
                 # Parse the response
