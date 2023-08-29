@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'mywiki.apps.MywikiConfig',
     'textbot.apps.TextbotConfig',
     'codebot.apps.CodebotConfig',
+    'postits',
 
 ]
 

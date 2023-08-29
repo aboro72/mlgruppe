@@ -28,7 +28,8 @@ urlpatterns = [
     path('orga/', include('Orga.urls')),
     path('wiki/', include('mywiki.urls')),
     path('textbot/', include('textbot.urls')),
-    path('codebot/', include('codebot.urls'))
+    path('codebot/', include('codebot.urls')),
+    path('postits/', include('postits.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
