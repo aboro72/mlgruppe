@@ -25,7 +25,6 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('start.urls')),
     path('pit/', include('pit.urls')),
-    path('orga/', include('Orga.urls')),
     path('wiki/', include('mywiki.urls')),
     path('textbot/', include('textbot.urls')),
     path('codebot/', include('codebot.urls')),

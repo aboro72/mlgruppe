@@ -21,8 +21,8 @@
                         <h5 class="card-title">{{ postit.title }} - {{ postit.created_at }}</h5>
                         <hr>
                         <p class="card-text">
-                            {% if postit.text|length > 100 %}
-                                {{ postit.text|slice:":100" }}... <a href="{% url 'postits:postit_detail' postit.id %}">(mehr)</a>
+                            {% if postit.text|safe|length > 100 %}
+                                {{ postit.text|safe|slice:":100" }}... <a href="{% url 'postits:postit_detail' postit.id %}">(mehr)</a>
                             {% else %}
                                 {{ postit.text }}
                             {% endif %}</p>
