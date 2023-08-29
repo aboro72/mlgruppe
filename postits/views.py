@@ -36,7 +36,7 @@ def postit_update(request, postit_id):
         form = PostItForm(request.POST, instance=postit)
         if form.is_valid():
             form.save()
-            return redirect('postit_list')
+            return redirect('postits:postit_list')
     else:
         form = PostItForm(instance=postit)
 
