@@ -111,3 +111,28 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const draggables = document.querySelectorAll('.card');
+        const containers = document.querySelectorAll('.col-3');
+
+        draggables.forEach(draggable => {
+            draggable.addEventListener('dragstart', () => {
+                draggable.classList.add('dragging');
+            });
+
+            draggable.addEventListener('dragend', () => {
+                draggable.classList.remove('dragging');
+                // Code, um die neue Position in der Datenbank zu speichern
+            });
+        });
+
+        containers.forEach(container => {
+            container.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                const dragging = document.querySelector('.dragging');
+                container.appendChild(dragging);
+            });
+        });
+    });
+</script>

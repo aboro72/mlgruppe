@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Neues Post-It erstellen</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.media }}
+    <div class="form-group">
+        <label for="{{ form.title.id_for_label }}">Titel:</label>
+        {{ form.title }}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.text.id_for_label }}">Text:</label>
+        {{ form.text }}
+    </div>
+    <button type="submit" class="btn btn-primary">Speichern</button>
+  </form>
+{% endblock %}

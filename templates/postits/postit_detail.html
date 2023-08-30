@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ postit.title }}
+{% endblock %}
+
+{% block content %}
+  <h1>{{ postit.title }}</h1>
+  <p>{{ postit.text|safe }}</p>
+<a href="{% url 'postits:postit_update' postit.id %}" class="btn btn-primary">Bearbeiten</a>
+{% endblock %}
