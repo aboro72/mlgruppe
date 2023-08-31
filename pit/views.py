@@ -80,10 +80,11 @@ def update_status(request, item_id):
 
 def schienen_uebersicht(request):
     schienen = Schiene.objects.filter(status='Unterwegs')
-    schienen_lager = Schiene.objects.filter(status='Imagen')
+    schienen_lager = Schiene.objects.filter(status='Lager')
     schienen_infos = []
     kunden = Kunde.objects.all()
     server_lager = Server.objects.filter(status='Lager')
+
     for schiene in schienen:
         bewegungen = SchieneBewegung.objects.filter(schiene=schiene).order_by('datum_versand')
         letzte_bewegung = bewegungen.last() if bewegungen.exists() else None
