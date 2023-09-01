@@ -3,6 +3,14 @@
 {% block title %}Schienen Übersicht{% endblock %}
 
 {% block content %}
+<nav class="navbar bg-body-tertiary">
+  <form class="container-fluid justify-content-start">
+    <a href="{% url 'pit:info' %}" class="btn btn-sm btn-outline-secondary" type="button">Übersicht</a>
+
+    <a href="{% url 'pit:course_table' %}" class="btn btn-sm btn-outline-secondary" type="button">Schienenlogistik</a>
+  </form>
+</nav>
+
 <div class="container mt-5">
 
     <div  class="mt-5 shadow">

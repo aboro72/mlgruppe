@@ -4,8 +4,10 @@
 {% block content %}
 <nav class="navbar bg-body-tertiary">
   <form class="container-fluid justify-content-start">
-    <a href="#zuruecksetzen" class="btn btn-sm btn-outline-secondary" type="button">Zurückzusetzende Geräte</a>
-    <a href="{% url 'pit:kueb' %}" class="btn btn-sm btn-outline-secondary" type="button">Zurückzuholende Schienen</a>
+    <a href="#zuruecksetzen" class="btn btn-sm btn-outline-secondary" type="button">Server & Schienen zum Zurücksetzen</a>
+    <a href="#lager" class="btn btn-sm btn-outline-secondary" type="button">Server & Schienen im Lager</a>
+    <a href="{% url 'pit:kueb' %}" class="btn btn-sm btn-outline-secondary" type="button">Schienen Zurück|weiterleiten </a>
+    <a href="{% url 'pit:course_table' %}" class="btn btn-sm btn-outline-secondary" type="button">Schienenlogistik</a>
   </form>
 </nav>
 <div class="container mt-5">
@@ -96,7 +98,7 @@
 </div>
 -->
 {% endcomment %}
-    <div class="row">
+     <div id="lager" class="row">
         <div class="col-md-6">
             <div class="mt-4 shadow">
                 <h1 class="text-center">Server im Lager</h1>
@@ -136,6 +138,7 @@
             </div>
         </div>
     </div>
+</div>
 
  <!-- "Nach oben"-Pfeil -->
 <div id="scrollToTop" class="scroll-to-top">

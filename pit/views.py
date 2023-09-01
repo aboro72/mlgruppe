@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from .models import Schiene, Server, SchieneBewegung, Kunde, Kurs
 from datetime import datetime, date, timedelta
+from django.db.models import Max
 
 
 def schiene_chart(request):
@@ -184,7 +185,6 @@ def update_dpd_status(request):
 
 def course_table(request):
     schienen = Schiene.objects.all()  # Holen Sie sich alle Schienen, die Sie anzeigen möchten
-    courses = Kurs.objects.all()
     today = date.today()
     start_of_year = date(today.year, 1, 1)
     end_of_year = date(today.year, 12, 31)
@@ -195,9 +195,21 @@ def course_table(request):
         calendar_weeks.append(current_date.strftime("%V"))
         current_date += timedelta(weeks=1)
 
+    schienen_info = []  # Liste für gesammelte Informationen erstellen
+    for schiene in schienen:
+        kunde = get_current_kunde(schiene, today)
+        schienen_info.append((schiene, kunde))  # Schiene und Kunde als Tupel hinzufügen
+
     context = {
-        'schienen': schienen,  # Fügen Sie Schienen in den Kontext ein
-        'courses': courses,
+        'schienen_info': schienen_info,  # Fügen Sie die Liste in den Kontext ein
         'calendar_weeks': calendar_weeks
     }
     return render(request, 'pit/course_table.html', context)
+
+
+def get_current_kunde(schiene, current_date):
+    bewegungen = SchieneBewegung.objects.filter(schiene=schiene, datum_versand__lte=current_date).order_by(
+        '-datum_versand')
+    if bewegungen.exists():
+        return bewegungen.first().kunde
+    return None

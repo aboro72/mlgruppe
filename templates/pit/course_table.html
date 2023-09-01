@@ -1,46 +1,61 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
-<!-- First Section -->
-<div class="row">
-    <div class="col-md-12">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Schiene</th>
-                    <th>DruckerFuellstandA</th>
-                    <th>DruckerFuellstandB</th>
-                    <th>Image</th>
-                    <th>Bemerkung</th>
-                    <!-- Dynamische Kalenderwochenüberschriften -->
-                    {% for week in calendar_weeks %}
-                    <th>KW{{ week }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for schiene in schienen %}
-                <tr>
-                    <td>{{ schiene.name }}</td>
-                    <td>{{ schiene.DruckerFuellstandA }}</td>
-                    <td>{{ schiene.DruckerFuellstandB }}</td>
-                    <td>{{ schiene.image }}</td>
-                    <td></td>
-                    <!-- Dynamische Kalenderwochendaten -->
-                    {% for week in calendar_weeks %}
-                    <td>
-                        {% for course in schiene.kurse.all %}
-                            {% if course.kurs_start and course.kurs_ende %}
-                                {% if week >= course.kurs_start|date:"W" and week <= course.kurs_ende|date:"W" %}
-                                    kurs
-                                {% endif %}
-                            {% endif %}
+<nav class="navbar bg-body-tertiary">
+  <form class="container-fluid justify-content-start">
+    <a href="{% url 'pit:info' %}" class="btn btn-sm btn-outline-secondary" type="button">Übersicht</a>
+    <a href="{% url 'pit:kueb' %}" class="btn btn-sm btn-outline-secondary" type="button">Zurückzuholende Schienen</a>
+  </form>
+</nav>
+<br><br>
+<div class="container shadow" style="max-height: calc(100vh - 200px); overflow: auto;">
+    <!-- First Section -->
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Schiene</th>
+                        <th>DruckerFuellstandA</th>
+                        <th>DruckerFuellstandB</th>
+                        <th>Image</th>
+                        <th>Kunde</th>
+                        <!-- Dynamische Kalenderwochenüberschriften -->
+                        {% for week in calendar_weeks %}
+                        <th>KW{{ week }}</th>
                         {% endfor %}
-                    </td>
-                    {% endfor %}
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                    </tr>
+                </thead>
+                <tbody>
+    {% for schiene, kunde in schienen_info %}  <!-- Hier schiene und kunde als Tupel entpacken -->
+    <tr>
+        <td>{{ schiene.name }}</td>
+        <td>{{ schiene.DruckerFuellstandA }}</td>
+        <td>{{ schiene.DruckerFuellstandB }}</td>
+        <td>{{ schiene.image }}</td>
+        <td>{{ kunde.name }}</td>  <!-- Hier kunde verwenden -->
+        <!-- Dynamische Kalenderwochendaten -->
+        {% for week in calendar_weeks %}
+        <td>
+            {% for course in schiene.kurse.all %}
+                {% if course.kurs_start and course.kurs_ende %}
+                    {% if week >= course.kurs_start|date:"W" and week <= course.kurs_ende|date:"W" %}
+                        <div class="course" style="background-color='green'">
+                            <p>{{ course.va_nummer }}</p>
+                            <p>{{ course.thema }}</p>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</tbody>
+
+            </table>
+        </div>
     </div>
 </div>
 
