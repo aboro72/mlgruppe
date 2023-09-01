@@ -96,7 +96,47 @@
 </div>
 -->
 {% endcomment %}
-</div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mt-4 shadow">
+                <h1 class="text-center">Server im Lager</h1>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Server</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for server_lager in server_lager %}
+                        <tr>
+                            <td>{{ server_lager.name }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mt-4 shadow">
+                <h1 class="text-center">Schienen im Lager</h1>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Schiene</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for schiene_lager in schienen_lager %}
+                        <tr>
+                            <td>{{ schiene_lager.name }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
  <!-- "Nach oben"-Pfeil -->
 <div id="scrollToTop" class="scroll-to-top">
   <i class="fa fa-angle-up"></i>

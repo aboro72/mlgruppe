@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- First Section -->
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Schiene</th>
+                    <th>DruckerFuellstandA</th>
+                    <th>DruckerFuellstandB</th>
+                    <th>Image</th>
+                    <th>Bemerkung</th>
+                    <!-- Dynamische Kalenderwochenüberschriften -->
+                    {% for week in calendar_weeks %}
+                    <th>KW{{ week }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for schiene in schienen %}
+                <tr>
+                    <td>{{ schiene.name }}</td>
+                    <td>{{ schiene.DruckerFuellstandA }}</td>
+                    <td>{{ schiene.DruckerFuellstandB }}</td>
+                    <td>{{ schiene.image }}</td>
+                    <td></td>
+                    <!-- Dynamische Kalenderwochendaten -->
+                    {% for week in calendar_weeks %}
+                    <td>
+                        {% for course in schiene.kurse.all %}
+                            {% if course.kurs_start and course.kurs_ende %}
+                                {% if week >= course.kurs_start|date:"W" and week <= course.kurs_ende|date:"W" %}
+                                    kurs
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}
