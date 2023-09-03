@@ -166,3 +166,5 @@ class Ansprechpartner(models.Model):
     nachname = models.CharField(max_length=255, null=False, blank=False, default='Müller/Meier/Schmitz')
 
     Telefon = models.CharField(max_length=17, null=True, blank=True)
+
+

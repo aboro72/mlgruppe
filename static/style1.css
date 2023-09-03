@@ -1,0 +1,51 @@
+thead {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 2;
+}
+
+th:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background-color: white;
+}
+
+td:first-child {
+    position: sticky;
+    left: 0;
+    background-color: white;
+}
+
+
+
+th:nth-child(5),
+td:nth-child(5) {
+    position: sticky;
+    left: 100px; /* Anpassen Sie den Wert, um Platz für "Kunde" zu lassen */
+    z-index: 1;
+    background-color: white;
+}
+
+table {
+    width: auto;
+}
+
+tbody {
+    overflow-y: auto;
+    max-height: calc(100vh - 150px); /* Hier anpassen, um Platz für Überschriften zu lassen */
+}
+
+th,
+td {
+    min-width: 100px;
+    text-align: center; /* Zentrieren Sie den Text in den Zellen */
+    padding: 8px; /* Fügen Sie etwas Padding hinzu, um den Text zu zentrieren */
+}
+
+
+div.course {
+    background-color: green;
+    color: white;
+}

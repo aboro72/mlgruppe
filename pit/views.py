@@ -3,8 +3,9 @@ from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from .models import Schiene, Server, SchieneBewegung, Kunde
-from datetime import datetime
+from .models import Schiene, Server, SchieneBewegung, Kunde, Kurs
+from datetime import datetime, date, timedelta
+from django.db.models import Max
 
 
 def schiene_chart(request):
@@ -24,11 +25,13 @@ def schiene_chart(request):
     unterwegs_count = Schiene.objects.filter(status='Unterwegs').count()
     zurücksetzen_count = Schiene.objects.filter(status='Zurücksetzen').count()
     imagen_count = Schiene.objects.filter(status='Imagen').count()
+    schienen_lager = Schiene.objects.filter(status='Lager')
 
     # Server zählen basierend auf ihrem Status
     server_lager_count = Server.objects.filter(status='Lager').count()
     server_unterwegs_count = Server.objects.filter(status='Unterwegs').count()
     server_zurücksetzen_count = Server.objects.filter(status='Zurücksetzen').count()
+    server_lager = Server.objects.filter(status='Lager')
 
     # Sammle Elemente, die zurückgesetzt werden müssen
     items_to_reset = list(Schiene.objects.filter(status='Zurücksetzen')) + list(
@@ -47,7 +50,9 @@ def schiene_chart(request):
         'server_unterwegs_count': server_unterwegs_count,
         'server_zurücksetzen_count': server_zurücksetzen_count,
         'items_to_reset': items_to_reset,
-        'schienen_to_reset': schienen_to_reset
+        'schienen_to_reset': schienen_to_reset,
+        'schienen_lager': schienen_lager,
+        'server_lager': server_lager,
     }
 
     return render(request, 'pit/schiene_chart.html', context)
@@ -83,6 +88,7 @@ def schienen_uebersicht(request):
     schienen_lager = Schiene.objects.filter(status='Lager')
     schienen_infos = []
     kunden = Kunde.objects.all()
+    server_lager = Server.objects.filter(status='Lager')
 
     for schiene in schienen:
         bewegungen = SchieneBewegung.objects.filter(schiene=schiene).order_by('datum_versand')
@@ -110,7 +116,8 @@ def schienen_uebersicht(request):
     context = {
         'schienen_infos': schienen_infos,
         'kunden': kunden,
-        'schienen_lager': schienen_lager,  # Hier hinzugefügt
+        'schienen_lager': schienen_lager,
+        'server_lager': server_lager,
     }
     print(schienen_lager.count())
     return render(request, 'pit/schienen_uebersicht.html', context)
@@ -176,3 +183,33 @@ def update_dpd_status(request):
     return JsonResponse({'status': 'success'})
 
 
+def course_table(request):
+    schienen = Schiene.objects.all()  # Holen Sie sich alle Schienen, die Sie anzeigen möchten
+    today = date.today()
+    start_of_year = date(today.year, 1, 1)
+    end_of_year = date(today.year, 12, 31)
+
+    calendar_weeks = []
+    current_date = start_of_year
+    while current_date <= end_of_year:
+        calendar_weeks.append(current_date.strftime("%V"))
+        current_date += timedelta(weeks=1)
+
+    schienen_info = []  # Liste für gesammelte Informationen erstellen
+    for schiene in schienen:
+        kunde = get_current_kunde(schiene, today)
+        schienen_info.append((schiene, kunde))  # Schiene und Kunde als Tupel hinzufügen
+
+    context = {
+        'schienen_info': schienen_info,  # Fügen Sie die Liste in den Kontext ein
+        'calendar_weeks': calendar_weeks
+    }
+    return render(request, 'pit/course_table.html', context)
+
+
+def get_current_kunde(schiene, current_date):
+    bewegungen = SchieneBewegung.objects.filter(schiene=schiene, datum_versand__lte=current_date).order_by(
+        '-datum_versand')
+    if bewegungen.exists():
+        return bewegungen.first().kunde
+    return None
