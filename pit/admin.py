@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Kunde, Schiene, Ansprechpartner, Kurs, FestplattenImageNotebook, Server, Adresse, SchieneBewegung
+
+from .models import *
+
 # Register your models here.
 admin.site.register(Kunde)
 admin.site.register(Schiene)
@@ -9,3 +11,4 @@ admin.site.register(Server)
 admin.site.register(Adresse)
 admin.site.register(SchieneBewegung)
 admin.site.register(Ansprechpartner)
+admin.site.register(FestplattenImageServer)

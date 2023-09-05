@@ -39,8 +39,12 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               {% if user.is_authenticated %}
                   <li class="nav-item">
+                    <a class="btn btn-warning" href="{% url 'dashboard:index' %}">Dashboard</a>
+                  </li>
+                  <li class="nav-item">
                     <a class="btn btn-danger" href="{% url 'start:logout' %}">LOGOUT</a>
                   </li>
+
               {% else %}
                   <li class="nav-item">
                     <a class="btn btn-success" href="{% url 'login' %}">LOGIN</a>

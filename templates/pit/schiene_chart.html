@@ -40,7 +40,7 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Typ</th>
+                    <th>Image</th>
                     <th>Status</th>
                     <th>Aktion</th>
                 </tr>
@@ -49,7 +49,7 @@
                 {% for item in items_to_reset %}
                 <tr>
                     <td>{{ item.name }}</td>
-                    <td>{{ item.get_type_display }}</td>
+                    <td>{{ item.image }}</td>
                     <td contenteditable="true">{{ item.status }}</td>
                     <td>
                         {% if request.user.groups.all.0.name == "pit" or request.user.is_superuser %}
@@ -106,12 +106,14 @@
                     <thead>
                         <tr>
                             <th>Server</th>
+                            <th>Geeignet für:</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for server_lager in server_lager %}
                         <tr>
                             <td>{{ server_lager.name }}</td>
+                            <td>{{ server_lager.image }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -125,12 +127,14 @@
                     <thead>
                         <tr>
                             <th>Schiene</th>
+                            <th>Image</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for schiene_lager in schienen_lager %}
                         <tr>
                             <td>{{ schiene_lager.name }}</td>
+                            <td>{{ schiene_lager.image }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>

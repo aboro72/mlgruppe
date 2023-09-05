@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'codebot.apps.CodebotConfig',
     'postits',
     'ckeditor',
+    'dashboard',
 
 ]
 

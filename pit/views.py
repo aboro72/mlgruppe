@@ -213,3 +213,43 @@ def get_current_kunde(schiene, current_date):
     if bewegungen.exists():
         return bewegungen.first().kunde
     return None
+
+
+@csrf_exempt
+def set_rueckholung_status(request):
+    schiene_id = request.POST.get('schiene_id')
+    try:
+        schiene = Schiene.objects.get(id=schiene_id)
+        schiene.status = 'Rückholung'
+        schiene.save()
+        return JsonResponse({'status': 'success'})
+    except ObjectDoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Schiene nicht gefunden.'})
+
+@csrf_exempt
+def schiene_weiterleiten_neu(request):
+    if request.method == 'POST':
+        schiene_id = request.POST.get('schiene_id')
+        kunde_id = request.POST.get('kunde_id')
+        datum_versand = datetime.now().date()  # Aktuelles Datum
+        next_rueckholung_datum = datum_versand + timedelta(days=30)  # Beispielsdatum für die nächste Rückholung
+
+        try:
+            schiene = Schiene.objects.get(id=schiene_id)
+            kunde = Kunde.objects.get(id=kunde_id)
+
+            neue_bewegung = SchieneBewegung(
+                schiene=schiene,
+                kunde=kunde,
+                datum_versand=datum_versand,
+                rueckholung_datum=next_rueckholung_datum,
+            )
+            neue_bewegung.save()
+
+            schiene.status = 'Unterwegs'  # Status ändern, wenn die Schiene weitergeleitet wird
+            schiene.save()
+
+            return JsonResponse({'status': 'success'})
+
+        except ObjectDoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Schiene oder Kunde nicht gefunden.'})
