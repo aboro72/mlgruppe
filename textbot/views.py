@@ -33,7 +33,7 @@ def home(request):
                 {"lang_list": lang_list, "text": text, "lang": lang},
             )
         else:
-            openai.api_key = "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"
+            openai.api_key = "your-api-key"
 
             try:
                 response = openai.ChatCompletion.create(
@@ -96,7 +96,7 @@ def suggest(request):
                 {"lang_list": lang_list, "text": text, "lang": lang},
             )
         else:
-            openai.api_key = "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"
+            openai.api_key = "your-api-key"
 
             try:
                 response = openai.ChatCompletion.create(
@@ -167,7 +167,7 @@ def translate(request):
                 {"lang_list": lang_list, "text": text, "lang1": lang1, "lang2": lang2},
             )
         else:
-            openai.api_key = "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"
+            openai.api_key = "your-api-key"
 
             try:
                 response = openai.ChatCompletion.create(
