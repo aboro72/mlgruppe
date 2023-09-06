@@ -133,6 +133,7 @@ class SchieneBewegung(models.Model):
     weiterleitung_datum = models.DateField(null=True, blank=True)
     weiterleitung_kunde = models.ForeignKey(Kunde, related_name='weiterleitung_kundr', null=True, blank=True,
                                             on_delete=models.CASCADE)
+    kalenderwoche = models.IntegerField(null=True, blank=True)
 
     # Neue Felder
     dpd_beauftragt = models.BooleanField(default=False)

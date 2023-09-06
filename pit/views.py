@@ -39,7 +39,8 @@ def schiene_chart(request):
 
     # Sammle Schienen, die zurückgeholt werden müssen
     schienen_to_reset = SchieneBewegung.objects.filter(rueckholung_datum__isnull=False).order_by('rueckholung_datum')
-
+    current_week = datetime.now().isocalendar()[1]
+    schienen_to_move = SchieneBewegung.objects.filter(rueckholung_datum__week=current_week)
     # Aktualisiere Kontext für das Template
     context = {
         'lager_count': lager_count,
@@ -53,6 +54,7 @@ def schiene_chart(request):
         'schienen_to_reset': schienen_to_reset,
         'schienen_lager': schienen_lager,
         'server_lager': server_lager,
+        'schienen_to_move': schienen_to_move,
     }
 
     return render(request, 'pit/schiene_chart.html', context)
@@ -77,7 +79,7 @@ def update_status(request, item_id):
         except ObjectDoesNotExist:
             return HttpResponse("Item not found", status=404)
 
-    item.status = 'Lager'
+    item.status = 'Zurücksetzen'
     item.save()
 
     return redirect('pit:info')

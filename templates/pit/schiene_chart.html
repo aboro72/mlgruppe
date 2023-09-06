@@ -143,11 +143,43 @@
         </div>
     </div>
 </div>
+<!-- Tabelle für Schienen, die zurückgeholt oder weitergeleitet werden müssen -->
+<div id="holen" class="mt-5 shadow">
+    <h2 class="text-center mb-4">Zurückzuholende oder Weiterzuleitende Schienen</h2>
+    <table class="table table-bordered clickable-table">
+        <thead>
+            <tr>
+                <th>Name der Schiene</th>
+                <th>Kunde</th>
+                <th>Rückholungsdatum</th>
+                <th>Aktion</th>
+            </tr>
+        </thead>
+        <tbody>
+    {% for schiene_bewegung in schienen_to_reset %}
+    <tr data-va_nummer="{{ schiene_bewegung.kurs.va_nummer }}" data-thema="{{ schiene_bewegung.kurs.thema }}" data-trainer="{{ schiene_bewegung.kurs.trainer.name }}">
+        <td>{{ schiene_bewegung.schiene.name }}</td>
+        <td>{{ schiene_bewegung.kunde.name }} ({{ schiene_bewegung.kunde.ansprechpartner.Anrede }} {{ schiene_bewegung.kunde.ansprechpartner.vorname }} {{ schiene_bewegung.kunde.ansprechpartner.nachname }})</td>
+        <td>{{ schiene_bewegung.rueckholung_datum }}</td>
+        <td>{{ schiene_bewegung.weiterleitung_datum }}</td>
+        <td>
+            {% if request.user.groups.all.0.name == "pit" or request.user.is_superuser %}
+            <form method="post" action="{% url 'pit:update_status' schiene_bewegung.schiene.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success">Aktion</button>
+            </form>
+            {% endif %}
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
 
+</div>
  <!-- "Nach oben"-Pfeil -->
 <div id="scrollToTop" class="scroll-to-top">
   <i class="fa fa-angle-up"></i>
 </div>
+
 {% endblock %}
 
 <!-- Hinzugefügtes JavaScript -->
@@ -165,6 +197,18 @@
 
   scrollToTopButton.addEventListener("click", () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+    // JavaScript für interaktive Tabelle
+  document.addEventListener("DOMContentLoaded", function() {
+    const rows = document.querySelectorAll(".clickable-table tr");
+    rows.forEach(row => {
+      row.addEventListener("click", function() {
+        const va_nummer = this.getAttribute("data-va_nummer");
+        const thema = this.getAttribute("data-thema");
+        const trainer = this.getAttribute("data-trainer");
+        alert(`VA-Nummer: ${va_nummer}\nThema: ${thema}\nTrainer: ${trainer}`);
+      });
+    });
   });
 </script>
 
