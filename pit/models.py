@@ -110,8 +110,12 @@ class Server(models.Model):
     status = models.CharField(max_length=255, choices=[('Lager', 'Lager'),
                                                        ('Unterwegs', 'Unterwegs'),
                                                        ('Zurücksetzen', 'Zurücksetzen'),
-                                                       ('Unbekannt', 'Unbekannt')
+                                                       ('Unbekannt', 'Unbekannt'),
+                                                       ('Rückholung', 'Rückholung'),
+                                                       ('Weiterleitung', 'Weiterleitung'),
+
                                                        ], default='Zurücksetzen')
+    image = models.ForeignKey(FestplattenImageServer, on_delete=models.SET_NULL, null=True, blank=True)
     Bemerkung = models.TextField(max_length=500, default="Fehler/Bemerkung")
 
     def __str__(self):
@@ -162,4 +166,9 @@ class Ansprechpartner(models.Model):
     Anrede = models.CharField(max_length=255, choices=[('Frau', 'Frau'),
                                                        ('Herr', 'Herr'),
                                                        ], default='Herr')
+    vorname = models.CharField(max_length=255, null=True, blank=False)
+    nachname = models.CharField(max_length=255, null=False, blank=False, default='Müller/Meier/Schmitz')
+
     Telefon = models.CharField(max_length=17, null=True, blank=True)
+
+

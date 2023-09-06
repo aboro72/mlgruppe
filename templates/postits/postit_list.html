@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Post-It Liste
+{% endblock %}
+
+{% block content %}
+<div class="container shadow">
+
+        <h1>Post-It Liste</h1>
+        <a class="btn btn-primary" href="{% url 'postits:postit_create' %}">Neue Notiz</a>
+    <p></p>
+</div>
+</br></br>
+<div class="container">
+    <div class="row">
+        {% for postit in postits %}
+            <div class="col-3">
+                <div class="card" style="background-color: yellow;" draggable="true">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ postit.title }} - {{ postit.created_at }}</h5>
+                        <hr>
+                        <p class="card-text">
+                            {% if postit.text|safe|length > 100 %}
+                                {{ postit.text|safe|slice:":100" }}... <a href="{% url 'postits:postit_detail' postit.id %}">(mehr)</a>
+                            {% else %}
+                                {{ postit.text }}
+                            {% endif %}</p>
+                        <a href="{% url 'postits:postit_update' postit.id %}" class="btn btn-primary">Bearbeiten</a>
+                        <a href="{% url 'postits:postit_delete' postit.id %}" onclick="return confirm('Sind Sie sicher?');" class="btn btn-danger">Löschen</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

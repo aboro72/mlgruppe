@@ -3,6 +3,14 @@
 {% block title %}Schienen Übersicht{% endblock %}
 
 {% block content %}
+<nav class="navbar bg-body-tertiary">
+  <form class="container-fluid justify-content-start">
+    <a href="{% url 'pit:info' %}" class="btn btn-sm btn-outline-secondary" type="button">Übersicht</a>
+
+    <a href="{% url 'pit:course_table' %}" class="btn btn-sm btn-outline-secondary" type="button">Schienenlogistik</a>
+  </form>
+</nav>
+
 <div class="container mt-5">
 
     <div  class="mt-5 shadow">
@@ -39,28 +47,7 @@
             </tbody>
         </table>
     </div>
-    <div  class="mt-5 shadow">
-        <h1 class="text-center"> Debug Schienen im lager</h1>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Schiene</th>
-                    <th>Aktueller Status</th>
 
-                </tr>
-            </thead>
-            <tbody>
-                {% for schiene_lager in schienen_lager %}
-                <tr>
-                    <td>{{ schiene_lager.name }}</td>
-                    <td>{{ schiene_lager.aktueller_status }}</td>
-
-
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
         <!-- Bootstrap Modal für die Weiterleitung -->
         <div class="modal fade" id="weiterleitungModal" tabindex="-1" aria-labelledby="weiterleitungModalLabel" aria-hidden="true">
             <div class="modal-dialog">

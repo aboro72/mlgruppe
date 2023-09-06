@@ -1,30 +1,36 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">PIT Soft</a>
+    <a class="navbar-brand" href="#">PIT Navbar</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'start:index' %}">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'wiki:index' %}">Wiki</a>
         </li>
- {% if user.is_authenticated %}
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'postits:postit_list' %}">Post-It</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'pit:info' %}">PIT</a>
+        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Gruppen
+            KI-TEST
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{% url 'pit:info' %}">PIT</a></li>
-            <li><a class="dropdown-item" href="#">Orga</a></li>
+            <li><a class="dropdown-item" href="{% url 'textbot:home' %}">Text Erzeugung</a></li>
+            <li><a class="dropdown-item" href="{% url 'codebot:suggest' %}">Code Erzeugung</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Allgemein</a></li>
           </ul>
         </li>
-  {% endif %}
+        {% endif %}
         <li class="nav-item">
           <a class="nav-link disabled" aria-disabled="true">Disabled</a>
         </li>
@@ -33,8 +39,12 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               {% if user.is_authenticated %}
                   <li class="nav-item">
+                    <a class="btn btn-warning" href="{% url 'dashboard:index' %}">Dashboard</a>
+                  </li>
+                  <li class="nav-item">
                     <a class="btn btn-danger" href="{% url 'start:logout' %}">LOGOUT</a>
                   </li>
+
               {% else %}
                   <li class="nav-item">
                     <a class="btn btn-success" href="{% url 'login' %}">LOGIN</a>

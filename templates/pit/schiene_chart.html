@@ -4,8 +4,10 @@
 {% block content %}
 <nav class="navbar bg-body-tertiary">
   <form class="container-fluid justify-content-start">
-    <a href="#zuruecksetzen" class="btn btn-sm btn-outline-secondary" type="button">Zurückzusetzende Geräte</a>
-    <a href="{% url 'pit:kueb' %}" class="btn btn-sm btn-outline-secondary" type="button">Zurückzuholende Schienen</a>
+    <a href="#zuruecksetzen" class="btn btn-sm btn-outline-secondary" type="button">Server & Schienen zum Zurücksetzen</a>
+    <a href="#lager" class="btn btn-sm btn-outline-secondary" type="button">Server & Schienen im Lager</a>
+    <a href="{% url 'pit:kueb' %}" class="btn btn-sm btn-outline-secondary" type="button">Schienen Zurück|weiterleiten </a>
+    <a href="{% url 'pit:course_table' %}" class="btn btn-sm btn-outline-secondary" type="button">Schienenlogistik</a>
   </form>
 </nav>
 <div class="container mt-5">
@@ -38,7 +40,7 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Typ</th>
+                    <th>Image</th>
                     <th>Status</th>
                     <th>Aktion</th>
                 </tr>
@@ -47,7 +49,7 @@
                 {% for item in items_to_reset %}
                 <tr>
                     <td>{{ item.name }}</td>
-                    <td>{{ item.get_type_display }}</td>
+                    <td>{{ item.image }}</td>
                     <td contenteditable="true">{{ item.status }}</td>
                     <td>
                         {% if request.user.groups.all.0.name == "pit" or request.user.is_superuser %}
@@ -62,7 +64,7 @@
             </tbody>
         </table>
     </div>
-    <p></p>
+{% comment %}
  <!--
  <div id="holen" class="mt-5 shadow">
     <h2 class="text-center mb-4">Zurückzuholende Schienen</h2>
@@ -95,8 +97,53 @@
     </table>
 </div>
 -->
-
+{% endcomment %}
+     <div id="lager" class="row">
+        <div class="col-md-6">
+            <div class="mt-4 shadow">
+                <h1 class="text-center">Server im Lager</h1>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Server</th>
+                            <th>Geeignet für:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for server_lager in server_lager %}
+                        <tr>
+                            <td>{{ server_lager.name }}</td>
+                            <td>{{ server_lager.image }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mt-4 shadow">
+                <h1 class="text-center">Schienen im Lager</h1>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Schiene</th>
+                            <th>Image</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for schiene_lager in schienen_lager %}
+                        <tr>
+                            <td>{{ schiene_lager.name }}</td>
+                            <td>{{ schiene_lager.image }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
+
  <!-- "Nach oben"-Pfeil -->
 <div id="scrollToTop" class="scroll-to-top">
   <i class="fa fa-angle-up"></i>

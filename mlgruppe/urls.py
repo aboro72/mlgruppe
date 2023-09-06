@@ -21,12 +21,15 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/doc/', include('django.contrib.admindocs.urls')),
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name='admin'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('start.urls')),
     path('pit/', include('pit.urls')),
-    path('orga/', include('Orga.urls')),
     path('wiki/', include('mywiki.urls')),
+    path('textbot/', include('textbot.urls')),
+    path('codebot/', include('codebot.urls')),
+    path('postits/', include('postits.urls')),
+    path('dashboard/', include('dashboard.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
