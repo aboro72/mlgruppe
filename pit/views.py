@@ -79,6 +79,31 @@ def update_status(request, item_id):
         except ObjectDoesNotExist:
             return HttpResponse("Item not found", status=404)
 
+    item.status = 'Lager'
+    item.save()
+
+    return redirect('pit:info')
+
+
+def update_status_zurueck(request, item_id):
+    """
+    Ändert den Status eines Elements auf "Lager"
+
+    ** Views: **
+    :views: ´schiene_char´
+
+    ** Return: **
+    :return: ´schiene_char´
+
+    """
+    try:
+        item = Schiene.objects.get(pk=item_id)
+    except ObjectDoesNotExist:
+        try:
+            item = Server.objects.get(pk=item_id)
+        except ObjectDoesNotExist:
+            return HttpResponse("Item not found", status=404)
+
     item.status = 'Zurücksetzen'
     item.save()
 
@@ -292,6 +317,7 @@ def set_rueckholung_status(request):
         return JsonResponse({'status': 'success'})
     except ObjectDoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Schiene nicht gefunden.'})
+
 
 @csrf_exempt
 def schiene_weiterleiten_neu(request):

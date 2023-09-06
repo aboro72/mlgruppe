@@ -164,7 +164,7 @@
         <td>{{ schiene_bewegung.weiterleitung_datum }}</td>
         <td>
             {% if request.user.groups.all.0.name == "pit" or request.user.is_superuser %}
-            <form method="post" action="{% url 'pit:update_status' schiene_bewegung.schiene.id %}">
+            <form method="post" action="{% url 'pit:update_status_zurueck' schiene_bewegung.schiene.id %}">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-success">Aktion</button>
             </form>
