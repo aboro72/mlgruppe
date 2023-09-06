@@ -51,6 +51,12 @@
               </a>
             </li>
           {% endif %}
+           <li class="nav-item">
+              <a class="nav-link d-flex align-items-center gap-2" href="{% url 'django-admindocs-docroot' %}">
+                <svg class="bi"><use xlink:href="#file-earmark"/></svg>
+                Zu den Admin-Dokumenten
+              </a>
+            </li>
             <li class="nav-item">
               <a class="nav-link d-flex align-items-center gap-2" href="{% url 'start:logout' %}">
                 <svg class="bi"><use xlink:href="#door-closed"/></svg>

@@ -84,6 +84,16 @@ def update_status(request, item_id):
 
 
 def schienen_uebersicht(request):
+    """
+    Zeigt eine Übersicht aller Schienen an.
+
+    ** Models **
+    :model:`pit.Schiene`
+    :model:`pit.Kunde`
+
+    ** Template: **
+    :template:`pit/schienen_uebersicht.html`
+    """
     schienen = Schiene.objects.filter(status='Unterwegs')
     schienen_lager = Schiene.objects.filter(status='Lager')
     schienen_infos = []
@@ -124,6 +134,15 @@ def schienen_uebersicht(request):
 
 
 def schiene_zurueck(request, schiene_id):
+    """
+    Setzt den Status einer Schiene auf 'Imagen' zurück.
+
+    ** Arguments: **
+    :param schiene_id: ID der Schiene
+
+    ** Return: **
+    :return: JSON response
+    """
     try:
         bewegung = SchieneBewegung.objects.get(schiene__id=schiene_id)
         schiene = bewegung.schiene
@@ -137,6 +156,15 @@ def schiene_zurueck(request, schiene_id):
 
 @csrf_exempt  # Nur für dieses Beispiel. Stellen Sie sicher, dass CSRF-Token in der Produktion korrekt behandelt werden.
 def schiene_weiterleiten(request):
+    """
+    Leitet eine Schiene an einen Kunden weiter.
+
+    ** Method: **
+    :method: POST
+
+    ** Return: **
+    :return: JSON response
+    """
     if request.method == 'POST':
         try:
             schiene_id = request.POST.get('schiene_id')
@@ -173,6 +201,15 @@ def schiene_weiterleiten(request):
 
 @csrf_exempt  # Überspringen Sie die CSRF-Überprüfung für dieses Beispiel
 def update_dpd_status(request):
+    """
+    Aktualisiert den DPD-Status einer Schiene.
+
+    ** Method: **
+    :method: POST
+
+    ** Return: **
+    :return: JSON response
+    """
     schiene_id = request.POST.get('schiene_id')
     dpd_status = request.POST.get('dpd_status') == 'true'
 
@@ -184,6 +221,15 @@ def update_dpd_status(request):
 
 
 def course_table(request):
+    """
+    Zeigt eine Tabelle mit Informationen zu Kursen an.
+
+    ** Models: **
+    :model:`pit.Schiene`
+
+    ** Template: **
+    :template:`pit/course_table.html`
+    """
     schienen = Schiene.objects.all()  # Holen Sie sich alle Schienen, die Sie anzeigen möchten
     today = date.today()
     start_of_year = date(today.year, 1, 1)
@@ -208,6 +254,16 @@ def course_table(request):
 
 
 def get_current_kunde(schiene, current_date):
+    """
+    Gibt den aktuellen Kunden für eine bestimmte Schiene zurück.
+
+    ** Arguments: **
+    :param schiene: Schiene-Objekt
+    :param current_date: Aktuelles Datum
+
+    ** Return: **
+    :return: Kunde-Objekt oder None
+    """
     bewegungen = SchieneBewegung.objects.filter(schiene=schiene, datum_versand__lte=current_date).order_by(
         '-datum_versand')
     if bewegungen.exists():
@@ -217,6 +273,15 @@ def get_current_kunde(schiene, current_date):
 
 @csrf_exempt
 def set_rueckholung_status(request):
+    """
+    Setzt den Rückholstatus einer Schiene.
+
+    ** Method: **
+    :method: POST
+
+    ** Return: **
+    :return: JSON response
+    """
     schiene_id = request.POST.get('schiene_id')
     try:
         schiene = Schiene.objects.get(id=schiene_id)
@@ -228,6 +293,15 @@ def set_rueckholung_status(request):
 
 @csrf_exempt
 def schiene_weiterleiten_neu(request):
+    """
+    Leitet eine Schiene an einen neuen Kunden weiter.
+
+    ** Method: **
+    :method: POST
+
+    ** Return: **
+    :return: JSON response
+    """
     if request.method == 'POST':
         schiene_id = request.POST.get('schiene_id')
         kunde_id = request.POST.get('kunde_id')
