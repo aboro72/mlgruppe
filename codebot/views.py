@@ -10,7 +10,7 @@ from .models import Code
 
 
 def home(request):
-    # api = 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
+    # a = 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
     lang_list = [
         "arduino",
         "bash",
@@ -59,7 +59,7 @@ def home(request):
             )
         else:
             # OpenAI Key
-            openai.api_key = "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"
+            openai.api_key = "your-api-key"
 
             # OpenAI Instance
             openai.Model.list()
@@ -155,7 +155,7 @@ def suggest(request):
             )
         else:
             # OpenAI Key
-            openai.api_key = "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"
+            openai.api_key = "your-api-key"
 
             # OpenAI Instance
             openai.Model.list()
