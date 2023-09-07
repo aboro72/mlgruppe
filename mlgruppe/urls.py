@@ -26,8 +26,6 @@ urlpatterns = [
     path('', include('start.urls')),
     path('pit/', include('pit.urls')),
     path('wiki/', include('mywiki.urls')),
-    path('textbot/', include('textbot.urls')),
-    path('codebot/', include('codebot.urls')),
     path('postits/', include('postits.urls')),
     path('dashboard/', include('dashboard.urls')),
 ]
