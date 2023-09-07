@@ -26,6 +26,7 @@
             <canvas id="serverChart" class="flex-grow-1"></canvas>
         </div>
     </div>
+    </br></br>
     <hr>
     <!-- Tabelle für Server und Schienen, die zurückgesetzt werden müssen -->
     <div id="zuruecksetzen" class="mt-5 shadow">
@@ -102,46 +103,47 @@
             </div>
         </div>
     </div>
-</div>
+{% comment %}
 <!-- Tabelle für Schienen, die zurückgeholt oder weitergeleitet werden müssen -->
-<div id="holen" class="mt-5 shadow">
-    <h2 class="text-center mb-4">Zurückzuholende oder Weiterzuleitende Schienen</h2>
-    <table class="table table-bordered clickable-table">
-        <thead>
-            <tr>
-                <th>Name der Schiene</th>
-                <th>Kunde</th>
-                <th>Rückholungsdatum</th>
-                <th>Zurück</th>
-                <th>Weiterleitung</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for schiene_bewegung in schienen_to_reset %}
-            <tr data-va_nummer="{{ schiene_bewegung.kurs.va_nummer }}" data-thema="{{ schiene_bewegung.kurs.thema }}" data-trainer="{{ schiene_bewegung.kurs.trainer.name }}">
-                <td>{{ schiene_bewegung.schiene.name }}</td>
-                <td>{{ schiene_bewegung.kunde.name }} ({{ schiene_bewegung.kunde.ansprechpartner.Anrede }} {{ schiene_bewegung.kunde.ansprechpartner.vorname }} {{ schiene_bewegung.kunde.ansprechpartner.nachname }})</td>
-                <td>{{ schiene_bewegung.rueckholung_datum }}</td>
-                <td>
-                    {% if request.user.groups.all.0.name == "pit" or request.user.is_superuser %}
-                    <form method="post" action="{% url 'pit:update_status_zurueck' schiene_bewegung.schiene.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-success">Zurück gekommen</button>
-                    </form>
-                   {% endif %}
-                </td>
-                <td>
-                    {% if request.user.groups.all.0.name == "pit" or request.user.is_superuser %}
-                    <!-- Button, um das Popup zu öffnen -->
-                    <button data-id="{{ schiene_bewegung.schiene.id }}" onclick="openPopup(this)">Weiterleitung</button>
+    <div id="holen" class="mt-5 shadow">
+        <h2 class="text-center mb-4">Zurückzuholende oder Weiterzuleitende Schienen</h2>
+        <table class="table table-bordered clickable-table">
+            <thead>
+                <tr>
+                    <th>Name der Schiene</th>
+                    <th>Kunde</th>
+                    <th>Rückholungsdatum</th>
+                    <th>Zurück</th>
+                    <th>Weiterleitung</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for schiene_bewegung in schienen_to_reset %}
+                <tr data-va_nummer="{{ schiene_bewegung.kurs.va_nummer }}" data-thema="{{ schiene_bewegung.kurs.thema }}" data-trainer="{{ schiene_bewegung.kurs.trainer.name }}">
+                    <td>{{ schiene_bewegung.schiene.name }}</td>
+                    <td>{{ schiene_bewegung.kunde.name }} ({{ schiene_bewegung.kunde.ansprechpartner.Anrede }} {{ schiene_bewegung.kunde.ansprechpartner.vorname }} {{ schiene_bewegung.kunde.ansprechpartner.nachname }})</td>
+                    <td>{{ schiene_bewegung.rueckholung_datum }}</td>
+                    <td>
+                        {% if request.user.groups.all.0.name == "pit" or request.user.is_superuser %}
+                        <form method="post" action="{% url 'pit:update_status_zurueck' schiene_bewegung.schiene.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success">Zurück gekommen</button>
+                        </form>
+                       {% endif %}
+                    </td>
+                    <td>
+                        {% if request.user.groups.all.0.name == "pit" or request.user.is_superuser %}
+                        <!-- Button, um das Popup zu öffnen -->
+                        <button data-id="{{ schiene_bewegung.schiene.id }}" onclick="openPopup(this)">Weiterleitung</button>
 
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
- <button onclick="testPopup()">Test Popup</button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endcomment %}
 </div>
 <!-- Popup-Fenster -->
 <div id="popup" style="display:none;">
