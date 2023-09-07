@@ -13,7 +13,6 @@
 <div class="container mt-5">
     <!-- Überschrift -->
     <h1 class="text-center mb-5 shadow">PIT Übersicht</h1>
-    <p></p>
     <hr>
     <div class="row ">
         <!-- Schiene Tortendiagramm auf der linken Seite -->
@@ -21,20 +20,15 @@
             <h3 class="mb-3">Schienen</h3>
             <canvas id="schieneChart" class="flex-grow-1"></canvas>
         </div>
-
         <!-- Server Tortendiagramm auf der rechten Seite -->
         <div class="col-md-6 d-flex flex-column align-items-center" style="height: 400px;">
             <h3 class="mb-3">Server</h3>
-            <canvas id="serverChart" class="flex-grow-1" ></canvas>
+            <canvas id="serverChart" class="flex-grow-1"></canvas>
         </div>
     </div>
-    <p></p>
-    <p></p>
-    </br></br>
     <hr>
-
     <!-- Tabelle für Server und Schienen, die zurückgesetzt werden müssen -->
-    <div  id="zuruecksetzen" class="mt-5 shadow">
+    <div id="zuruecksetzen" class="mt-5 shadow">
         <h2 class="text-center mb-4">Zurückzusetzende Geräte</h2>
         <table class="table table-bordered">
             <thead>
@@ -64,41 +58,7 @@
             </tbody>
         </table>
     </div>
-{% comment %}
- <!--
- <div id="holen" class="mt-5 shadow">
-    <h2 class="text-center mb-4">Zurückzuholende Schienen</h2>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Name der Schiene</th>
-                <th>Kunde</th>
-                <th>Rückholungsdatum</th>
-                <th>Aktion</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for schiene_bewegung in schienen_to_reset %}
-            <tr>
-                <td>{{ schiene_bewegung.schiene.name }}</td>
-                <td>{{ schiene_bewegung.kunde.name }}</td>
-                <td>{{ schiene_bewegung.rueckholung_datum }}</td>
-                <td>
-                    {% if request.user.groups.all.0.name == "pit" or request.user.is_superuser %}
-                    <form method="post" action="{% url 'pit:update_status' schiene_bewegung.schiene.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-success">Zurückholen</button>
-                    </form>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
--->
-{% endcomment %}
-     <div id="lager" class="row">
+    <div id="lager" class="row">
         <div class="col-md-6">
             <div class="mt-4 shadow">
                 <h1 class="text-center">Server im Lager</h1>
@@ -152,65 +112,87 @@
                 <th>Name der Schiene</th>
                 <th>Kunde</th>
                 <th>Rückholungsdatum</th>
-                <th>Aktion</th>
+                <th>Zurück</th>
+                <th>Weiterleitung</th>
             </tr>
         </thead>
         <tbody>
-    {% for schiene_bewegung in schienen_to_reset %}
-    <tr data-va_nummer="{{ schiene_bewegung.kurs.va_nummer }}" data-thema="{{ schiene_bewegung.kurs.thema }}" data-trainer="{{ schiene_bewegung.kurs.trainer.name }}">
-        <td>{{ schiene_bewegung.schiene.name }}</td>
-        <td>{{ schiene_bewegung.kunde.name }} ({{ schiene_bewegung.kunde.ansprechpartner.Anrede }} {{ schiene_bewegung.kunde.ansprechpartner.vorname }} {{ schiene_bewegung.kunde.ansprechpartner.nachname }})</td>
-        <td>{{ schiene_bewegung.rueckholung_datum }}</td>
-        <td>{{ schiene_bewegung.weiterleitung_datum }}</td>
-        <td>
-            {% if request.user.groups.all.0.name == "pit" or request.user.is_superuser %}
-            <form method="post" action="{% url 'pit:update_status_zurueck' schiene_bewegung.schiene.id %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-success">Aktion</button>
-            </form>
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
-</tbody>
+            {% for schiene_bewegung in schienen_to_reset %}
+            <tr data-va_nummer="{{ schiene_bewegung.kurs.va_nummer }}" data-thema="{{ schiene_bewegung.kurs.thema }}" data-trainer="{{ schiene_bewegung.kurs.trainer.name }}">
+                <td>{{ schiene_bewegung.schiene.name }}</td>
+                <td>{{ schiene_bewegung.kunde.name }} ({{ schiene_bewegung.kunde.ansprechpartner.Anrede }} {{ schiene_bewegung.kunde.ansprechpartner.vorname }} {{ schiene_bewegung.kunde.ansprechpartner.nachname }})</td>
+                <td>{{ schiene_bewegung.rueckholung_datum }}</td>
+                <td>
+                    {% if request.user.groups.all.0.name == "pit" or request.user.is_superuser %}
+                    <form method="post" action="{% url 'pit:update_status_zurueck' schiene_bewegung.schiene.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success">Zurück gekommen</button>
+                    </form>
+                   {% endif %}
+                </td>
+                <td>
+                    {% if request.user.groups.all.0.name == "pit" or request.user.is_superuser %}
+                    <!-- Button, um das Popup zu öffnen -->
+                    <button data-id="{{ schiene_bewegung.schiene.id }}" onclick="openPopup(this)">Weiterleitung</button>
 
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+ <button onclick="testPopup()">Test Popup</button>
 </div>
- <!-- "Nach oben"-Pfeil -->
-<div id="scrollToTop" class="scroll-to-top">
-  <i class="fa fa-angle-up"></i>
+<!-- Popup-Fenster -->
+<div id="popup" style="display:none;">
+    <h2>Weiterleitung</h2>
+    <form id="weiterleitungForm">
+        Schiene ID: <input type="text" id="schiene_id"><br>
+        Kunde ID: <input type="text" id="kunde_id"><br>
+        Datum Versand: <input type="date" id="datum_versand"><br>
+        Rückholung Datum: <input type="date" id="rueckholung_datum"><br>
+        <button type="button" onclick="submitForm()">Weiterleiten</button>
+    </form>
 </div>
-
 {% endblock %}
 
 <!-- Hinzugefügtes JavaScript -->
 <script>
-  // JavaScript zum Scrollen nach oben
-  const scrollToTopButton = document.getElementById("scrollToTop");
 
-  window.addEventListener("scroll", () => {
-    if (window.pageYOffset > 300) {
-      scrollToTopButton.classList.add("show");
-    } else {
-      scrollToTopButton.classList.remove("show");
     }
-  });
+let currentSchieneId = null;
+function openPopup(buttonElement) {
+    currentSchieneId = buttonElement.getAttribute("data-id");
+    document.getElementById("schiene_id").value = currentSchieneId;
+    document.getElementById("popup").style.display = "block";
+}
 
-  scrollToTopButton.addEventListener("click", () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
-    // JavaScript für interaktive Tabelle
-  document.addEventListener("DOMContentLoaded", function() {
-    const rows = document.querySelectorAll(".clickable-table tr");
-    rows.forEach(row => {
-      row.addEventListener("click", function() {
-        const va_nummer = this.getAttribute("data-va_nummer");
-        const thema = this.getAttribute("data-thema");
-        const trainer = this.getAttribute("data-trainer");
-        alert(`VA-Nummer: ${va_nummer}\nThema: ${thema}\nTrainer: ${trainer}`);
-      });
-    });
-  });
+    function submitForm() {
+        const schiene_id = currentSchieneId;
+        const kunde_id = document.getElementById("kunde_id").value;
+        const datum_versand = document.getElementById("datum_versand").value;
+        const rueckholung_datum = document.getElementById("rueckholung_datum").value;
+
+        fetch('{% url "pit:schiene_weiterleiten" %}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: `schiene_id=${schiene_id}&kunde_id=${kunde_id}&datum_versand=${datum_versand}&rueckholung_datum=${rueckholung_datum}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                alert('Erfolgreich weitergeleitet');
+                location.reload();
+            } else {
+                alert('Fehler: ' + data.message);
+            }
+        });
+    }
 </script>
+
 
 
 

@@ -38,9 +38,12 @@ def schiene_chart(request):
         Server.objects.filter(status='Zurücksetzen'))
 
     # Sammle Schienen, die zurückgeholt werden müssen
-    schienen_to_reset = SchieneBewegung.objects.filter(rueckholung_datum__isnull=False).order_by('rueckholung_datum')
+    # Sammle Schienen, die zurückgeholt werden müssen
+    schienen_to_reset = SchieneBewegung.objects.exclude(schiene__status__in=['Lager', 'Zurücksetzen']).filter(
+        rueckholung_datum__isnull=False).order_by('rueckholung_datum')
     current_week = datetime.now().isocalendar()[1]
-    schienen_to_move = SchieneBewegung.objects.filter(rueckholung_datum__week=current_week)
+    schienen_to_move = SchieneBewegung.objects.exclude(schiene__status__in=['Lager', 'Zurücksetzen']).filter(
+        rueckholung_datum__week=current_week)
     # Aktualisiere Kontext für das Template
     context = {
         'lager_count': lager_count,
@@ -87,7 +90,7 @@ def update_status(request, item_id):
 
 def update_status_zurueck(request, item_id):
     """
-    Ändert den Status eines Elements auf "Lager"
+    Ändert den Status eines Elements auf Zurücksetzen"
 
     ** Views: **
     :views: ´schiene_char´
@@ -350,6 +353,32 @@ def schiene_weiterleiten_neu(request):
 
             schiene.status = 'Unterwegs'  # Status ändern, wenn die Schiene weitergeleitet wird
             schiene.save()
+
+            return JsonResponse({'status': 'success'})
+
+        except ObjectDoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Schiene oder Kunde nicht gefunden.'})
+
+
+@csrf_exempt
+def weiterleitung_schiene(request):
+    if request.method == 'POST':
+        schiene_id = request.POST.get('schiene_id')
+        kunde_id = request.POST.get('kunde_id')
+        datum_versand = request.POST.get('datum_versand')
+        rueckholung_datum = request.POST.get('rueckholung_datum')
+
+        try:
+            schiene = Schiene.objects.get(id=schiene_id)
+            kunde = Kunde.objects.get(id=kunde_id)
+
+            neue_bewegung = SchieneBewegung(
+                schiene=schiene,
+                kunde=kunde,
+                datum_versand=datum_versand,
+                rueckholung_datum=rueckholung_datum
+            )
+            neue_bewegung.save()
 
             return JsonResponse({'status': 'success'})
 

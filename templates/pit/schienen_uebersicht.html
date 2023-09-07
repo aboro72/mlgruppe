@@ -6,14 +6,12 @@
 <nav class="navbar bg-body-tertiary">
   <form class="container-fluid justify-content-start">
     <a href="{% url 'pit:info' %}" class="btn btn-sm btn-outline-secondary" type="button">Übersicht</a>
-
     <a href="{% url 'pit:course_table' %}" class="btn btn-sm btn-outline-secondary" type="button">Schienenlogistik</a>
   </form>
 </nav>
 
 <div class="container mt-5">
-
-    <div  class="mt-5 shadow">
+    <div class="mt-5 shadow">
         <h1 class="text-center">Schienen Übersicht</h1>
         <table class="table">
             <thead>
@@ -28,64 +26,52 @@
             </thead>
             <tbody>
                 {% for schiene_info in schienen_infos %}
-                <tr>
+                <tr id="schiene_row_{{ schiene_info.schiene.id }}">
                     <td>{{ schiene_info.schiene }}</td>
                     <td>{{ schiene_info.aktueller_status }}</td>
                     <td>{{ schiene_info.naechster_schritt }}</td>
                     <td>{{ schiene_info.naechstes_datum }}</td>
                     <td>
-                        <!-- Checkbox für DPD Beauftragt -->
                         <input type="checkbox" id="dpd_beauftragt_{{ schiene_info.schiene.id }}" {% if schiene_info.dpd_beauftragt %} checked {% endif %}>
-
                     </td>
                     <td>
-                        <button type="button" class="btn btn-success" onclick="schieneZurueck({{ schiene_info.schiene.id }})" id="zurueck_{{ schiene_info.schiene.id }}" >Zurück</button>
-                        <button type="button" class="btn btn-warning" onclick="schieneWeiterleiten({{ schiene_info.schiene.id }})" id="weiterleiten_{{ schiene_info.schiene.id }}" >Weiterleiten</button>
+                        <button type="button" class="btn btn-success" onclick="schieneZurueck({{ schiene_info.schiene.id }})" id="zurueck_{{ schiene_info.schiene.id }}">Zurück</button>
+                        <button type="button" class="btn btn-warning" onclick="schieneWeiterleitenNeu({{ schiene_info.schiene.id }})" id="weiterleiten_{{ schiene_info.schiene.id }}">Weiterleiten</button>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-
-        <!-- Bootstrap Modal für die Weiterleitung -->
-        <div class="modal fade" id="weiterleitungModal" tabindex="-1" aria-labelledby="weiterleitungModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="weiterleitungModalLabel">Schiene weiterleiten</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="weiterleitenForm">
-                            <div class="mb-3">
-                                <label for="kunde" class="form-label">Kunde:</label>
-                                <select class="form-control" id="kunde" name="kunde">
-                                    {% for kunde in kunden %}
-                                        <option value="{{ kunde.id }}">{{ kunde.name }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="weiterleitungsDatum" class="form-label">Weiterleitungsdatum:</label>
-                                <input type="date" class="form-control" id="weiterleitungsDatum" name="weiterleitungsDatum">
-                            </div>
-                            <div class="mb-3">
-                                <label for="rueckholungDatum" class="form-label">Rückholungsdatum:</label>
-                                <input type="date" class="form-control" id="rueckholungDatum" name="rueckholungDatum">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
-                        <button type="button" id="submitWeiterleiten" class="btn btn-primary">Weiterleiten</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
+<script>
+function schieneWeiterleitenNeu(schieneId) {
+    const kundeId = document.getElementById("kunde").value;
+    const weiterleitungsDatum = document.getElementById("weiterleitungsDatum").value;
+    const rueckholungsDatum = document.getElementById("rueckholungDatum").value;
+
+    fetch('/pfad/zur/schiene_weiterleiten_neu/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+            schiene_id: schieneId,
+            kunde_id: kundeId,
+            weiterleitungs_datum: weiterleitungsDatum,
+            rueckholungs_datum: rueckholungsDatum
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            location.reload();
+        } else {
+            alert('Fehler: ' + data.message);
+        }
+    });
+}
+</script>
 {% endblock %}
-
-
