@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from .models import Schiene, Server, SchieneBewegung, Kunde, Kurs
+from .models import Schiene, Server
 from datetime import datetime, date, timedelta
 from django.db.models import Max
 
@@ -38,8 +38,14 @@ def schiene_chart(request):
         Server.objects.filter(status='Zurücksetzen'))
 
     # Sammle Schienen, die zurückgeholt werden müssen
-    schienen_to_reset = SchieneBewegung.objects.filter(rueckholung_datum__isnull=False).order_by('rueckholung_datum')
-
+    # Sammle Schienen, die zurückgeholt werden müssen
+    '''
+    schienen_to_reset = SchieneBewegung.objects.exclude(schiene__status__in=['Lager', 'Zurücksetzen']).filter(
+        rueckholung_datum__isnull=False).order_by('rueckholung_datum')
+    current_week = datetime.now().isocalendar()[1]
+    schienen_to_move = SchieneBewegung.objects.exclude(schiene__status__in=['Lager', 'Zurücksetzen']).filter(
+        rueckholung_datum__week=current_week)
+       '''
     # Aktualisiere Kontext für das Template
     context = {
         'lager_count': lager_count,
@@ -50,9 +56,10 @@ def schiene_chart(request):
         'server_unterwegs_count': server_unterwegs_count,
         'server_zurücksetzen_count': server_zurücksetzen_count,
         'items_to_reset': items_to_reset,
-        'schienen_to_reset': schienen_to_reset,
+
         'schienen_lager': schienen_lager,
         'server_lager': server_lager,
+
     }
 
     return render(request, 'pit/schiene_chart.html', context)
@@ -83,6 +90,31 @@ def update_status(request, item_id):
     return redirect('pit:info')
 
 
+def update_status_zurueck(request, item_id):
+    """
+    Ändert den Status eines Elements auf Zurücksetzen"
+
+    ** Views: **
+    :views: ´schiene_char´
+
+    ** Return: **
+    :return: ´schiene_char´
+
+    """
+    try:
+        item = Schiene.objects.get(pk=item_id)
+    except ObjectDoesNotExist:
+        try:
+            item = Server.objects.get(pk=item_id)
+        except ObjectDoesNotExist:
+            return HttpResponse("Item not found", status=404)
+
+    item.status = 'Zurücksetzen'
+    item.save()
+
+    return redirect('pit:info')
+
+'''
 def schienen_uebersicht(request):
     """
     Zeigt eine Übersicht aller Schienen an.
@@ -291,6 +323,7 @@ def set_rueckholung_status(request):
     except ObjectDoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Schiene nicht gefunden.'})
 
+
 @csrf_exempt
 def schiene_weiterleiten_neu(request):
     """
@@ -327,3 +360,31 @@ def schiene_weiterleiten_neu(request):
 
         except ObjectDoesNotExist:
             return JsonResponse({'status': 'error', 'message': 'Schiene oder Kunde nicht gefunden.'})
+
+
+@csrf_exempt
+def weiterleitung_schiene(request):
+    if request.method == 'POST':
+        schiene_id = request.POST.get('schiene_id')
+        kunde_id = request.POST.get('kunde_id')
+        datum_versand = request.POST.get('datum_versand')
+        rueckholung_datum = request.POST.get('rueckholung_datum')
+
+        try:
+            schiene = Schiene.objects.get(id=schiene_id)
+            kunde = Kunde.objects.get(id=kunde_id)
+
+            neue_bewegung = SchieneBewegung(
+                schiene=schiene,
+                kunde=kunde,
+                datum_versand=datum_versand,
+                rueckholung_datum=rueckholung_datum
+            )
+            neue_bewegung.save()
+
+            return JsonResponse({'status': 'success'})
+
+        except ObjectDoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Schiene oder Kunde nicht gefunden.'})
+
+'''
