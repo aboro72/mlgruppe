@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from .models import Schiene, Server, SchieneBewegung, Kunde, Kurs
+from .models import Schiene, Server
 from datetime import datetime, date, timedelta
 from django.db.models import Max
 
@@ -39,11 +39,13 @@ def schiene_chart(request):
 
     # Sammle Schienen, die zurückgeholt werden müssen
     # Sammle Schienen, die zurückgeholt werden müssen
+    '''
     schienen_to_reset = SchieneBewegung.objects.exclude(schiene__status__in=['Lager', 'Zurücksetzen']).filter(
         rueckholung_datum__isnull=False).order_by('rueckholung_datum')
     current_week = datetime.now().isocalendar()[1]
     schienen_to_move = SchieneBewegung.objects.exclude(schiene__status__in=['Lager', 'Zurücksetzen']).filter(
         rueckholung_datum__week=current_week)
+       '''
     # Aktualisiere Kontext für das Template
     context = {
         'lager_count': lager_count,
@@ -54,10 +56,10 @@ def schiene_chart(request):
         'server_unterwegs_count': server_unterwegs_count,
         'server_zurücksetzen_count': server_zurücksetzen_count,
         'items_to_reset': items_to_reset,
-        'schienen_to_reset': schienen_to_reset,
+
         'schienen_lager': schienen_lager,
         'server_lager': server_lager,
-        'schienen_to_move': schienen_to_move,
+
     }
 
     return render(request, 'pit/schiene_chart.html', context)
@@ -112,7 +114,7 @@ def update_status_zurueck(request, item_id):
 
     return redirect('pit:info')
 
-
+'''
 def schienen_uebersicht(request):
     """
     Zeigt eine Übersicht aller Schienen an.
@@ -384,3 +386,5 @@ def weiterleitung_schiene(request):
 
         except ObjectDoesNotExist:
             return JsonResponse({'status': 'error', 'message': 'Schiene oder Kunde nicht gefunden.'})
+
+'''
