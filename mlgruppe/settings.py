@@ -44,6 +44,10 @@ INSTALLED_APPS = [
     'postits',
     'ckeditor',
     'dashboard',
+    'kunden',
+    'trainer',
+    'kurse',
+
 
 ]
 

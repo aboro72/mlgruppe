@@ -1,5 +1,5 @@
 from django.db import models
-from trainer.models import Adresse
+from start.models import Adresse
 
 
 # Create your models here.
@@ -14,3 +14,15 @@ class Kunde(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.typ})"
+
+
+class Ansprechpartner(models.Model):
+    kunde = models.ForeignKey(Kunde, related_name='ansprechpartner', null=True, blank=True,
+                              on_delete=models.CASCADE)  # Geändert von Standort zu kunde und aktualisiert related_name
+    Anrede = models.CharField(max_length=255, choices=[('Frau', 'Frau'),
+                                                       ('Herr', 'Herr'),
+                                                       ], default='Herr')
+    vorname = models.CharField(max_length=255, null=True, blank=False)
+    nachname = models.CharField(max_length=255, null=False, blank=False, default='Müller/Meier/Schmitz')
+
+    Telefon = models.CharField(max_length=17, null=True, blank=True)

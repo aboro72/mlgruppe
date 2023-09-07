@@ -23,7 +23,7 @@
       </libraries>
     </data-source>
     <data-source source="LOCAL" name="test" uuid="aebbb982-e45f-441f-95f8-d308e3e1e70f">
-      <driver-ref>sqlite.xerial</driver-ref>
+      <driver-ref>3026e5e0-f401-4ac0-8ab9-1ba264efbd8d</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:C:\Users\aborowczak\PycharmProjects\mlgruppe\Steamlit_test\test.db</jdbc-url>
