@@ -139,7 +139,7 @@ def update_status_zurueck(request, item_id):
 
 def update_status_dpd(request, item_id):
     """
-    Ändert den Status eines Elements auf Zurücksetzen"
+    Ändert den Status eines Elements auf Unterwegs"
 
     ** Views: **
     :views: ´schiene_char´

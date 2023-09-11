@@ -13,11 +13,8 @@ class SchieneBewegung(models.Model):
     kunde = models.ForeignKey(Kunde, on_delete=models.CASCADE)
     rueckholung_datum = models.DateField(null=True, blank=True)
 
-    kalenderwoche = models.IntegerField(null=True, blank=True)
 
-    # Neue Felder
-    dpd_beauftragt = models.BooleanField(default=False)
-    dpd_beauftragt_datum = models.DateField(null=True, blank=True)
+
 
     def __str__(self):
         return f"{self.schiene.name} - {self.kunde.name}"
