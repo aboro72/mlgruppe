@@ -23,42 +23,64 @@ def schiene_chart(request):
     # Schienen zählen basierend auf ihrem Status
     lager_count = Schiene.objects.filter(status='Lager').count()
     unterwegs_count = Schiene.objects.filter(status='Unterwegs').count()
+    unterwegs = Schiene.objects.filter(status='Unterwegs')
     zurücksetzen_count = Schiene.objects.filter(status='Zurücksetzen').count()
     imagen_count = Schiene.objects.filter(status='Imagen').count()
     schienen_lager = Schiene.objects.filter(status='Lager')
-
+    schiene_lager_versand_count = Schiene.objects.filter(status='Versand').count()
+    schienen_lager_versand = Schiene.objects.filter(status='Versand')
+    schienen_standort_count = Schiene.objects.filter(status='Standort').count()
+    schienen_standort = Schiene.objects.filter(status='Standort')
     # Server zählen basierend auf ihrem Status
     server_lager_count = Server.objects.filter(status='Lager').count()
     server_unterwegs_count = Server.objects.filter(status='Unterwegs').count()
+    server_unterwegs = Server.objects.filter(status='Unterwegs')
     server_zurücksetzen_count = Server.objects.filter(status='Zurücksetzen').count()
     server_lager = Server.objects.filter(status='Lager')
+    server_versand_count = Server.objects.filter(status='Versand').count()
+    server_versand = Server.objects.filter(status='Versand')
+    server_standort_count = Server.objects.filter(status='Standort').count()
+    server_standort = Server.objects.filter(status='Standort')
 
     # Sammle Elemente, die zurückgesetzt werden müssen
     items_to_reset = list(Schiene.objects.filter(status='Zurücksetzen')) + list(
         Server.objects.filter(status='Zurücksetzen'))
 
-    # Sammle Schienen, die zurückgeholt werden müssen
-    # Sammle Schienen, die zurückgeholt werden müssen
     '''
+    Sammle Schienen, die zurückgeholt werden müssen wird erstmal nicht mehr gebraucht
     schienen_to_reset = SchieneBewegung.objects.exclude(schiene__status__in=['Lager', 'Zurücksetzen']).filter(
         rueckholung_datum__isnull=False).order_by('rueckholung_datum')
     current_week = datetime.now().isocalendar()[1]
     schienen_to_move = SchieneBewegung.objects.exclude(schiene__status__in=['Lager', 'Zurücksetzen']).filter(
         rueckholung_datum__week=current_week)
-       '''
+    '''
     # Aktualisiere Kontext für das Template
     context = {
+        # Schienen
         'lager_count': lager_count,
         'unterwegs_count': unterwegs_count,
         'zurücksetzen_count': zurücksetzen_count,
         'imagen_count': imagen_count,
+        'schiene_lager_versand_count': schiene_lager_versand_count,
+        'schienen_lager_versand': schienen_lager_versand,
+        'schienen_standort_count': schienen_standort_count,
+        'schienen_standort': schienen_standort,
+        'schienen_lager': schienen_lager,
+        'unterwegs': unterwegs,
+
+        # Server
+        'server_lager': server_lager,
         'server_lager_count': server_lager_count,
         'server_unterwegs_count': server_unterwegs_count,
         'server_zurücksetzen_count': server_zurücksetzen_count,
-        'items_to_reset': items_to_reset,
+        'server_versand_count': server_versand_count,
+        'server_standort_count': server_standort_count,
+        'server_versand': server_versand,
+        'server_standort': server_standort,
+        'server_unterwegs': server_unterwegs,
 
-        'schienen_lager': schienen_lager,
-        'server_lager': server_lager,
+        # sonstiges
+        'items_to_reset': items_to_reset,
 
     }
 
@@ -113,6 +135,57 @@ def update_status_zurueck(request, item_id):
     item.save()
 
     return redirect('pit:info')
+
+
+def update_status_dpd(request, item_id):
+    """
+    Ändert den Status eines Elements auf Zurücksetzen"
+
+    ** Views: **
+    :views: ´schiene_char´
+
+    ** Return: **
+    :return: ´schiene_char´
+
+    """
+    try:
+        item = Schiene.objects.get(pk=item_id)
+    except ObjectDoesNotExist:
+        try:
+            item = Server.objects.get(pk=item_id)
+        except ObjectDoesNotExist:
+            return HttpResponse("Item not found", status=404)
+
+    item.status = 'Unterwegs'
+    item.save()
+
+    return redirect('pit:info')
+
+
+def update_status_standort(request, item_id):
+    """
+    Ändert den Status eines Elements auf Zurücksetzen"
+
+    ** Views: **
+    :views: ´schiene_char´
+
+    ** Return: **
+    :return: ´schiene_char´
+
+    """
+    try:
+        item = Schiene.objects.get(pk=item_id)
+    except ObjectDoesNotExist:
+        try:
+            item = Server.objects.get(pk=item_id)
+        except ObjectDoesNotExist:
+            return HttpResponse("Item not found", status=404)
+
+    item.status = 'Standort'
+    item.save()
+
+    return redirect('pit:info')
+
 
 '''
 def schienen_uebersicht(request):

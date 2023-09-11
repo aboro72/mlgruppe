@@ -102,7 +102,108 @@
             </div>
         </div>
     </div>
-
+<!-- versand -->
+    <div id="lager" class="row">
+        <div class="col-md-6">
+            <div class="mt-4 shadow">
+                <h1 class="text-center">Server Versand</h1>
+                <h4 class="text-center" style="color: darkred">Warten auf DPD </h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Server</th>
+                            <th>Geeignet für:</th>
+                            <th>Übergeben an DPD</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for srv_versand in server_versand %}
+                        <tr>
+                            <td>{{ srv_versand.name }}</td>
+                            <td>{{ srv_versand.image }}</td>
+                            <td><a href="{% url 'pit:update_status_s' srv_versand.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mt-4 shadow">
+                <h1 class="text-center">Schienen Versand</h1>
+                <h4 class="text-center" style="color: darkred">Warten auf DPD </h4>V
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Schiene</th>
+                            <th>Image</th>
+                            <th>Übergeben an DPD</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for schiene_lager in schienen_lager_versand %}
+                        <tr>
+                            <td>{{ schiene_lager.name }}</td>
+                            <td>{{ schiene_lager.image }}</td>
+                            <td><a href="{% url 'pit:update_status_dpd' schiene_lager.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Unterwegs -->
+    <div id="lager" class="row">
+        <div class="col-md-6">
+            <div class="mt-4 shadow">
+                <h1 class="text-center">Server Unterwegs</h1>
+                <h4 class="text-center" style="color: darkred">Mit DPD unterwegs </h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Server</th>
+                            <th>Geeignet für:</th>
+                            <th>Am Standort ?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for srv_dpd in server_unterwegs %}
+                        <tr>
+                            <td>{{ srv_dpd.name }}</td>
+                            <td>{{ srv_dpd.image }}</td>
+                            <td><a href="{% url 'pit:update_status_standort' srv_dpd.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mt-4 shadow">
+                <h1 class="text-center">Schienen Unterwegs</h1>
+                <h4 class="text-center" style="color: darkred">Mit DPD unterwegs </h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Schiene</th>
+                            <th>Image</th>
+                            <th>Am Standort ?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for dpd in unterwegs%}
+                        <tr>
+                            <td>{{ dpd.name }}</td>
+                            <td>{{ dpd.image }}</td>
+                            <td><a href="{% url 'pit:update_status_standort' dpd.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- Popup-Fenster -->
 <div id="popup" style="display:none;">

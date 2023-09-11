@@ -3,16 +3,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // Schiene Tortendiagramm
     var schieneCtx = document.getElementById('schieneChart').getContext('2d');
     var schieneData = {
-        labels: ['Lager', 'Unterwegs', 'Zurücksetzen', 'Imagen'],
+        labels: ['Lager', 'Unterwegs', 'Zurücksetzen', 'Imagen',  'Am Standort', 'Abholung',],
         datasets: [{
             data: [
                 {{ lager_count }},
                 {{ unterwegs_count }},
                 {{ zurücksetzen_count }},
-                {{ imagen_count }}
+                {{ imagen_count }},
+                {{ schienen_standort_count }},
+                {{ schiene_lager_versand_count }},
+
             ],
-            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
-            hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0']
+            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0','#4bc055', '#b66ecc' ],
+            hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0','#4bc055', '#ac3ccf'  ]
         }]
     };
     var schienePieChart = new Chart(schieneCtx, {
@@ -27,15 +30,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // Server Tortendiagramm
     var serverCtx = document.getElementById('serverChart').getContext('2d');
     var serverData = {
-        labels: ['Lager', 'Unterwegs', 'Zurücksetzen'],
+        labels: ['Lager', 'Unterwegs', 'Zurücksetzen', 'Am Standort', 'Versand'],
         datasets: [{
             data: [
                 {{ server_lager_count }},
                 {{ server_unterwegs_count }},
-                {{ server_zurücksetzen_count }}
+                {{ server_zurücksetzen_count }},
+                {{ server_standort_count }},
+                {{ server_versand_count }},
             ],
-            backgroundColor: ['#FF9999', '#66B2FF', '#FFCC66'],
-            hoverBackgroundColor: ['#FF6666', '#3399FF', '#FFB366']
+            backgroundColor: ['#FF9999', '#66B2FF', '#FFCC66','#4bc055', '#b66ecc'],
+            hoverBackgroundColor: ['#FF6666', '#3399FF', '#FFB366','#4bc055', '#ac3ccf']
         }]
     };
     var serverPieChart = new Chart(serverCtx, {

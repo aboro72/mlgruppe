@@ -35,7 +35,8 @@ class Schiene(models.Model):
                                                        ('Unterwegs', 'Unterwegs'),
                                                        ('Zurücksetzen', 'Zurücksetzen'),
                                                        ('Imagen', 'Imagen'),
-                                                       ('Unbekannt', 'Unbekannt'),
+                                                       ('Versand', 'Versand'),
+                                                       ('Standort', 'Standort'),
                                                        ('Rückholung', 'Rückholung'),
                                                        ('Weiterleitung', 'Weiterleitung'),
                                                        ])
@@ -62,7 +63,8 @@ class Server(models.Model):
     status = models.CharField(max_length=255, choices=[('Lager', 'Lager'),
                                                        ('Unterwegs', 'Unterwegs'),
                                                        ('Zurücksetzen', 'Zurücksetzen'),
-                                                       ('Unbekannt', 'Unbekannt'),
+                                                       ('Versand', 'Versand'),
+                                                       ('Standort', 'Standort'),
                                                        ('Rückholung', 'Rückholung'),
                                                        ('Weiterleitung', 'Weiterleitung'),
 
@@ -72,8 +74,6 @@ class Server(models.Model):
 
     def __str__(self):
         return self.name
-
-
 
 
 
