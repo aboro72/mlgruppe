@@ -31,6 +31,11 @@ def schiene_chart(request):
     schienen_lager_versand = Schiene.objects.filter(status='Versand')
     schienen_standort_count = Schiene.objects.filter(status='Standort').count()
     schienen_standort = Schiene.objects.filter(status='Standort')
+    schienen_weiterleitung_count = Schiene.objects.filter(status='Weiterleitung').count()
+    schienen_weiterleitung = Schiene.objects.filter(status='Weiterleitung')
+    schienen_zurueck_count = Schiene.objects.filter(status='Rückholung').count()
+    schienen_zurueck = Schiene.objects.filter(status='Rückholung')
+
     # Server zählen basierend auf ihrem Status
     server_lager_count = Server.objects.filter(status='Lager').count()
     server_unterwegs_count = Server.objects.filter(status='Unterwegs').count()
@@ -41,6 +46,10 @@ def schiene_chart(request):
     server_versand = Server.objects.filter(status='Versand')
     server_standort_count = Server.objects.filter(status='Standort').count()
     server_standort = Server.objects.filter(status='Standort')
+    server_weiterleitung_count = Server.objects.filter(status='Weiterleitung').count()
+    server_weiterleitung = Server.objects.filter(status='Weiterleitung')
+    server_zurueck_count = Server.objects.filter(status='Rückholung').count()
+    server_zurueck = Server.objects.filter(status='Rückholung')
 
     # Sammle Elemente, die zurückgesetzt werden müssen
     items_to_reset = list(Schiene.objects.filter(status='Zurücksetzen')) + list(
@@ -67,6 +76,10 @@ def schiene_chart(request):
         'schienen_standort': schienen_standort,
         'schienen_lager': schienen_lager,
         'unterwegs': unterwegs,
+        'schienen_weiterleitung_count': schienen_weiterleitung_count,
+        'schienen_weiterleitung': schienen_weiterleitung,
+        'schienen_zurueck_count': schienen_zurueck_count,
+        'schienen_zurueck_': schienen_zurueck,
 
         # Server
         'server_lager': server_lager,
@@ -78,6 +91,10 @@ def schiene_chart(request):
         'server_versand': server_versand,
         'server_standort': server_standort,
         'server_unterwegs': server_unterwegs,
+        'server_weiterleitung_count': server_weiterleitung_count,
+        'server_weiterleitung': server_weiterleitung,
+        'server_zurueck_count': server_zurueck_count,
+        'server_zurueck': server_zurueck,
 
         # sonstiges
         'items_to_reset': items_to_reset,

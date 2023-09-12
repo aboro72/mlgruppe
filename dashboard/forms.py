@@ -1,5 +1,7 @@
 from django import forms
 from pit.models import *
+from kunden.models import *
+from kurse.models import *
 
 
 class KundeForm(forms.ModelForm):
@@ -14,4 +16,7 @@ class SchieneForm(forms.ModelForm):
         fields = '__all__'
 
 
-
+class KurseForm(forms.ModelForm):
+    class Meta:
+        model = Kurs
+        fields = '__all__'
