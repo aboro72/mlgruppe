@@ -1,7 +1,6 @@
 from django.db import models
 from datetime import timedelta
 from kunden.models import Kunde
-from kurse.models import *
 
 
 class FestplattenImageNotebook(models.Model):
@@ -47,7 +46,6 @@ class Schiene(models.Model):
     image = models.ForeignKey(FestplattenImageNotebook, on_delete=models.SET_NULL, null=True)
     Bemerkung = models.TextField(max_length=500, default="Fehler/Bemerkung")
 
-
     @property
     def kms_next(self):
         return self.datum_kms_aktivierung + timedelta(days=180)
@@ -73,11 +71,5 @@ class Server(models.Model):
     image = models.ForeignKey(FestplattenImageServer, on_delete=models.SET_NULL, null=True, blank=True)
     Bemerkung = models.TextField(max_length=500, default="Fehler/Bemerkung")
 
-
     def __str__(self):
         return self.name
-
-
-
-
-
