@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import timedelta
 from kunden.models import Kunde
+from ckeditor.fields import RichTextField
 
 
 class FestplattenImageNotebook(models.Model):
@@ -38,6 +39,7 @@ class Schiene(models.Model):
                                                        ('Standort', 'Standort'),
                                                        ('Rückholung', 'Rückholung'),
                                                        ('Weiterleitung', 'Weiterleitung'),
+                                                       ('Selbstabholung', 'Selbstabholung'),
                                                        ])
     DruckerFuellstandA = models.IntegerField(default=100)
     DruckerFuellstandB = models.IntegerField(default=100)
@@ -66,6 +68,7 @@ class Server(models.Model):
                                                        ('Standort', 'Standort'),
                                                        ('Rückholung', 'Rückholung'),
                                                        ('Weiterleitung', 'Weiterleitung'),
+                                                       ('Selbstabholung', 'Selbstabholung'),
 
                                                        ], default='Zurücksetzen')
     image = models.ForeignKey(FestplattenImageServer, on_delete=models.SET_NULL, null=True, blank=True)
@@ -73,3 +76,32 @@ class Server(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Abholung(models.Model):
+    """
+    Dieses Modell repräsentiert eine Selbstabholung
+    """
+    VA_Nummer = models.IntegerField(max_length=8, unique=True, default='00000')
+    Name = models.CharField(max_length=255, null=False, blank=False, default='Mustermann')
+    Vorname = models.CharField(max_length=255, null=False, blank=False, default='Max')
+    Name2 = models.CharField(max_length=255, null=True, blank=True)
+    Vorname2 = models.CharField(max_length=255, null=True, blank=True)
+    Mobile1 = models.CharField(max_length=17, null=False, blank=False, default='+49 123 456 7890')
+    Mobile2 = models.CharField(max_length=17, null=True, blank=True)
+    Email = models.CharField(max_length=255, null=True, blank=True)
+    Firmenwagen = models.CharField(max_length=255, choices=[('Ja', 'Ja'),
+                                                            ('Privat Fahrzeug', 'Privat Fahrzeug'),
+                                                            ('Mietfahrzeug', 'Mietfahrzeug')
+                                                            ], null=False, blank=False)
+    Fahrzeugvermieter = models.CharField(max_length=255, null=True, blank=True)
+    Fahrzeug_Type = models.CharField(max_length=255, null=True, blank=True)
+    Kennzeichen = models.CharField(max_length=255, null=False, blank=False, default='K-ML xyz')
+    Datum = models.DateField(null=True, blank=True)
+    Kunde = models.ForeignKey(Kunde, on_delete=models.CASCADE, null=True, blank=True)
+    Schiene = models.ForeignKey(Schiene, on_delete=models.CASCADE, null=True, blank=True)
+    Server = models.ForeignKey(Server, on_delete=models.CASCADE, null=True, blank=True)
+    Tourdaten = RichTextField(max_length=900, null=True, blank=True)
+    status = models.CharField(max_length=255, choices=[('Rückholung', 'Rückholung'),
+                                                       ('Weiterleitung', 'Weiterleitung'),
+                                                       ], default='Weiterleitung')

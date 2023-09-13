@@ -1,9 +1,8 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
-from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
-from .models import Schiene, Server
+from .forms import AbholungForm
+from .models import Schiene, Server, Abholung
 from datetime import datetime, date, timedelta
 from django.db.models import Max
 
@@ -35,6 +34,7 @@ def schiene_chart(request):
     schienen_weiterleitung = Schiene.objects.filter(status='Weiterleitung')
     schienen_zurueck_count = Schiene.objects.filter(status='Rückholung').count()
     schienen_zurueck = Schiene.objects.filter(status='Rückholung')
+    schienen_abholung = Schiene.objects.filter(status='Selbstabholung')
 
     # Server zählen basierend auf ihrem Status
     server_lager_count = Server.objects.filter(status='Lager').count()
@@ -50,6 +50,10 @@ def schiene_chart(request):
     server_weiterleitung = Server.objects.filter(status='Weiterleitung')
     server_zurueck_count = Server.objects.filter(status='Rückholung').count()
     server_zurueck = Server.objects.filter(status='Rückholung')
+    server_abholung = Server.objects.filter(status='Selbstabholung')
+
+    # Sontiges
+    abholung = Abholung.objects.all()
 
     # Sammle Elemente, die zurückgesetzt werden müssen
     items_to_reset = list(Schiene.objects.filter(status='Zurücksetzen')) + list(
@@ -80,6 +84,7 @@ def schiene_chart(request):
         'schienen_weiterleitung': schienen_weiterleitung,
         'schienen_zurueck_count': schienen_zurueck_count,
         'schienen_zurueck_': schienen_zurueck,
+        'schienen_abholung': schienen_abholung,
 
         # Server
         'server_lager': server_lager,
@@ -95,9 +100,11 @@ def schiene_chart(request):
         'server_weiterleitung': server_weiterleitung,
         'server_zurueck_count': server_zurueck_count,
         'server_zurueck': server_zurueck,
+        'server_abholung': server_abholung,
 
         # sonstiges
         'items_to_reset': items_to_reset,
+        'abholung': abholung,
 
     }
 
@@ -202,6 +209,51 @@ def update_status_standort(request, item_id):
     item.save()
 
     return redirect('pit:info')
+
+
+def update_status_abholung(request, item_id):
+    """
+    Ändert den Status eines Elements auf Abholung"
+
+    ** Views: **
+    :views: ´schiene_char´
+
+    ** Return: **
+    :return: ´schiene_char´
+
+    """
+    try:
+        item = Schiene.objects.get(pk=item_id)
+    except ObjectDoesNotExist:
+        try:
+            item = Server.objects.get(pk=item_id)
+        except ObjectDoesNotExist:
+            return HttpResponse("Item not found", status=404)
+
+    item.status = 'Selbstabholung'
+    item.save()
+
+    return redirect('pit:info')
+
+
+def create_abholung(request):
+    if request.method == 'POST':
+        form = AbholungForm(request.POST)
+        if form.is_valid():
+            # Erstelle eine Abholungsinstanz, ohne sie zu speichern
+            abholung = form.save(commit=False)
+            abholung.status = 'Unterwegs'  # Setze den Statuswert
+            abholung.save()  # Speichere die Instanz in der Datenbank
+            return redirect('pit:info')  # Nach dem Speichern zum Kursliste-View weiterleiten
+    else:
+        form = AbholungForm()
+
+    return render(request, 'pit/create_abholung.html', {'form': form})
+
+
+def abholung_detail(request, item_id):
+    abholung = get_object_or_404(Abholung, pk=item_id)
+    return render(request, 'pit/abholung_detail.html', {'abholung': abholung})
 
 
 '''

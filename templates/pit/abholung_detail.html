@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-3">
+      <h1 class="text-center">Abholung Tour "Platzhalter für Strecken" </h1>
+      <h4 class="text-center">Tour Datum: {{ abholung.Datum }}</h4>
+       <hr>
+
+    <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+        <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Fahrer</h4>
+                </div>
+                <div class="card-body">
+
+                      <p>Fahrer: {{ abholung.Vorname }} {{ abholung.Name }}</p>
+                      <p>Fahrer2: {{ abholung.Vorname2 }} {{ abholung.Name2 }}</p>
+                      <p>Mobil 1: {{ abholung.Mobile1 }}</p>
+                      <p>Mobil 2: {{ abholung.Mobile2 }}</p>
+                      <p>Email: {{ abholung.Email }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card mb-4 rounded-3 shadow-sm">
+                <div class="card-header py-3">
+                    <h4 class="my-0 fw-normal">Fahrzeug Informationen</h4>
+                </div>
+                <div class="card-body">
+                     <p>Firmenwagen: {{ abholung.Firmenwagen }}</p>
+                        {% if abholung.Firmenwagen == 'Mietfahrzeug' %}
+                            <p>Fahrzeug Type: {{ abholung.Fahrzeug_Type }}</p>
+                            <p>Kennzeichen: {{ abholung.Kennzeichen }}
+                            <p>Verleiher: {{ abholung.Fahrzeugvermieter}} </p>
+                         {% elif abholung.Firmenwagen == 'ja' %}
+                            <p>Fahrzeug Type: {{ abholung.Fahrzeug_Type }}</p>
+                            <p>Kennzeichen: {{ abholung.Kennzeichen }}
+                         {% else %}
+                            <p>Kennzeichen: {{ abholung.Kennzeichen }}
+                        {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col">
+                <div class="card mb-4 rounded-3 shadow-sm">
+                    <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">Informationen Auftrag</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>VA: {{ abholung.VA_Nummer }}</p>
+                        {% if abholung.Kunde == None %}
+                            <p style="background-color: goldenrod">Kunde: Siehe Tourdaten </p>
+                        {% else %}
+                            <p>Kunde: {{ abholung.Kunde }}</p>
+                            <p>Adresse: {{ abholung.Kunde.adresse }}</p>
+                        {% endif %}
+                        {% if not abholung.Schiene == None %}
+                            <p>Schiene: {{ abholung.Schiene }} </p>
+                        {% else %}
+                            <p>Schiene: Ohne Server</p>
+                        {% endif %}
+                        {% if not abholung.Server == None %}
+                            <p>Server: Ohne Server</p>
+                        {% else %}
+                            <p>Server: {{ abholung.Server }} </p>
+                        {% endif %}
+                        <p>Unternehmensteil: Platzhalter</p>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div id="zuruecksetzen" class="mt-5 shadow">
+        <div class="card-header text-center py-3" style="background-color: #999999">
+            <h4 class="my-0 fw-normal">Tourdaten</h4>
+        </div>
+        <div class="card-body text-center">
+            {{ abholung.Tourdaten | safe }}
+        </div>
+    </div>
+
+     <!-- Button zum Aktualisieren des Schienenstatus auf Unterwegs -->
+    {% if not abholung.Server == None %}
+        <form method="post" action="{% url 'pit:update_status_abholung' abholung.Schiene.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Schiene Status auf Unterwegs setzen</button>
+        </form>
+    {% endif %}
+    <!-- Button zum Aktualisieren des Serverstatus auf Unterwegs -->
+    {% if not abholung.Schiene == None %}
+        <form method="post" action="{% url 'pit:update_status_abholung' abholung.Schiene.id  %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Schienen Status auf Unterwegs setzen</button>
+        </form>
+    {% endif %}
+    </div>
+      <!-- Füge weitere Details hinzu, wie benötigt -->
+</div>
+{% endblock %}
