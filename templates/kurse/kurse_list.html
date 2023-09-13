@@ -1,0 +1,18 @@
+{% extends 'base_dash.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+    <h1 class="text-center mb-5 shadow">Kurs Liste</h1>
+        <div class="mt-5 shadow">
+            <ul>
+                {% for kurs in kurs_list %}
+                    <li>{{ kurs.va_nummer }} - {{ kurs.thema }}</li>
+                {% empty %}
+                    <li>Keine Kurse vorhanden.</li>
+                {% endfor %}
+            </ul>
+
+            <a href="{% url 'create_kurs' %}">Neuen Kurs erstellen</a>
+        </div>
+    </div>
+{% endblock %}

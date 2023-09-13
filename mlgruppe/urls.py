@@ -28,6 +28,8 @@ urlpatterns = [
     path('wiki/', include('mywiki.urls')),
     path('postits/', include('postits.urls')),
     path('dashboard/', include('dashboard.urls')),
+    path('kurs/', include('kurse.urls')),
+    path('trainer/', include('trainer.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

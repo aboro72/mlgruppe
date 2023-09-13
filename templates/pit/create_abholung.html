@@ -1,0 +1,21 @@
+{% extends 'base_dash.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-5 shadow">Neue Abholung erstellen</h1>
+    <div class="mt-5 shadow">
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.media }}
+            {{ form.as_p }}
+
+            <!-- Hier fügst du ein verstecktes Input-Feld hinzu, um den Statuswert zu übermitteln -->
+
+
+            <button type="submit" class="btn btn-primary">Abholung erstellen</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

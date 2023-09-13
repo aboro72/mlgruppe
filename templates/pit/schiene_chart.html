@@ -2,14 +2,15 @@
 {% block title %}PIT Übersicht {%endblock%}
 
 {% block content %}
-<nav class="navbar bg-body-tertiary">
+<nav id="home" class="navbar bg-body-tertiary">
   <form class="container-fluid justify-content-start">
     <a href="#zuruecksetzen" class="btn btn-sm btn-outline-secondary" type="button">Server & Schienen zum Zurücksetzen</a>
     <a href="#lager" class="btn btn-sm btn-outline-secondary" type="button">Server & Schienen im Lager</a>
-
+    <a href="#versand" class="btn btn-sm btn-outline-secondary" type="button">Versand/Weiterleitungen</a>
+    <a href="#Monitoring" class="btn btn-sm btn-outline-secondary" type="button">DPD Monitoring</a>
   </form>
 </nav>
-<div class="container mt-5">
+<div  class="container mt-5">
     <!-- Überschrift -->
     <h1 class="text-center mb-5 shadow">PIT Übersicht</h1>
     <hr>
@@ -25,6 +26,7 @@
             <canvas id="serverChart" class="flex-grow-1"></canvas>
         </div>
     </div>
+
     </br></br>
     <hr>
     <!-- Tabelle für Server und Schienen, die zurückgesetzt werden müssen -->
@@ -67,6 +69,7 @@
                         <tr>
                             <th>Server</th>
                             <th>Geeignet für:</th>
+                            <th>Versand</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -74,6 +77,7 @@
                         <tr>
                             <td>{{ server_lager.name }}</td>
                             <td>{{ server_lager.image }}</td>
+                            <td><a href="{% url 'pit:update_status_dpd' server_lager.id %}" type="button" class="btn btn-primary">Ja</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -88,6 +92,7 @@
                         <tr>
                             <th>Schiene</th>
                             <th>Image</th>
+                            <th>Versand</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -95,18 +100,24 @@
                         <tr>
                             <td>{{ schiene_lager.name }}</td>
                             <td>{{ schiene_lager.image }}</td>
+                            <td><a href="{% url 'pit:update_status_dpd' schiene_lager.id %}" type="button" class="btn btn-primary">Ja</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
+
     </div>
+    <a type="button" href="#home" class="btn btn-outline-primary">nach oben</a>
+    <br>
+<h1 id='versand' class="text-center">Versand/Weiterleitungen/Rückholungen</h1>
+<hr>
 <!-- versand -->
     <div id="lager" class="row">
         <div class="col-md-6">
             <div class="mt-4 shadow">
-                <h1 class="text-center">Server Versand</h1>
+                <h1 class="text-center">Server Versand Köln</h1>
                 <h4 class="text-center" style="color: darkred">Warten auf DPD </h4>
                 <table class="table">
                     <thead>
@@ -121,7 +132,11 @@
                         <tr>
                             <td>{{ srv_versand.name }}</td>
                             <td>{{ srv_versand.image }}</td>
-                            <td><a href="{% url 'pit:update_status_s' srv_versand.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                            {% if request.user.groups.all.0.name == "pit" or request.user.is_superuser %}
+                            <td><a href="{% url 'pit:update_status_dpd' srv_versand.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                            {% else %}
+                            <td style="color: darkred">Keine Berechtigung</td>
+                            {% endif %}
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -130,8 +145,8 @@
         </div>
         <div class="col-md-6">
             <div class="mt-4 shadow">
-                <h1 class="text-center">Schienen Versand</h1>
-                <h4 class="text-center" style="color: darkred">Warten auf DPD </h4>V
+                <h1 class="text-center">Schienen Versand Köln</h1>
+                <h4 class="text-center" style="color: darkred">Warten auf DPD </h4>
                 <table class="table">
                     <thead>
                         <tr>
@@ -145,6 +160,116 @@
                         <tr>
                             <td>{{ schiene_lager.name }}</td>
                             <td>{{ schiene_lager.image }}</td>
+                            {% if request.user.groups.all.0.name == "pit" or request.user.is_superuser %}
+                                <td><a href="{% url 'pit:update_status_dpd' schiene_lager.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                            {% else %}
+                                <td style="color: darkred">Keine Berechtigung</td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Weitergeleitet -->
+    <div id="lager" class="row">
+        <div class="col-md-6">
+            <div class="mt-4 shadow">
+                <h1 class="text-center">Server Weiterleitung</h1>
+                <h4 class="text-center" style="color: darkred">Warten auf DPD </h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Server</th>
+                            <th>Geeignet für:</th>
+                            <th>Von DPD Abgeholt</th>
+                            <th>Selbstabholung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for srv_versand in server_weiterleitung %}
+                        <tr>
+                            <td>{{ srv_versand.name }}</td>
+                            <td>{{ srv_versand.image }}</td>
+                            <td><a href="{% url 'pit:update_status_dpd' srv_versand.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                            <td><a href="{% url 'pit:create_abholung' %}" type="button" class="btn btn-primary">Ja</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mt-4 shadow">
+                <h1 class="text-center">Schienen Weiterleitung</h1>
+                <h4 class="text-center" style="color: darkred">Warten auf DPD </h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Schiene</th>
+                            <th>Image</th>
+                            <th>Von DPD Abgeholt </th>
+                            <th>Selbstabholung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ab in schienen_abholung %}
+                        <tr>
+                            <td>{{ ab.name }}</td>
+                            <td>{{ ab.image }}</td>
+                            <td><a href="{% url 'pit:update_status_dpd' ab.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                            <td><a href="{% url 'pit:create_abholung' %}" type="button" class="btn btn-primary">Ja</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+        <!-- Rückholung -->
+    <div id="lager" class="row">
+        <div class="col-md-6">
+            <div class="mt-4 shadow">
+                <h1 class="text-center">Server zurück nach Köln</h1>
+                <h4 class="text-center" style="color: darkred">Warten auf DPD </h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Server</th>
+                            <th>Geeignet für:</th>
+                            <th>Von DPD Abgeholt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for srv_versand in server_zurueck %}
+                        <tr>
+                            <td>{{ srv_versand.name }}</td>
+                            <td>{{ srv_versand.image }}</td>
+                            <td><a href="{% url 'pit:update_status_dpd' srv_versand.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mt-4 shadow">
+                <h1 class="text-center">Schienen zurück nach Köln</h1>
+                <h4 class="text-center" style="color: darkred">Warten auf DPD </h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Schiene</th>
+                            <th>Image</th>
+                            <th>Von DPD Abgeholt </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for schiene_lager in schienen_zurueck %}
+                        <tr>
+                            <td>{{ schiene_lager.name }}</td>
+                            <td>{{ schiene_lager.image }}</td>
                             <td><a href="{% url 'pit:update_status_dpd' schiene_lager.id %}" type="button" class="btn btn-primary">Ja</a></td>
                         </tr>
                         {% endfor %}
@@ -153,8 +278,12 @@
             </div>
         </div>
     </div>
-    <!-- Unterwegs -->
-    <div id="lager" class="row">
+    <a type="button" href="#home" class="btn btn-outline-primary">nach oben</a>
+<br>
+<h1 id="Monitoring" class="text-center">DPD Monitoring</h1>
+
+<hr>
+    <div id="unterwegs" class="row">
         <div class="col-md-6">
             <div class="mt-4 shadow">
                 <h1 class="text-center">Server Unterwegs</h1>
@@ -164,7 +293,8 @@
                         <tr>
                             <th>Server</th>
                             <th>Geeignet für:</th>
-                            <th>Am Standort ?</th>
+                            <th>Beim Kunden</th>
+                            <th>In Köln</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -173,6 +303,7 @@
                             <td>{{ srv_dpd.name }}</td>
                             <td>{{ srv_dpd.image }}</td>
                             <td><a href="{% url 'pit:update_status_standort' srv_dpd.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                            <td><a href="{% url 'pit:update_status_zurueck' srv_dpd.id %}" type="button" class="btn btn-primary">Ja</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -188,7 +319,8 @@
                         <tr>
                             <th>Schiene</th>
                             <th>Image</th>
-                            <th>Am Standort ?</th>
+                            <th>Beim Kunden</th>
+                            <th>In Köln</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -197,6 +329,7 @@
                             <td>{{ dpd.name }}</td>
                             <td>{{ dpd.image }}</td>
                             <td><a href="{% url 'pit:update_status_standort' dpd.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                            <td><a href="{% url 'pit:update_status_zurueck' dpd.id %}" type="button" class="btn btn-primary">Ja</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -204,46 +337,111 @@
             </div>
         </div>
     </div>
+    <br>
+    <h1 id="monitoring_selbst" class="text-center">Selbstabholung Monitoring</h1>
+
+<hr>
+    <div id="abholung" class="row">
+        <div class="col-md-6">
+            <div class="mt-4 shadow">
+                <h1 class="text-center">Server Unterwegs</h1>
+                <h4 class="text-center" style="color: darkred">Mit Fahrer unterwegs </h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Server</th>
+                            <th>Geeignet für:</th>
+                            <th>Beim Kunden</th>
+                            <th>In Köln</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for srv_dpd in server_abholung %}
+                        <tr>
+                            <td>{{ srv_dpd.name }}</td>
+                            <td>{{ srv_dpd.image }}</td>
+                            <td><a href="{% url 'pit:update_status_standort' srv_dpd.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                            <td><a href="{% url 'pit:update_status_zurueck' srv_dpd.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mt-4 shadow">
+                <h1 class="text-center">Schienen Unterwegs</h1>
+                <h4 class="text-center" style="color: darkred">Mit Fahre unterwegs </h4>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Schiene</th>
+                            <th>Image</th>
+                            <th>Beim Kunden</th>
+                            <th>In Köln</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for fahrer in schienen_abholung %}
+                        <tr>
+                            <td>{{ fahrer.name }}</td>
+                            <td>{{ fahrer.image }}</td>
+                            <td><a href="{% url 'pit:update_status_standort' fahrer.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                            <td><a href="{% url 'pit:update_status_zurueck' fahrer.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="fahrer" class="mt-5 shadow">
+            <h2 class="text-center mb-4">Fahrer für Selbstabholungen(History)</h2>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>VA Nummer</th>
+                        <th>Datum</th>
+                        <th>Fahrer</th>
+                        <th>Handy</th>
+                        <th>Firmenwagen</th>
+                        <th>Schiene</th>
+                        <th>Server</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ab in abholung %}
+                    <tr>
+                        <td>{{ ab.VA_Nummer }}</td>
+                        <td>{{ ab.Datum }}</td>
+                        <td>{{ ab.Vorname }} {{ ab.Name }}</td>
+                        <td>{{ ab.Mobile1 }}</td>
+                        <td>{{ ab.Firmenwagen }}</td>
+                        {% if not ab.Schiene == None %}
+                            <td>{{ ab.Schiene }}</td>
+                        {% else %}
+                            <td> Ohne Schiene</td>
+                        {% endif %}
+                        {% if not ab.Server == None %}
+                            <td>{{ ab.Server }}</td>
+                        {% else %}
+                            <td> Ohne Server</td>
+                        {% endif %}
+                        <td><a href="{% url 'pit:abholung_detail' ab.id %}" type="button" class="btn btn-primary">Details</a></td> </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br>
 </div>
+
+
 
 {% endblock %}
 
-<!-- Hinzugefügtes JavaScript -->
-<script>
-
-    }
-let currentSchieneId = null;
-function openPopup(buttonElement) {
-    currentSchieneId = buttonElement.getAttribute("data-id");
-    document.getElementById("schiene_id").value = currentSchieneId;
-    document.getElementById("popup").style.display = "block";
-}
-
-    function submitForm() {
-        const schiene_id = currentSchieneId;
-        const kunde_id = document.getElementById("kunde_id").value;
-        const datum_versand = document.getElementById("datum_versand").value;
-        const rueckholung_datum = document.getElementById("rueckholung_datum").value;
-
-        fetch('{% url "pit:schiene_weiterleiten" %}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'X-CSRFToken': '{{ csrf_token }}'
-            },
-            body: `schiene_id=${schiene_id}&kunde_id=${kunde_id}&datum_versand=${datum_versand}&rueckholung_datum=${rueckholung_datum}`
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                alert('Erfolgreich weitergeleitet');
-                location.reload();
-            } else {
-                alert('Fehler: ' + data.message);
-            }
-        });
-    }
-</script>
 
 
 
