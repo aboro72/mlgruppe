@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}PIT Übersicht {%endblock%}
+
+{% block content %}
+{% comment %}
+<nav id="home" class="navbar bg-body-tertiary">
+  <form class="container-fluid justify-content-start">
+    <a href="#zuruecksetzen" class="btn btn-sm btn-outline-secondary" type="button">Server & Schienen zum Zurücksetzen</a>
+    <a href="#lager" class="btn btn-sm btn-outline-secondary" type="button">Server & Schienen im Lager</a>
+    <a href="#versand" class="btn btn-sm btn-outline-secondary" type="button">Versand/Weiterleitungen</a>
+    <a href="#Monitoring" class="btn btn-sm btn-outline-secondary" type="button">DPD Monitoring</a>
+  </form>
+</nav>
+{% endcomment %}
+<div  class="container mt-5">
+    <!-- Überschrift -->
+    <h1 class="text-center mb-5 shadow">Test Übersicht</h1>
+    <hr>
+
+
+
+
+    <!-- Tabelle für Server und Schienen, die zurückgesetzt werden müssen -->
+    <div id="zuruecksetzen" class="mt-5 shadow">
+        <h2 class="text-center mb-4">MAl sehen was angezeigt wird</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>VA_nummer</th>
+                    <th>Thema</th>
+                    <th>Trainer</th>
+                    <th>Schiene</th>
+                    <th>Server</th>
+                    <th>Kunde</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for con in test %}
+                <tr>
+                    <td>{{ con.va_nummer}}</td>
+                    <td>{{ con.thema}}</td>
+                    <td>{{ con.trainer}}</td>
+                    <td>{{ con.schiene}}</td>
+                    <td>{{ con.server}}</td>
+                    <td>{{ con.kunde }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+
+
+
+

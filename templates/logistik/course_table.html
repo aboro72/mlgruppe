@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+{% comment %}
 <nav class="navbar bg-body-tertiary">
   <form class="container-fluid justify-content-start">
     <a href="{% url 'pit:info' %}" class="btn btn-sm btn-outline-secondary" type="button">Übersicht</a>
@@ -9,6 +10,7 @@
   </form>
 </nav>
 <br><br>
+{% endcomment %}
 <div class="container shadow" style="max-height: calc(100vh - 200px); overflow: auto;">
     <!-- First Section -->
     <div class="row">
