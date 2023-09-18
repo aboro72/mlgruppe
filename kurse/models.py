@@ -20,4 +20,4 @@ class Kurs(models.Model):
     kurs_ende = models.DateTimeField(null=True, blank=True)  # Endzeitpunkt des Kurses
 
     def __str__(self):
-        return f"{self.va_nummer}"
+        return f"{self.va_nummer} {self.thema} {self.trainer} {self.kunde}"

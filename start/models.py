@@ -9,10 +9,10 @@ class Adresse(models.Model):
     strasse = models.CharField(max_length=255)
     plz = models.CharField(max_length=10)
     stadt = models.CharField(max_length=255)
-    land = models.CharField(max_length=255)
+
 
     def __str__(self):
-        return f"{self.strasse}, {self.plz} {self.stadt}, {self.land}"
+        return f"{self.strasse}, {self.plz} {self.stadt}"
 
 
 class Person(models.Model):
