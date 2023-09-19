@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'kunden',
     'trainer',
     'kurse',
+    'logistik',
 
 
 ]
