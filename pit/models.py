@@ -101,7 +101,7 @@ class Abholung(models.Model):
     Kunde = models.ForeignKey(Kunde, on_delete=models.CASCADE, null=True, blank=True)
     Schiene = models.ForeignKey(Schiene, on_delete=models.CASCADE, null=True, blank=True)
     Server = models.ForeignKey(Server, on_delete=models.CASCADE, null=True, blank=True)
-    Tourdaten = RichTextField(max_length=900, null=True, blank=True)
+    Tourdaten = RichTextField(max_length=4900, null=True, blank=True)
     status = models.CharField(max_length=255, choices=[('Rückholung', 'Rückholung'),
                                                        ('Weiterleitung', 'Weiterleitung'),
                                                        ], default='Weiterleitung')
