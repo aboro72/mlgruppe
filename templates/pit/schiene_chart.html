@@ -214,7 +214,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for ab in schienen_abholung %}
+                        {% for ab in schienen_weiterleitung %}
                         <tr>
                             <td>{{ ab.name }}</td>
                             <td>{{ ab.image }}</td>
@@ -266,11 +266,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for schiene_lager in schienen_zurueck %}
+                        {% for zk in schienen_zurueck %}
                         <tr>
-                            <td>{{ schiene_lager.name }}</td>
-                            <td>{{ schiene_lager.image }}</td>
-                            <td><a href="{% url 'pit:update_status_dpd' schiene_lager.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                            <td>{{ zk.name }}</td>
+                            <td>{{ zk.image }}</td>
+                            <td><a href="{% url 'pit:update_status_dpd' zk.id %}" type="button" class="btn btn-primary">Ja</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>
