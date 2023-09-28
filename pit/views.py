@@ -161,6 +161,31 @@ def update_status_zurueck(request, item_id):
     return redirect('pit:info')
 
 
+def update_status_versand(request, item_id):
+    """
+    Ändert den Status eines Elements auf Unterwegs"
+
+    ** Views: **
+    :views: ´schiene_char´
+
+    ** Return: **
+    :return: ´schiene_char´
+
+    """
+    try:
+        item = Schiene.objects.get(pk=item_id)
+    except ObjectDoesNotExist:
+        try:
+            item = Server.objects.get(pk=item_id)
+        except ObjectDoesNotExist:
+            return HttpResponse("Item not found", status=404)
+
+    item.status = 'Versand'
+    item.save()
+
+    return redirect('pit:info')
+
+
 def update_status_dpd(request, item_id):
     """
     Ändert den Status eines Elements auf Unterwegs"

@@ -77,7 +77,7 @@
                         <tr>
                             <td>{{ server_lager.name }}</td>
                             <td>{{ server_lager.image }}</td>
-                            <td><a href="{% url 'pit:update_status_dpd' server_lager.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                            <td><a href="{% url 'pit:update_status_versand' server_lager.id %}" type="button" class="btn btn-primary">Ja</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -100,7 +100,7 @@
                         <tr>
                             <td>{{ schiene_lager.name }}</td>
                             <td>{{ schiene_lager.image }}</td>
-                            <td><a href="{% url 'pit:update_status_dpd' schiene_lager.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                            <td><a href="{% url 'pit:update_status_versand' schiene_lager.id %}" type="button" class="btn btn-primary">Ja</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -239,6 +239,7 @@
                             <th>Server</th>
                             <th>Geeignet für:</th>
                             <th>Von DPD Abgeholt</th>
+                            <th>Selbstabholung</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -247,6 +248,7 @@
                             <td>{{ srv_versand.name }}</td>
                             <td>{{ srv_versand.image }}</td>
                             <td><a href="{% url 'pit:update_status_dpd' srv_versand.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                            <td><a href="{% url 'pit:create_abholung' %}" type="button" class="btn btn-primary">Ja</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -263,6 +265,7 @@
                             <th>Schiene</th>
                             <th>Image</th>
                             <th>Von DPD Abgeholt </th>
+                            <th>Selbstabholung</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -271,6 +274,7 @@
                             <td>{{ zk.name }}</td>
                             <td>{{ zk.image }}</td>
                             <td><a href="{% url 'pit:update_status_dpd' zk.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                            <td><a href="{% url 'pit:create_abholung' %}" type="button" class="btn btn-primary">Ja</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>
