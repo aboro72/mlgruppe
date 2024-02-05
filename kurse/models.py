@@ -1,7 +1,11 @@
 from django.db import models
-from pit.models import Schiene, Server
+from django.apps import apps
+
 from trainer.models import Trainer
 from kunden.models import Kunde
+
+Schiene = apps.get_model('pit', 'Schiene')
+Server = apps.get_model('pit', 'Server')
 
 
 # Create your models here.

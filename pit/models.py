@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import timedelta
 from kunden.models import Kunde
+from kurse.models import Kurs
 from ckeditor.fields import RichTextField
 
 
@@ -80,7 +81,7 @@ class Server(models.Model):
 
 class Abholung(models.Model):
     """
-    Dieses Modell repräsentiert eine Selbstabholung
+    Dieses Modell repräsentiert eine Selbstabholung/Lieferung
     """
     VA_Nummer = models.IntegerField(max_length=8, unique=True, default='00000')
     Name = models.CharField(max_length=255, null=False, blank=False, default='Mustermann')
@@ -105,3 +106,13 @@ class Abholung(models.Model):
     status = models.CharField(max_length=255, choices=[('Rückholung', 'Rückholung'),
                                                        ('Weiterleitung', 'Weiterleitung'),
                                                        ], default='Weiterleitung')
+
+
+class VersandSchiene(models.Model):
+    """
+    Dieses Modell repräsentiert einen Versand
+    """
+    VA_Nummer = models.ForeignKey(Kurs, on_delete=models.CASCADE,)
+    Server = models.ForeignKey(Server, on_delete=models.CASCADE, null=True)
+    Schiene = models.ForeignKey(Schiene, on_delete=models.CASCADE,)
+    Kunde = models.ForeignKey(Kunde, on_delete=models.CASCADE,)
