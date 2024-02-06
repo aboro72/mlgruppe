@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-4&l17zd^moq8(8h9f+2m+1yzml88swe%io(34%m*t%!3rvv+v@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.200.100.25', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['ml.aboro-it.net', '127.0.0.1', 'localhost', '192.168.178.85']
 
 
 # Application definition
@@ -41,20 +41,19 @@ INSTALLED_APPS = [
     'start.apps.StartConfig',
     'pit.apps.PitConfig',
     'mywiki.apps.MywikiConfig',
+    'textbot.apps.TextbotConfig',
+    'codebot.apps.CodebotConfig',
     'postits',
     'ckeditor',
     'dashboard',
-    'kunden',
-    'trainer',
-    'kurse',
-    'logistik',
-
+    'corsheaders',
 
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',    
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -86,11 +85,21 @@ WSGI_APPLICATION = 'mlgruppe.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+#'default': {
+#    'ENGINE': 'django.db.backends.sqlite3',
+#    'NAME': BASE_DIR / 'db.sqlite3',
+#},
 DATABASES = {
+
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'c1_ml',
+        'USER': 'c1_1',
+        'PASSWORD': 'quaSeu2i',
+        'HOST': 'localhost',
+        'PORT': '3306',
+        'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+
     }
 }
 
@@ -128,8 +137,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
-#STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 STATIC_URL = 'static/'
 
 # Default primary key field type
@@ -159,3 +168,14 @@ CKEDITOR_CONFIGS = {
         ],
     },
 }
+
+# Setting SECURE_PROXY_SSL_HEADER
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_COOKIE_DOMAIN = 'ml.aboro-it.net'
+CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_SECURE = True
+CORS_ALLOWED_ORIGINS = [
+    "https://ml.aboro-it.net",
+]
+# Adding CSRF Trusted Origins
+CSRF_TRUSTED_ORIGINS = ['https://ml.aboro-it.net']
