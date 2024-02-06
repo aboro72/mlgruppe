@@ -41,12 +41,13 @@ INSTALLED_APPS = [
     'start.apps.StartConfig',
     'pit.apps.PitConfig',
     'mywiki.apps.MywikiConfig',
-    'textbot.apps.TextbotConfig',
-    'codebot.apps.CodebotConfig',
     'postits',
     'ckeditor',
     'dashboard',
     'corsheaders',
+    'kunden',
+    'kurse',
+    'trainer',
 
 ]
 
