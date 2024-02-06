@@ -29,6 +29,74 @@
 
     </br></br>
     <hr>
+    <!-- Wan was versendet werden muss -->
+     <div id="zuruecksetzen" class="mt-5 shadow">
+        <h2 class="text-center mb-4">Schiene Versand nach: </h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Datum</th>
+                    <th>Kunde</th>
+                    <th>VA</th>
+                    <th>Schiene</th>
+                    <th>DPD Beautragt</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for versand in versand_liste %}
+                <tr>
+                    <td>{{ versand.Datum }}</td>
+                    <td>{{ versand.Kunde }}</td>
+                    <td>{{ versand.VA_Nummer }}</td>
+                    <td>{{ versand.Schiene}}</td>
+                    <td>
+                        {% if request.user.groups.all.0.name == "pit" or request.user.is_superuser %}
+                        <form method="post" action="{% url 'pit:set_versand_status' versand.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success">Ja</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+     </div>
+     <br>
+         <!-- Wan was versendet werden muss -->
+     <div id="zuruecksetzen" class="mt-5 shadow">
+        <h2 class="text-center mb-4">Server Versand nach: </h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Datum</th>
+                    <th>Kunde</th>
+                    <th>VA</th>
+                    <th>Server</th>
+                    <th>DPD Beautragt</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for versand in versand_liste %}
+                <tr>
+                    <td>{{ versand.Datum }}</td>
+                    <td>{{ versand.Kunde }}</td>
+                    <td>{{ versand.VA_Nummer }}</td>
+                    <td>{{ versand.Server}}</td>
+                    <td>
+                        {% if request.user.groups.all.0.name == "pit" or request.user.is_superuser %}
+                        <form method="post" action="{% url 'pit:set_versand_status' versand.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success">Ja</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+     </div>
+     <br>
     <!-- Tabelle für Server und Schienen, die zurückgesetzt werden müssen -->
     <div id="zuruecksetzen" class="mt-5 shadow">
         <h2 class="text-center mb-4">Zurückzusetzende Geräte</h2>
@@ -69,7 +137,7 @@
                         <tr>
                             <th>Server</th>
                             <th>Geeignet für:</th>
-                            <th>Versand</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -77,7 +145,7 @@
                         <tr>
                             <td>{{ server_lager.name }}</td>
                             <td>{{ server_lager.image }}</td>
-                            <td><a href="{% url 'pit:update_status_versand' server_lager.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                            
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -92,7 +160,7 @@
                         <tr>
                             <th>Schiene</th>
                             <th>Image</th>
-                            <th>Versand</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -100,7 +168,7 @@
                         <tr>
                             <td>{{ schiene_lager.name }}</td>
                             <td>{{ schiene_lager.image }}</td>
-                            <td><a href="{% url 'pit:update_status_versand' schiene_lager.id %}" type="button" class="btn btn-primary">Ja</a></td>
+                            
                         </tr>
                         {% endfor %}
                     </tbody>

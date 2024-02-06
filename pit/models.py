@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import timedelta
 from kunden.models import Kunde
+from kurse.models import Kurs
 from ckeditor.fields import RichTextField
 
 
@@ -41,10 +42,9 @@ class Schiene(models.Model):
                                                        ('Weiterleitung', 'Weiterleitung'),
                                                        ('Selbstabholung', 'Selbstabholung'),
                                                        ])
-    DruckerFuellstandA = models.IntegerField(default=100)
-    DruckerFuellstandB = models.IntegerField(default=100)
+    DruckerFuellstand = models.IntegerField(default=100)
+
     Nighthawk = models.CharField(max_length=10, default='Beispiel: NH 01')
-    datum_kms_aktivierung = models.DateField()
     image = models.ForeignKey(FestplattenImageNotebook, on_delete=models.SET_NULL, null=True)
     Bemerkung = models.TextField(max_length=500, default="Fehler/Bemerkung")
 
@@ -82,7 +82,7 @@ class Abholung(models.Model):
     """
     Dieses Modell repräsentiert eine Selbstabholung
     """
-    VA_Nummer = models.IntegerField(max_length=8, unique=True, default='00000')
+    VA_Nummer = models.IntegerField(unique=True)
     Name = models.CharField(max_length=255, null=False, blank=False, default='Mustermann')
     Vorname = models.CharField(max_length=255, null=False, blank=False, default='Max')
     Name2 = models.CharField(max_length=255, null=True, blank=True)
@@ -105,3 +105,25 @@ class Abholung(models.Model):
     status = models.CharField(max_length=255, choices=[('Rückholung', 'Rückholung'),
                                                        ('Weiterleitung', 'Weiterleitung'),
                                                        ], default='Weiterleitung')
+
+
+class Versand(models.Model):
+    Datum = models.DateField(null=True, blank=True)
+    VA_Nummer = models.ForeignKey(Kurs, on_delete=models.CASCADE, null=True, blank=True)
+    Kunde = models.ForeignKey(Kunde, on_delete=models.CASCADE, null=True, blank=True)
+    Schiene = models.ForeignKey(Schiene, on_delete=models.CASCADE, null=True, blank=True)
+    Server = models.ForeignKey(Server, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return self.VA_Nummer
+
+
+class Rueckholung(models.Model):
+    RueckDatum = models.DateField(null=True, blank=True)
+    VA_Nummer = models.ForeignKey(Kurs, on_delete=models.CASCADE, null=True, blank=True)
+    Kunde = models.ForeignKey(Kunde, on_delete=models.CASCADE, null=True, blank=True)
+    Schiene = models.ForeignKey(Schiene, on_delete=models.CASCADE, null=True, blank=True)
+    Server = models.ForeignKey(Server, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return self.VA_Nummer
