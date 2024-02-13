@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import AbholungForm
-from .models import Schiene, Server, Abholung, Versand
+from .models import Schiene, Server, Abholung, Versand, Rueckholung
 from datetime import datetime, date, timedelta
 from django.db.models import Max
 
@@ -55,6 +55,7 @@ def schiene_chart(request):
     # Sontiges
     abholung = Abholung.objects.all()
     versand_liste = Versand.objects.all()
+    rueckholung_liste = Rueckholung.objects.all()
     # Sammle Elemente, die zurückgesetzt werden müssen
     items_to_reset = list(Schiene.objects.filter(status='Zurücksetzen')) + list(
         Server.objects.filter(status='Zurücksetzen'))
@@ -106,6 +107,7 @@ def schiene_chart(request):
         'items_to_reset': items_to_reset,
         'abholung': abholung,
         'versand_liste': versand_liste,
+        'rueckholung_liste': rueckholung_liste,
     }
 
     return render(request, 'pit/schiene_chart.html', context)
@@ -256,17 +258,17 @@ def abholung_detail(request, item_id):
     return render(request, 'pit/abholung_detail.html', {'abholung': abholung})
 
 
-def set_versand_status(request, versand_id):
+def set_rueckholung_status(request, versand_id):
     if request.method == 'POST':
-        versand = Versand.objects.get(id=versand_id)
-        if versand.Schiene:
-            versand.Schiene.status = 'Versand'
-            versand.Schiene.save()
-        if versand.Server:
-            versand.Server.status = 'Versand'
-            versand.Server.save()
+        rückholung= Versand.objects.get(id=versand_id)
+        if rückholung.Schiene:
+            rückholung.Schiene.status = 'Versand'
+            rückholung.Schiene.save()
+        if rückholung.Server:
+            rückholung.Server.status = 'Versand'
+            rückholung.Server.save()
 
-        versand.delete()  # Löscht das Versand-Objekt aus der Datenbank
+        rückholung.delete()  # Löscht das Versand-Objekt aus der Datenbank
         return redirect('pit:info')  # Setzen Sie hier Ihr gewünschtes Redirect-Ziel
 
 
@@ -295,3 +297,17 @@ def update_status_dpd(request, versand_id):
             pass
 
     return redirect('pit:info')
+
+
+def set_versand_status(request, versand_id):
+    if request.method == 'POST':
+        versand = Versand.objects.get(id=versand_id)
+        if versand.Schiene:
+            versand.Schiene.status = 'Versand'
+            versand.Schiene.save()
+        if versand.Server:
+            versand.Server.status = 'Versand'
+            versand.Server.save()
+
+        versand.delete()  # Löscht das Versand-Objekt aus der Datenbank
+        return redirect('pit:info')  # Setzen Sie hier Ihr gewünschtes Redirect-Ziel

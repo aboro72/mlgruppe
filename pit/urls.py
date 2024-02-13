@@ -14,4 +14,5 @@ urlpatterns = [
     path('update_status_abholung/<int:item_id>/', views.update_status_abholung, name='update_status_abholung'),
     path('update_status_versand/<int:item_id>/', views.update_status_versand, name='update_status_versand'),
     path('set_versand_status/<int:versand_id>/', views.set_versand_status, name='set_versand_status'),
+    path('set_rueckholung_status/<int:versand_id>/', views.set_rueckholung_status, name='set_rueckholung_status'),
 ]

@@ -114,6 +114,9 @@ class Versand(models.Model):
     Schiene = models.ForeignKey(Schiene, on_delete=models.CASCADE, null=True, blank=True)
     Server = models.ForeignKey(Server, on_delete=models.CASCADE, null=True, blank=True)
 
+    def __str__(self):
+        return f"{self.VA_Nummer} {self.Kunde}"
+
 
 class Rueckholung(models.Model):
     RueckDatum = models.DateField(null=True, blank=True)
@@ -121,3 +124,6 @@ class Rueckholung(models.Model):
     Kunde = models.ForeignKey(Kunde, on_delete=models.CASCADE, null=True, blank=True)
     Schiene = models.ForeignKey(Schiene, on_delete=models.CASCADE, null=True, blank=True)
     Server = models.ForeignKey(Server, on_delete=models.CASCADE, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.VA_Nummer} {self.Kunde}"
