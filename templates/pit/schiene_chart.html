@@ -39,6 +39,7 @@
                     <th>Kunde</th>
                     <th>VA</th>
                     <th>Schiene</th>
+                    <th>Server</th>
                     <th>DPD Beautragt</th>
                 </tr>
             </thead>
@@ -49,6 +50,7 @@
                     <td>{{ versand.Kunde }}</td>
                     <td>{{ versand.VA_Nummer }}</td>
                     <td>{{ versand.Schiene}}</td>
+                    <td>{{ versand.Server}}</td>
                     <td>
                         {% if request.user.groups.all.0.name == "pit" or request.user.is_superuser %}
                         <form method="post" action="{% url 'pit:set_versand_status' versand.id %}">
@@ -65,27 +67,29 @@
      <br>
          <!-- Wan was versendet werden muss -->
      <div id="zuruecksetzen" class="mt-5 shadow">
-        <h2 class="text-center mb-4">Server Versand nach: </h2>
+        <h2 class="text-center mb-4">Rückholungen: </h2>
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Datum</th>
                     <th>Kunde</th>
                     <th>VA</th>
+                    <th>Schiene</th>
                     <th>Server</th>
                     <th>DPD Beautragt</th>
                 </tr>
             </thead>
             <tbody>
-                {% for versand in versand_liste %}
+                {% for rueckholung in rueckholung_liste %}
                 <tr>
-                    <td>{{ versand.Datum }}</td>
-                    <td>{{ versand.Kunde }}</td>
-                    <td>{{ versand.VA_Nummer }}</td>
-                    <td>{{ versand.Server}}</td>
+                    <td>{{ rueckholung.RueckDatum }}</td>
+                    <td>{{ rueckholung.Kunde }}</td>
+                    <td>{{ rueckholung.VA_Nummer }}</td>
+                    <td>{{ rueckholung.Schiene}}</td>
+                    <td>{{ rueckholung.Server}}</td>
                     <td>
                         {% if request.user.groups.all.0.name == "pit" or request.user.is_superuser %}
-                        <form method="post" action="{% url 'pit:set_versand_status' versand.id %}">
+                        <form method="post" action="{% url 'pit:set_rueckholung_status' rueckholung.id %}">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-success">Ja</button>
                         </form>
@@ -136,18 +140,21 @@
                     <thead>
                         <tr>
                             <th>Server</th>
-                            <th>Geeignet für:</th>
+                            <th>Schiene</th>
+                            
                             
                         </tr>
                     </thead>
                     <tbody>
                         {% for server_lager in server_lager %}
-                        <tr>
+                                                 <tr>
                             <td>{{ server_lager.name }}</td>
-                            <td>{{ server_lager.image }}</td>
-                            
+                            <td>{{ server_lager.image }}</td>                    
+                             
                         </tr>
                         {% endfor %}
+                         
+                        
                     </tbody>
                 </table>
             </div>

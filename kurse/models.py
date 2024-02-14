@@ -16,4 +16,5 @@ class Kurs(models.Model):
     kurs_start = models.DateTimeField(null=True, blank=True)  # Startzeitpunkt des Kurses
     kurs_ende = models.DateTimeField(null=True, blank=True)  # Endzeitpunkt des Kurses
 
-
+    def __str__(self):
+            return f"{self.va_nummer}"

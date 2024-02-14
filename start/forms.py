@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-
+from .models import Adresse
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(
@@ -52,3 +52,9 @@ class SignUpForm(UserCreationForm):
         self.fields["password2"].widget.attrs["placeholder"] = "Password repeat"
         self.fields["password2"].label = ""
         self.fields["password2"].help_text = ""
+
+
+class AdresseForm(forms.ModelForm):
+    class Meta:
+        model = Adresse
+        fields = '__all__'
