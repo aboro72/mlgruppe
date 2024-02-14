@@ -1,0 +1,43 @@
+{% extends 'base_dash.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-5 shadow">Kunde erstellen</h1>
+    <div class="mt-5 shadow">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.media }}
+            {{ form.as_p }}
+
+            <!-- Link to open the address modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addressModal">
+                Adresse hinzufügen
+            </button>
+
+            <!-- Address Modal -->
+            <div class="modal fade" id="addressModal" tabindex="-1" aria-labelledby="addressModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addressModalLabel">Adresse</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {{ form.adresse_form.as_p }}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+                            <button type="submit" class="btn btn-primary">Adresse speichern</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Kunde erstellen</button>
+            <br>
+        </form>
+        
+    </div>
+</div>
+
+{% endblock %}

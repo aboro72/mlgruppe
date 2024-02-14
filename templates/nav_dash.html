@@ -13,15 +13,15 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
+              <a class="nav-link d-flex align-items-center gap-2" href="{% url 'pit:create_schiene' %}">
                 <svg class="bi"><use xlink:href="#file-earmark"/></svg>
-                Schiene
+                Schiene hinzufügen
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
+              <a class="nav-link d-flex align-items-center gap-2" href="{% url 'pit:create_server' %}">
                 <svg class="bi"><use xlink:href="#file-earmark"/></svg>
-                Server
+                Server hinzufügen
               </a>
             </li>
             <li class="nav-item">
@@ -31,9 +31,21 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
+              <a class="nav-link d-flex align-items-center gap-2" href="{% url 'kunde:create_kunde' %}">
                 <svg class="bi"><use xlink:href="#people"/></svg>
                 Kunde Adressen
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link d-flex align-items-center gap-2" href="{% url 'pit:create_versand' %}">
+                <svg class="bi"><use xlink:href="#cart"/></svg>
+                Versand
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link d-flex align-items-center gap-2" href="#">
+                <svg class="bi"><use xlink:href="#cart"/></svg>
+                Rückholung
               </a>
             </li>
 

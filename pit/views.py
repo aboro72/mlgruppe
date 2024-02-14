@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
-from .forms import AbholungForm
+from .forms import AbholungForm, VersandForm, ServerForm, SchieneForm
 from .models import Schiene, Server, Abholung, Versand, Rueckholung
 from datetime import datetime, date, timedelta
 from django.db.models import Max
@@ -260,7 +260,7 @@ def abholung_detail(request, item_id):
 
 def set_rueckholung_status(request, versand_id):
     if request.method == 'POST':
-        rückholung= Versand.objects.get(id=versand_id)
+        rückholung = Versand.objects.get(id=versand_id)
         if rückholung.Schiene:
             rückholung.Schiene.status = 'Versand'
             rückholung.Schiene.save()
@@ -311,3 +311,48 @@ def set_versand_status(request, versand_id):
 
         versand.delete()  # Löscht das Versand-Objekt aus der Datenbank
         return redirect('pit:info')  # Setzen Sie hier Ihr gewünschtes Redirect-Ziel
+
+
+def create_versand(request):
+    if request.method == 'POST':
+        form = VersandForm(request.POST)
+        if form.is_valid():
+            # Erstelle eine Abholungsinstanz, ohne sie zu speichern
+            # Versand = form.save(commit=False)
+            # versand.status = 'Unterwegs'  # Setze den Statuswert
+            Versand.save()  # Speichere die Instanz in der Datenbank
+            return redirect('dashboard:index')  # Nach dem Speichern zum Kursliste-View weiterleiten
+    else:
+        form = VersandForm()
+
+    return render(request, 'pit/create_versand.html', {'form': form})
+
+
+def create_server(request):
+    if request.method == 'POST':
+        form = ServerForm(request.POST)
+        if form.is_valid():
+            # Erstelle eine Abholungsinstanz, ohne sie zu speichern
+            # Versand = form.save(commit=False)
+            # versand.status = 'Unterwegs'  # Setze den Statuswert
+            Server.save()  # Speichere die Instanz in der Datenbank
+            return redirect('dashboard:index')  # Nach dem Speichern zum Kursliste-View weiterleiten
+    else:
+        form = ServerForm()
+
+    return render(request, 'pit/create_server.html', {'form': form})
+
+
+def create_schiene(request):
+    if request.method == 'POST':
+        form = SchieneForm(request.POST)
+        if form.is_valid():
+            # Erstelle eine Abholungsinstanz, ohne sie zu speichern
+            # Versand = form.save(commit=False)
+            # versand.status = 'Unterwegs'  # Setze den Statuswert
+            Schiene.save()  # Speichere die Instanz in der Datenbank
+            return redirect('dashboard:index')  # Nach dem Speichern zum Kursliste-View weiterleiten
+    else:
+        form = SchieneForm()
+
+    return render(request, 'pit/create_schiene.html', {'form': form})
