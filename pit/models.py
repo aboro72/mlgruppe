@@ -36,6 +36,7 @@ class Schiene(models.Model):
                                                        ('Unterwegs', 'Unterwegs'),
                                                        ('Zurücksetzen', 'Zurücksetzen'),
                                                        ('Imagen', 'Imagen'),
+                                                       ('Reserviert', 'Reserviert'),
                                                        ('Versand', 'Versand'),
                                                        ('Standort', 'Standort'),
                                                        ('Rückholung', 'Rückholung'),
@@ -64,6 +65,7 @@ class Server(models.Model):
     status = models.CharField(max_length=255, choices=[('Lager', 'Lager'),
                                                        ('Unterwegs', 'Unterwegs'),
                                                        ('Zurücksetzen', 'Zurücksetzen'),
+                                                       ('Reserviert', 'Reserviert'),
                                                        ('Versand', 'Versand'),
                                                        ('Standort', 'Standort'),
                                                        ('Rückholung', 'Rückholung'),
@@ -116,6 +118,14 @@ class Versand(models.Model):
 
     def __str__(self):
         return f"{self.VA_Nummer} {self.Kunde}"
+
+    def save(self, *args, **kwargs):
+        if self.Schiene and self.Server:
+            self.Schiene.status = 'Reserviert'
+            self.Schiene.save()
+            self.Server.status = 'Reserviert'
+            self.Server.save()
+        super(Versand, self).save(*args, **kwargs)
 
 
 class Rueckholung(models.Model):

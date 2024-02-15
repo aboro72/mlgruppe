@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Erstellungszeit: 12. Feb 2024 um 20:07
--- Server-Version: 10.6.16-MariaDB-0ubuntu0.22.04.1
--- PHP-Version: 8.1.27
+-- Host: localhost:3306
+-- Erstellungszeit: 15. Feb 2024 um 13:37
+-- Server-Version: 8.0.30
+-- PHP-Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,15 +28,16 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `auth_group` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(150) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Daten für Tabelle `auth_group`
 --
 
 INSERT INTO `auth_group` (`id`, `name`) VALUES
+(2, 'orga'),
 (1, 'pit');
 
 -- --------------------------------------------------------
@@ -46,10 +47,10 @@ INSERT INTO `auth_group` (`id`, `name`) VALUES
 --
 
 CREATE TABLE `auth_group_permissions` (
-  `id` bigint(20) NOT NULL,
-  `group_id` int(11) NOT NULL,
-  `permission_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+  `id` bigint NOT NULL,
+  `group_id` int NOT NULL,
+  `permission_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Daten für Tabelle `auth_group_permissions`
@@ -119,7 +120,27 @@ INSERT INTO `auth_group_permissions` (`id`, `group_id`, `permission_id`) VALUES
 (61, 1, 73),
 (62, 1, 74),
 (63, 1, 75),
-(64, 1, 76);
+(64, 1, 76),
+(65, 2, 25),
+(66, 2, 26),
+(67, 2, 27),
+(68, 2, 28),
+(69, 2, 61),
+(70, 2, 62),
+(71, 2, 63),
+(72, 2, 64),
+(73, 2, 65),
+(74, 2, 66),
+(75, 2, 67),
+(76, 2, 68),
+(77, 2, 69),
+(78, 2, 70),
+(79, 2, 71),
+(80, 2, 72),
+(81, 2, 73),
+(82, 2, 74),
+(83, 2, 75),
+(84, 2, 76);
 
 -- --------------------------------------------------------
 
@@ -128,11 +149,11 @@ INSERT INTO `auth_group_permissions` (`id`, `group_id`, `permission_id`) VALUES
 --
 
 CREATE TABLE `auth_permission` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `name` varchar(255) NOT NULL,
-  `content_type_id` int(11) NOT NULL,
+  `content_type_id` int NOT NULL,
   `codename` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Daten für Tabelle `auth_permission`
@@ -223,7 +244,7 @@ INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALU
 --
 
 CREATE TABLE `auth_user` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `password` varchar(128) NOT NULL,
   `last_login` datetime(6) DEFAULT NULL,
   `is_superuser` tinyint(1) NOT NULL,
@@ -234,14 +255,14 @@ CREATE TABLE `auth_user` (
   `is_staff` tinyint(1) NOT NULL,
   `is_active` tinyint(1) NOT NULL,
   `date_joined` datetime(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Daten für Tabelle `auth_user`
 --
 
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
-(1, 'pbkdf2_sha256$720000$F124uyUiSDXE0fKPGxdOBZ$SIBkiFSQSrYXxcfXRntab6Q3l95VKuBdPBvISphQhrw=', '2024-02-12 06:28:57.076064', 1, 'admin', '', '', '', 1, 1, '2024-02-06 17:14:05.996068'),
+(1, 'pbkdf2_sha256$720000$F124uyUiSDXE0fKPGxdOBZ$SIBkiFSQSrYXxcfXRntab6Q3l95VKuBdPBvISphQhrw=', '2024-02-15 11:10:27.000000', 1, 'admin', '', '', '', 1, 1, '2024-02-06 17:14:05.000000'),
 (2, 'pbkdf2_sha256$720000$VczO8RLn7gzzY9Q7vsp1Lm$Xvx/Bd401YfdkEqPEZJFsy+966zSJZqEsXLLELrrqG4=', NULL, 0, 'rpanske', 'Rainer', 'Panske', 'r.panske@mlgruppe.de', 1, 1, '2024-02-07 08:16:52.000000'),
 (3, 'pbkdf2_sha256$720000$5FIa8LNRxa4UVuSAzOTdQN$vtLGPrlytuwPHSWbSVIs2WAXnRS8tIsjwWIsjcBUeqs=', NULL, 0, 'mukarram', 'Mukarram-Ali', 'Mehar', 'm.mehar@mlgruppe.de', 1, 1, '2024-02-07 08:18:18.000000'),
 (4, 'pbkdf2_sha256$720000$IZZq7zl3KdVk8zQtrYtlNV$DxaVYdUBUGSsgGCijPyS7XE8KDgJYuBjlcZAHVHv6CM=', NULL, 0, 'aborowczak', 'Andreas', 'Borowczak', 'a.borowczak@mlgruppe.de', 1, 1, '2024-02-07 08:20:46.000000');
@@ -253,16 +274,18 @@ INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `userna
 --
 
 CREATE TABLE `auth_user_groups` (
-  `id` bigint(20) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `group_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+  `id` bigint NOT NULL,
+  `user_id` int NOT NULL,
+  `group_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Daten für Tabelle `auth_user_groups`
 --
 
 INSERT INTO `auth_user_groups` (`id`, `user_id`, `group_id`) VALUES
+(4, 1, 1),
+(5, 1, 2),
 (1, 2, 1),
 (2, 3, 1),
 (3, 4, 1);
@@ -274,10 +297,10 @@ INSERT INTO `auth_user_groups` (`id`, `user_id`, `group_id`) VALUES
 --
 
 CREATE TABLE `auth_user_user_permissions` (
-  `id` bigint(20) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `permission_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+  `id` bigint NOT NULL,
+  `user_id` int NOT NULL,
+  `permission_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -286,15 +309,15 @@ CREATE TABLE `auth_user_user_permissions` (
 --
 
 CREATE TABLE `django_admin_log` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `action_time` datetime(6) NOT NULL,
-  `object_id` longtext DEFAULT NULL,
+  `object_id` longtext,
   `object_repr` varchar(200) NOT NULL,
-  `action_flag` smallint(5) UNSIGNED NOT NULL CHECK (`action_flag` >= 0),
+  `action_flag` smallint UNSIGNED NOT NULL,
   `change_message` longtext NOT NULL,
-  `content_type_id` int(11) DEFAULT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+  `content_type_id` int DEFAULT NULL,
+  `user_id` int NOT NULL
+) ;
 
 --
 -- Daten für Tabelle `django_admin_log`
@@ -431,7 +454,111 @@ INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`,
 (128, '2024-02-09 10:03:21.887948', '16', 'Versand object (16)', 1, '[{\"added\": {}}]', 14, 1),
 (129, '2024-02-09 10:03:32.213115', '16', 'Versand object (16)', 2, '[{\"changed\": {\"fields\": [\"Kunde\"]}}]', 14, 1),
 (130, '2024-02-09 11:52:41.505457', '10', 'AC 10', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 10, 1),
-(131, '2024-02-09 12:40:18.963846', '14', 'Versand object (14)', 2, '[{\"changed\": {\"fields\": [\"Schiene\"]}}]', 14, 1);
+(131, '2024-02-09 12:40:18.963846', '14', 'Versand object (14)', 2, '[{\"changed\": {\"fields\": [\"Schiene\"]}}]', 14, 1),
+(132, '2024-02-13 09:40:20.970744', '4', 'HP-Win11PRO-TN & HP-Win11PRO-DOZ V1', 1, '[{\"added\": {}}]', 8, 1),
+(133, '2024-02-13 09:40:36.517565', '16', 'HP 01', 1, '[{\"added\": {}}]', 10, 1),
+(134, '2024-02-13 09:41:52.868293', '2', 'AC 02', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 10, 1),
+(135, '2024-02-13 09:42:09.764937', '5', 'SWS 05', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 11, 1),
+(136, '2024-02-13 09:47:56.253230', '6', 'SWS 06', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 11, 1),
+(137, '2024-02-13 09:48:03.910437', '10', 'SWS 10', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 11, 1),
+(138, '2024-02-13 09:48:29.752004', '5', 'AC 05', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 10, 1),
+(139, '2024-02-13 09:48:37.035864', '6', 'AC 06', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 10, 1),
+(140, '2024-02-13 10:26:11.441577', '9', 'Maxhofstraße 1, 82343 Pöcking', 1, '[{\"added\": {}}]', 7, 1),
+(141, '2024-02-13 10:26:25.381142', '10', 'Informationsschule der Bundeswehr - Pöcking (Behörde)', 1, '[{\"added\": {}}]', 16, 1),
+(142, '2024-02-13 10:27:29.850509', '9', '51982', 1, '[{\"added\": {}}]', 18, 1),
+(143, '2024-02-13 10:28:31.802919', '1', 'Rueckholung object (1)', 1, '[{\"added\": {}}]', 12, 1),
+(144, '2024-02-13 11:49:40.764772', '16', 'HP 01', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 10, 1),
+(145, '2024-02-14 10:38:22.577157', '2', 'orga', 1, '[{\"added\": {}}]', 3, 1),
+(146, '2024-02-14 11:14:47.786336', '17', '52413 Landeskommando Baden-Württemberg (Behörde)', 1, '[{\"added\": {}}]', 14, 1),
+(147, '2024-02-14 11:17:50.202211', '2', '51910 ZBrdSchBw Feuerwache Warnemünde (Behörde)', 1, '[{\"added\": {}}]', 12, 1),
+(148, '2024-02-14 11:18:32.337366', '3', '52428 Landeskommando Baden-Württemberg Stuttgart (Behörde)', 1, '[{\"added\": {}}]', 12, 1),
+(149, '2024-02-14 11:20:26.499014', '6', 'SWS 06', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 11, 1),
+(150, '2024-02-14 11:21:07.627018', '10', 'SWS 10', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 11, 1),
+(151, '2024-02-15 07:15:52.459314', '10', 'Marburger Str. 75, 35066 Frankenberg/Eder', 1, '[{\"added\": {}}]', 7, 1),
+(152, '2024-02-15 07:15:54.404666', '11', 'Bataillon Elektronische Kampfführung 932 (Behörde)', 1, '[{\"added\": {}}]', 16, 1),
+(153, '2024-02-15 07:16:08.196239', '10', '52562', 1, '[{\"added\": {}}]', 18, 1),
+(154, '2024-02-15 07:18:42.509472', '18', '52562 Bataillon Elektronische Kampfführung 932 (Behörde)', 1, '[{\"added\": {}}]', 14, 1),
+(155, '2024-02-15 07:19:13.250534', '11', 'Bataillon Elektronische Kampfführung 932 - Frankenberg (Behörde)', 2, '[{\"changed\": {\"fields\": [\"Name\"]}}]', 16, 1),
+(156, '2024-02-15 07:19:25.900798', '18', '52562 Bataillon Elektronische Kampfführung 932 - Frankenberg (Behörde)', 2, '[]', 14, 1),
+(157, '2024-02-15 07:21:43.176680', '11', 'Zeppelinstr. 18, 99096 Erfurt', 1, '[{\"added\": {}}]', 7, 1),
+(158, '2024-02-15 07:21:47.124783', '12', 'Logistikkommando der Bundeswehr Erfurt (Behörde)', 1, '[{\"added\": {}}]', 16, 1),
+(159, '2024-02-15 07:22:22.708421', '19', 'None Logistikkommando der Bundeswehr Erfurt (Behörde)', 1, '[{\"added\": {}}]', 14, 1),
+(160, '2024-02-15 07:23:39.218232', '11', '52585', 1, '[{\"added\": {}}]', 18, 1),
+(161, '2024-02-15 07:23:45.603389', '19', '52585 Logistikkommando der Bundeswehr Erfurt (Behörde)', 2, '[{\"changed\": {\"fields\": [\"VA Nummer\"]}}]', 14, 1),
+(162, '2024-02-15 07:26:06.540400', '12', 'Gnoiener Chaussee, 18334 Bad Sülze', 1, '[{\"added\": {}}]', 7, 1),
+(163, '2024-02-15 07:26:10.321360', '13', 'Flugabwehrraketengruppe 24 - Bad Sülze (Behörde)', 1, '[{\"added\": {}}]', 16, 1),
+(164, '2024-02-15 07:26:45.717617', '12', '52665', 1, '[{\"added\": {}}]', 18, 1),
+(165, '2024-02-15 07:27:01.222168', '20', '52665 None', 1, '[{\"added\": {}}]', 14, 1),
+(166, '2024-02-15 07:27:43.584764', '12', 'noch ungeplant', 1, '[{\"added\": {}}]', 11, 1),
+(167, '2024-02-15 07:27:55.304621', '20', '52665 Flugabwehrraketengruppe 24 - Bad Sülze (Behörde)', 2, '[{\"changed\": {\"fields\": [\"Kunde\", \"Schiene\", \"Server\"]}}]', 14, 1),
+(168, '2024-02-15 07:32:38.322239', '13', 'Peter-Strasser-Platz 1, 27639 Wurster Nordseeküste', 1, '[{\"added\": {}}]', 7, 1),
+(169, '2024-02-15 07:32:51.293853', '14', 'Marinefliegergeschwader 5 -Wurster Nordseeküste (Behörde)', 1, '[{\"added\": {}}]', 16, 1),
+(170, '2024-02-15 07:33:43.464163', '13', '52744', 1, '[{\"added\": {}}]', 18, 1),
+(171, '2024-02-15 07:33:55.072410', '21', '52744 None', 1, '[{\"added\": {}}]', 14, 1),
+(172, '2024-02-15 07:34:33.499480', '21', '52744 Marinefliegergeschwader 5 -Wurster Nordseeküste (Behörde)', 2, '[{\"changed\": {\"fields\": [\"Kunde\", \"Schiene\", \"Server\"]}}]', 14, 1),
+(173, '2024-02-15 07:37:08.279663', '14', 'Fliegerhorst 1, 04916 Schönewalde OT Brandis', 1, '[{\"added\": {}}]', 7, 1),
+(174, '2024-02-15 07:37:10.477176', '15', 'Einsatzführungsbereich 3 - Schönewalde (Behörde)', 1, '[{\"added\": {}}]', 16, 1),
+(175, '2024-02-15 07:37:49.128362', '14', '52676', 1, '[{\"added\": {}}]', 18, 1),
+(176, '2024-02-15 07:37:52.057458', '22', '52676 None', 1, '[{\"added\": {}}]', 14, 1),
+(177, '2024-02-15 07:38:20.452087', '22', '52676 Einsatzführungsbereich 3 - Schönewalde (Behörde)', 2, '[{\"changed\": {\"fields\": [\"Kunde\", \"Schiene\", \"Server\"]}}]', 14, 1),
+(178, '2024-02-15 07:39:39.515611', '15', 'Kurt-Schumacher-Damm 41, 13405 Berlin', 1, '[{\"added\": {}}]', 7, 1),
+(179, '2024-02-15 07:39:41.897204', '16', 'Territoriales Führungskommando der Bundeswehr (Behörde)', 1, '[{\"added\": {}}]', 16, 1),
+(180, '2024-02-15 07:39:47.731595', '23', 'None Territoriales Führungskommando der Bundeswehr (Behörde)', 1, '[{\"added\": {}}]', 14, 1),
+(181, '2024-02-15 07:40:25.769985', '16', 'Territoriales Führungskommando der Bundeswehr - Berlin (Behörde)', 2, '[{\"changed\": {\"fields\": [\"Name\"]}}]', 16, 1),
+(182, '2024-02-15 07:40:54.795071', '15', '52695', 1, '[{\"added\": {}}]', 18, 1),
+(183, '2024-02-15 07:41:12.465618', '23', '52695 Territoriales Führungskommando der Bundeswehr - Berlin (Behörde)', 2, '[{\"changed\": {\"fields\": [\"VA Nummer\", \"Schiene\", \"Server\"]}}]', 14, 1),
+(184, '2024-02-15 07:45:40.584221', '1', 'Landeskommando Baden-Württemberg - Karlsruhe (Behörde)', 2, '[{\"changed\": {\"fields\": [\"Name\"]}}]', 16, 1),
+(185, '2024-02-15 07:46:10.166200', '4', '52413 Landeskommando Baden-Württemberg - Karlsruhe (Behörde)', 1, '[{\"added\": {}}]', 12, 1),
+(186, '2024-02-15 07:47:51.482384', '5', '51916 Zentrum Brandschutz der Bundeswehr Feuerwache Fritzlar (Behörde)', 1, '[{\"added\": {}}]', 12, 1),
+(187, '2024-02-15 07:49:21.663643', '6', '52430 9. Kompanie Feldjägerregiment 1 Leibzig (Behörde)', 1, '[{\"added\": {}}]', 12, 1),
+(188, '2024-02-15 08:57:00.407679', '17', '52413 Landeskommando Baden-Württemberg - Karlsruhe (Behörde)', 2, '[{\"changed\": {\"fields\": [\"Server\"]}}]', 14, 1),
+(189, '2024-02-15 08:57:52.331750', '15', '52420 Schule für Feldjäger und Stabsdienst der Bundeswehr Hannover (Behörde)', 2, '[{\"changed\": {\"fields\": [\"Server\"]}}]', 14, 1),
+(190, '2024-02-15 08:58:39.029621', '5', 'SWS 05', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 11, 1),
+(191, '2024-02-15 08:58:52.501652', '2', 'AC 02', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 10, 1),
+(192, '2024-02-15 10:42:04.434814', '13', 'SWS 11', 1, '[{\"added\": {}}]', 11, 1),
+(193, '2024-02-15 10:42:14.924041', '14', 'SWS 12', 1, '[{\"added\": {}}]', 11, 1),
+(194, '2024-02-15 10:42:46.012932', '15', 'SWS 13', 1, '[{\"added\": {}}]', 11, 1),
+(195, '2024-02-15 10:42:58.546197', '16', 'SWS 14', 1, '[{\"added\": {}}]', 11, 1),
+(196, '2024-02-15 10:43:18.928519', '17', 'SWS 15', 1, '[{\"added\": {}}]', 11, 1),
+(197, '2024-02-15 10:43:38.656911', '22', '52676 Einsatzführungsbereich 3 - Schönewalde (Behörde)', 2, '[{\"changed\": {\"fields\": [\"Server\"]}}]', 14, 1),
+(198, '2024-02-15 10:43:45.350546', '21', '52744 Marinefliegergeschwader 5 -Wurster Nordseeküste (Behörde)', 2, '[{\"changed\": {\"fields\": [\"Server\"]}}]', 14, 1),
+(199, '2024-02-15 10:43:55.185712', '20', '52665 Flugabwehrraketengruppe 24 - Bad Sülze (Behörde)', 2, '[{\"changed\": {\"fields\": [\"Server\"]}}]', 14, 1),
+(200, '2024-02-15 10:44:06.115934', '19', '52585 Logistikkommando der Bundeswehr Erfurt (Behörde)', 2, '[]', 14, 1),
+(201, '2024-02-15 10:44:10.614136', '18', '52562 Bataillon Elektronische Kampfführung 932 - Frankenberg (Behörde)', 2, '[]', 14, 1),
+(202, '2024-02-15 10:44:15.218188', '17', '52413 Landeskommando Baden-Württemberg - Karlsruhe (Behörde)', 2, '[]', 14, 1),
+(203, '2024-02-15 10:44:28.573788', '16', '51916 Zentrum Brandschutz der Bundeswehr Feuerwache Fritzlar (Behörde)', 2, '[]', 14, 1),
+(204, '2024-02-15 10:44:36.062214', '15', '52420 Schule für Feldjäger und Stabsdienst der Bundeswehr Hannover (Behörde)', 2, '[{\"changed\": {\"fields\": [\"Server\"]}}]', 14, 1),
+(205, '2024-02-15 10:44:44.380205', '14', '52430 9. Kompanie Feldjägerregiment 1 Leibzig (Behörde)', 2, '[{\"changed\": {\"fields\": [\"Server\"]}}]', 14, 1),
+(206, '2024-02-15 10:48:37.004199', '12', 'AC 12', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 10, 1),
+(207, '2024-02-15 10:48:57.142613', '11', 'AC 11', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 10, 1),
+(208, '2024-02-15 10:49:11.312156', '4', 'AC 04', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 10, 1),
+(209, '2024-02-15 10:49:49.241973', '2', 'AC 02', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 10, 1),
+(210, '2024-02-15 10:50:08.553448', '14', 'SWS 12', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 11, 1),
+(211, '2024-02-15 10:50:15.398162', '14', 'SWS 12', 2, '[{\"changed\": {\"fields\": [\"Image\"]}}]', 11, 1),
+(212, '2024-02-15 10:50:28.028031', '4', 'SWS 04', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 11, 1),
+(213, '2024-02-15 10:50:34.149215', '13', 'SWS 11', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 11, 1),
+(214, '2024-02-15 10:51:08.349660', '2', 'SWS 02', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 11, 1),
+(215, '2024-02-15 10:51:30.175891', '15', 'SWS 13', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 11, 1),
+(216, '2024-02-15 10:51:34.365056', '15', 'SWS 13', 2, '[]', 11, 1),
+(217, '2024-02-15 10:51:43.733726', '16', 'SWS 14', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 11, 1),
+(218, '2024-02-15 10:51:54.633388', '17', 'SWS 15', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 11, 1),
+(219, '2024-02-15 10:52:23.145597', '7', 'AC 07', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 10, 1),
+(220, '2024-02-15 10:53:04.441481', '10', 'AC 10', 2, '[]', 10, 1),
+(221, '2024-02-15 10:53:17.692556', '13', 'AC 13', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 10, 1),
+(222, '2024-02-15 10:53:26.806741', '14', 'AC 14', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 10, 1),
+(223, '2024-02-15 10:53:33.010562', '15', 'AC 15', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 10, 1),
+(224, '2024-02-15 10:54:11.481405', '6', '52430 9. Kompanie Feldjägerregiment 1 Leibzig (Behörde)', 2, '[{\"changed\": {\"fields\": [\"Server\"]}}]', 12, 1),
+(225, '2024-02-15 10:54:15.447806', '5', '51916 Zentrum Brandschutz der Bundeswehr Feuerwache Fritzlar (Behörde)', 2, '[]', 12, 1),
+(226, '2024-02-15 10:54:34.550642', '4', '52413 Landeskommando Baden-Württemberg - Karlsruhe (Behörde)', 2, '[{\"changed\": {\"fields\": [\"Server\"]}}]', 12, 1),
+(227, '2024-02-15 10:54:45.576823', '2', '51910 ZBrdSchBw Feuerwache Warnemünde (Behörde)', 2, '[]', 12, 1),
+(228, '2024-02-15 10:54:58.505004', '1', '51982 Informationsschule der Bundeswehr - Pöcking (Behörde)', 2, '[{\"changed\": {\"fields\": [\"Server\"]}}]', 12, 1),
+(229, '2024-02-15 10:55:26.014645', '1', '51982 Informationsschule der Bundeswehr - Pöcking (Behörde)', 2, '[{\"changed\": {\"fields\": [\"Server\"]}}]', 12, 1),
+(230, '2024-02-15 10:56:49.475272', '18', '52562 Bataillon Elektronische Kampfführung 932 - Frankenberg (Behörde)', 2, '[{\"changed\": {\"fields\": [\"Server\"]}}]', 14, 1),
+(231, '2024-02-15 10:58:37.781159', '5', 'SWS 05', 2, '[{\"changed\": {\"fields\": [\"Status\"]}}]', 11, 1),
+(232, '2024-02-15 11:11:02.458270', '1', 'admin', 2, '[{\"changed\": {\"fields\": [\"Groups\"]}}]', 4, 1),
+(233, '2024-02-15 13:12:18.710268', '16', 'Philipp-Reis-Str. 2, 54568 Gerolstein', 1, '[{\"added\": {}}]', 7, 1),
+(234, '2024-02-15 13:12:21.496604', '17', 'Informationstechnikbatallion 281 (Behörde)', 1, '[{\"added\": {}}]', 16, 1),
+(235, '2024-02-15 13:15:36.265627', '16', '52110', 1, '[{\"added\": {}}]', 18, 1);
 
 -- --------------------------------------------------------
 
@@ -440,10 +567,10 @@ INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`,
 --
 
 CREATE TABLE `django_content_type` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `app_label` varchar(100) NOT NULL,
   `model` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Daten für Tabelle `django_content_type`
@@ -477,11 +604,11 @@ INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 --
 
 CREATE TABLE `django_migrations` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint NOT NULL,
   `app` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `applied` datetime(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Daten für Tabelle `django_migrations`
@@ -512,7 +639,10 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (22, 'kurse', '0001_initial', '2024-02-06 17:13:40.244595'),
 (23, 'pit', '0001_initial', '2024-02-06 17:13:40.396972'),
 (24, 'postits', '0001_initial', '2024-02-06 17:13:40.414944'),
-(25, 'sessions', '0001_initial', '2024-02-06 17:13:40.425451');
+(25, 'sessions', '0001_initial', '2024-02-06 17:13:40.425451'),
+(26, 'kunden', '0002_alter_kunde_adresse', '2024-02-14 09:38:02.675549'),
+(27, 'kurse', '0002_kurs_hardware_status', '2024-02-15 11:45:53.271765'),
+(28, 'pit', '0002_alter_schiene_status_alter_server_status', '2024-02-15 11:45:53.279392');
 
 -- --------------------------------------------------------
 
@@ -524,16 +654,19 @@ CREATE TABLE `django_session` (
   `session_key` varchar(40) NOT NULL,
   `session_data` longtext NOT NULL,
   `expire_date` datetime(6) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Daten für Tabelle `django_session`
 --
 
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
+('6u2ff165z1dx9zelj1ixuy9ns2kz5tj6', '.eJxVjDsOwjAQBe_iGlmO_0tJnzNYXnuNA8iR4qRC3J1ESgHtm5n3ZiFuaw1bpyVMmV3ZwC6_G8b0pHaA_IjtPvM0t3WZkB8KP2nn45zpdTvdv4Mae91rGAjAGpuNKmAFaa8NlmSFx0xSYczSKWkgFW18FNopS1C8Ra0c7DL7fAHOODcQ:1ra88D:ImPaeIHoSKqXXZXIvnmPQzYZ1oo3_qD9EUs_cXENuw4', '2024-02-28 05:48:29.470068'),
 ('9viuq9dy1zqr5rtdajx75k4yqbwwf5zj', '.eJxVjDsOwjAQBe_iGlmO_0tJnzNYXnuNA8iR4qRC3J1ESgHtm5n3ZiFuaw1bpyVMmV3ZwC6_G8b0pHaA_IjtPvM0t3WZkB8KP2nn45zpdTvdv4Mae91rGAjAGpuNKmAFaa8NlmSFx0xSYczSKWkgFW18FNopS1C8Ra0c7DL7fAHOODcQ:1rYVLn:qV9SKsM4jIKMqYssEzaMKdvW9-YjuiP-95o4cwSYj_k', '2024-02-23 18:11:47.105505'),
 ('e9ajjgiitkdcjq6hzyvw7k6vj9yv2qdu', '.eJxVjDsOwjAQBe_iGlmO_0tJnzNYXnuNA8iR4qRC3J1ESgHtm5n3ZiFuaw1bpyVMmV3ZwC6_G8b0pHaA_IjtPvM0t3WZkB8KP2nn45zpdTvdv4Mae91rGAjAGpuNKmAFaa8NlmSFx0xSYczSKWkgFW18FNopS1C8Ra0c7DL7fAHOODcQ:1rXP2V:jKd_-BfgHKnilXr_yHV9-fv8w7POmgeRYeZadMFnhyc', '2024-02-20 17:15:19.264590'),
+('erb5fu6m5p7vx83leyomq4f4vbccmosg', '.eJxVjDsOwjAQBe_iGlmO_0tJnzNYXnuNA8iR4qRC3J1ESgHtm5n3ZiFuaw1bpyVMmV3ZwC6_G8b0pHaA_IjtPvM0t3WZkB8KP2nn45zpdTvdv4Mae91rGAjAGpuNKmAFaa8NlmSFx0xSYczSKWkgFW18FNopS1C8Ra0c7DL7fAHOODcQ:1rZouy:esF_NsDjwykKRz3rvVAlMKI8xR2ukQzF4djorLEL8iQ', '2024-02-27 09:17:32.638356'),
 ('kbx24o7rvvpkvaz23p51wj1z3sx51jc5', '.eJxVjDsOwjAQBe_iGlmO_0tJnzNYXnuNA8iR4qRC3J1ESgHtm5n3ZiFuaw1bpyVMmV3ZwC6_G8b0pHaA_IjtPvM0t3WZkB8KP2nn45zpdTvdv4Mae91rGAjAGpuNKmAFaa8NlmSFx0xSYczSKWkgFW18FNopS1C8Ra0c7DL7fAHOODcQ:1rXatd:yjCqCmbCuRrMd_x1a1JpZDkWLCsoSNH7LbNZNSOdw5E', '2024-02-21 05:54:57.517227'),
+('p70wwj5xn4r3lntatgevcz2mm7ck819f', '.eJxVjDsOwjAQBe_iGlmO_0tJnzNYXnuNA8iR4qRC3J1ESgHtm5n3ZiFuaw1bpyVMmV3ZwC6_G8b0pHaA_IjtPvM0t3WZkB8KP2nn45zpdTvdv4Mae91rGAjAGpuNKmAFaa8NlmSFx0xSYczSKWkgFW18FNopS1C8Ra0c7DL7fAHOODcQ:1raZdL:WVX5GmqoIQyYp_YXvG8XBFaUvS3yMI8kJZwt2AAb5Io', '2024-02-29 11:10:27.014598'),
 ('sdrx9od58je8u4tkfez76ew9c63h12sk', '.eJxVjDsOwjAQBe_iGlmO_0tJnzNYXnuNA8iR4qRC3J1ESgHtm5n3ZiFuaw1bpyVMmV3ZwC6_G8b0pHaA_IjtPvM0t3WZkB8KP2nn45zpdTvdv4Mae91rGAjAGpuNKmAFaa8NlmSFx0xSYczSKWkgFW18FNopS1C8Ra0c7DL7fAHOODcQ:1rXiQk:b7LUfahY15JJMUrL6e3W_8wv2P8ETTC5qjTV0jrfHS8', '2024-02-21 13:57:38.708521'),
 ('vvrtp1ildh1u0rexu7nw1pjb0hv96b6l', '.eJxVjDsOwjAQBe_iGlmO_0tJnzNYXnuNA8iR4qRC3J1ESgHtm5n3ZiFuaw1bpyVMmV3ZwC6_G8b0pHaA_IjtPvM0t3WZkB8KP2nn45zpdTvdv4Mae91rGAjAGpuNKmAFaa8NlmSFx0xSYczSKWkgFW18FNopS1C8Ra0c7DL7fAHOODcQ:1rYMBJ:Zo_m8f90fHJ3oi9dJD3V3deQbD24S6t95EoIvP31sXo', '2024-02-23 08:24:21.835305'),
 ('zsv7mtab5miijsa3tfump5djzuce2av4', '.eJxVjDsOwjAQBe_iGlmO_0tJnzNYXnuNA8iR4qRC3J1ESgHtm5n3ZiFuaw1bpyVMmV3ZwC6_G8b0pHaA_IjtPvM0t3WZkB8KP2nn45zpdTvdv4Mae91rGAjAGpuNKmAFaa8NlmSFx0xSYczSKWkgFW18FNopS1C8Ra0c7DL7fAHOODcQ:1rXdHE:RYLOr35zWY3JszDwIxONCFxwCDNExdyHLw_RTs9bWVY', '2024-02-21 08:27:28.872487');
@@ -545,13 +678,13 @@ INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALU
 --
 
 CREATE TABLE `kunden_ansprechpartner` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint NOT NULL,
   `Anrede` varchar(255) NOT NULL,
   `vorname` varchar(255) DEFAULT NULL,
   `nachname` varchar(255) NOT NULL,
   `Telefon` varchar(17) DEFAULT NULL,
-  `kunde_id` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+  `kunde_id` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -560,26 +693,33 @@ CREATE TABLE `kunden_ansprechpartner` (
 --
 
 CREATE TABLE `kunden_kunde` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint NOT NULL,
   `name` varchar(255) NOT NULL,
   `typ` varchar(255) NOT NULL,
-  `adresse_id` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+  `adresse_id` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Daten für Tabelle `kunden_kunde`
 --
 
 INSERT INTO `kunden_kunde` (`id`, `name`, `typ`, `adresse_id`) VALUES
-(1, 'Landeskommando Baden-Württemberg', 'Behörde', 1),
+(1, 'Landeskommando Baden-Württemberg - Karlsruhe', 'Behörde', 1),
 (2, 'Logistikbataillon 171- Burg', 'Behörde', 2),
-(3, 'Logistikbataillon 171- Burg', 'Behörde', 2),
 (4, 'Kommando IT-Services der Bw - Bonn', 'Behörde', 3),
 (5, 'ZBrdSchBw Feuerwache Warnemünde', 'Behörde', 4),
 (6, 'Landeskommando Baden-Württemberg Stuttgart', 'Behörde', 5),
 (7, '9. Kompanie Feldjägerregiment 1 Leibzig', 'Behörde', 6),
 (8, 'Schule für Feldjäger und Stabsdienst der Bundeswehr Hannover', 'Behörde', 7),
-(9, 'Zentrum Brandschutz der Bundeswehr Feuerwache Fritzlar', 'Behörde', 8);
+(9, 'Zentrum Brandschutz der Bundeswehr Feuerwache Fritzlar', 'Behörde', 8),
+(10, 'Informationsschule der Bundeswehr - Pöcking', 'Behörde', 9),
+(11, 'Bataillon Elektronische Kampfführung 932 - Frankenberg', 'Behörde', 10),
+(12, 'Logistikkommando der Bundeswehr Erfurt', 'Behörde', 11),
+(13, 'Flugabwehrraketengruppe 24 - Bad Sülze', 'Behörde', 12),
+(14, 'Marinefliegergeschwader 5 -Wurster Nordseeküste', 'Behörde', 13),
+(15, 'Einsatzführungsbereich 3 - Schönewalde', 'Behörde', 14),
+(16, 'Territoriales Führungskommando der Bundeswehr - Berlin', 'Behörde', 15),
+(17, 'Informationstechnikbatallion 281', 'Behörde', 16);
 
 -- --------------------------------------------------------
 
@@ -588,28 +728,37 @@ INSERT INTO `kunden_kunde` (`id`, `name`, `typ`, `adresse_id`) VALUES
 --
 
 CREATE TABLE `kurse_kurs` (
-  `id` bigint(20) NOT NULL,
-  `va_nummer` int(11) NOT NULL,
+  `id` bigint NOT NULL,
+  `va_nummer` int NOT NULL,
   `thema` varchar(50) NOT NULL,
   `kurs_start` datetime(6) DEFAULT NULL,
   `kurs_ende` datetime(6) DEFAULT NULL,
-  `kunde_id` bigint(20) DEFAULT NULL,
-  `trainer_id` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+  `kunde_id` bigint DEFAULT NULL,
+  `trainer_id` bigint DEFAULT NULL,
+  `Hardware_Status` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Daten für Tabelle `kurse_kurs`
 --
 
-INSERT INTO `kurse_kurs` (`id`, `va_nummer`, `thema`, `kurs_start`, `kurs_ende`, `kunde_id`, `trainer_id`) VALUES
-(1, 52413, 'Word Aufbau', '2024-03-04 06:30:00.000000', '2024-03-06 15:00:00.000000', 1, NULL),
-(2, 52470, 'Word GL', '2024-02-19 06:30:00.000000', '2024-02-20 15:00:00.000000', 2, NULL),
-(3, 52303, 'Excel GL', '2024-02-19 06:30:00.000000', '2024-02-20 15:00:00.000000', NULL, NULL),
-(4, 51910, 'Outlook', '2024-02-26 06:30:00.000000', '2024-02-28 15:00:00.000000', 5, NULL),
-(5, 52428, 'SharePoint', '2024-02-26 06:30:00.000000', '2024-02-28 15:00:00.000000', 6, NULL),
-(6, 52430, 'Kombi', '2024-03-04 06:30:00.000000', '2024-03-08 10:30:00.000000', 7, NULL),
-(7, 52420, 'Word GL', '2024-03-04 06:30:00.000000', '2024-02-05 15:00:00.000000', 8, NULL),
-(8, 51916, 'Outlook', '2024-03-04 06:30:00.000000', '2024-03-06 15:00:00.000000', 9, NULL);
+INSERT INTO `kurse_kurs` (`id`, `va_nummer`, `thema`, `kurs_start`, `kurs_ende`, `kunde_id`, `trainer_id`, `Hardware_Status`) VALUES
+(1, 52413, 'Word Aufbau', '2024-03-04 06:30:00.000000', '2024-03-06 15:00:00.000000', 1, NULL, 'mit HW'),
+(2, 52470, 'Word GL', '2024-02-19 06:30:00.000000', '2024-02-20 15:00:00.000000', 2, NULL, 'mit HW'),
+(3, 52303, 'Excel GL', '2024-02-19 06:30:00.000000', '2024-02-20 15:00:00.000000', NULL, NULL, 'mit HW'),
+(4, 51910, 'Outlook', '2024-02-26 06:30:00.000000', '2024-02-28 15:00:00.000000', 5, NULL, 'mit HW'),
+(5, 52428, 'SharePoint', '2024-02-26 06:30:00.000000', '2024-02-28 15:00:00.000000', 6, NULL, 'mit HW'),
+(6, 52430, 'Kombi', '2024-03-04 06:30:00.000000', '2024-03-08 10:30:00.000000', 7, NULL, 'mit HW'),
+(7, 52420, 'Word GL', '2024-03-04 06:30:00.000000', '2024-02-05 15:00:00.000000', 8, NULL, 'mit HW'),
+(8, 51916, 'Outlook', '2024-03-04 06:30:00.000000', '2024-03-06 15:00:00.000000', 9, NULL, 'mit HW'),
+(9, 51982, 'Word GL', '2024-02-29 06:30:00.000000', '2024-03-01 10:30:00.000000', 10, NULL, 'mit HW'),
+(10, 52562, 'Word GL', '2024-03-11 06:30:00.000000', '2024-03-12 15:00:00.000000', 11, NULL, 'mit HW'),
+(11, 52585, 'Kombi', '2024-03-11 06:30:00.000000', '2024-03-15 10:30:00.000000', 12, NULL, 'mit HW'),
+(12, 52665, 'Kombi', '2024-03-11 06:30:00.000000', '2024-03-15 10:30:00.000000', 13, NULL, 'mit HW'),
+(13, 52744, 'Word GL', '2024-03-11 06:30:00.000000', '2024-03-12 15:00:00.000000', 14, NULL, 'mit HW'),
+(14, 52676, 'SharePoint GL', '2024-03-12 06:30:00.000000', '2024-03-14 15:00:00.000000', 15, NULL, 'mit HW'),
+(15, 52695, 'Kombi', '2024-03-11 06:30:00.000000', '2024-03-15 10:30:00.000000', 16, NULL, 'mit HW'),
+(16, 52110, 'Excel GL', '2024-04-08 05:30:00.000000', '2024-04-09 14:00:00.000000', 17, NULL, 'mit HW');
 
 -- --------------------------------------------------------
 
@@ -618,8 +767,8 @@ INSERT INTO `kurse_kurs` (`id`, `va_nummer`, `thema`, `kurs_start`, `kurs_ende`,
 --
 
 CREATE TABLE `pit_abholung` (
-  `id` bigint(20) NOT NULL,
-  `VA_Nummer` int(11) NOT NULL,
+  `id` bigint NOT NULL,
+  `VA_Nummer` int NOT NULL,
   `Name` varchar(255) NOT NULL,
   `Vorname` varchar(255) NOT NULL,
   `Name2` varchar(255) DEFAULT NULL,
@@ -632,12 +781,12 @@ CREATE TABLE `pit_abholung` (
   `Fahrzeug_Type` varchar(255) DEFAULT NULL,
   `Kennzeichen` varchar(255) NOT NULL,
   `Datum` date DEFAULT NULL,
-  `Tourdaten` longtext DEFAULT NULL,
+  `Tourdaten` longtext,
   `status` varchar(255) NOT NULL,
-  `Kunde_id` bigint(20) DEFAULT NULL,
-  `Schiene_id` bigint(20) DEFAULT NULL,
-  `Server_id` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+  `Kunde_id` bigint DEFAULT NULL,
+  `Schiene_id` bigint DEFAULT NULL,
+  `Server_id` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- --------------------------------------------------------
 
@@ -646,10 +795,10 @@ CREATE TABLE `pit_abholung` (
 --
 
 CREATE TABLE `pit_festplattenimagenotebook` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint NOT NULL,
   `name` varchar(255) NOT NULL,
-  `beschreibung` longtext DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+  `beschreibung` longtext
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Daten für Tabelle `pit_festplattenimagenotebook`
@@ -658,7 +807,8 @@ CREATE TABLE `pit_festplattenimagenotebook` (
 INSERT INTO `pit_festplattenimagenotebook` (`id`, `name`, `beschreibung`) VALUES
 (1, 'AC Win11+Office2019 V1', ''),
 (2, 'AC Win11+Office2019 V2', ''),
-(3, 'AC_LOS2_V2', '');
+(3, 'AC_LOS2_V2', ''),
+(4, 'HP-Win11PRO-TN & HP-Win11PRO-DOZ V1', '');
 
 -- --------------------------------------------------------
 
@@ -667,10 +817,10 @@ INSERT INTO `pit_festplattenimagenotebook` (`id`, `name`, `beschreibung`) VALUES
 --
 
 CREATE TABLE `pit_festplattenimageserver` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint NOT NULL,
   `name` varchar(255) NOT NULL,
-  `beschreibung` longtext DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+  `beschreibung` longtext
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Daten für Tabelle `pit_festplattenimageserver`
@@ -687,13 +837,25 @@ INSERT INTO `pit_festplattenimageserver` (`id`, `name`, `beschreibung`) VALUES
 --
 
 CREATE TABLE `pit_rueckholung` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint NOT NULL,
   `RueckDatum` date DEFAULT NULL,
-  `Kunde_id` bigint(20) DEFAULT NULL,
-  `VA_Nummer_id` bigint(20) DEFAULT NULL,
-  `Schiene_id` bigint(20) DEFAULT NULL,
-  `Server_id` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+  `Kunde_id` bigint DEFAULT NULL,
+  `VA_Nummer_id` bigint DEFAULT NULL,
+  `Schiene_id` bigint DEFAULT NULL,
+  `Server_id` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+--
+-- Daten für Tabelle `pit_rueckholung`
+--
+
+INSERT INTO `pit_rueckholung` (`id`, `RueckDatum`, `Kunde_id`, `VA_Nummer_id`, `Schiene_id`, `Server_id`) VALUES
+(1, '2024-03-04', 10, 9, 1, 7),
+(2, '2024-03-04', 5, 4, 8, 8),
+(3, '2024-03-04', 6, 5, 9, 9),
+(4, '2024-03-11', 1, 1, 2, 2),
+(5, '2024-03-11', 9, 8, 4, 4),
+(6, '2024-03-11', 7, 6, 12, 14);
 
 -- --------------------------------------------------------
 
@@ -702,14 +864,14 @@ CREATE TABLE `pit_rueckholung` (
 --
 
 CREATE TABLE `pit_schiene` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint NOT NULL,
   `name` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL,
-  `DruckerFuellstand` int(11) NOT NULL,
+  `DruckerFuellstand` int NOT NULL,
   `Nighthawk` varchar(10) NOT NULL,
   `Bemerkung` longtext NOT NULL,
-  `image_id` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+  `image_id` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Daten für Tabelle `pit_schiene`
@@ -717,20 +879,22 @@ CREATE TABLE `pit_schiene` (
 
 INSERT INTO `pit_schiene` (`id`, `name`, `status`, `DruckerFuellstand`, `Nighthawk`, `Bemerkung`, `image_id`) VALUES
 (1, 'AC 01', 'Standort', 100, 'NH 01', 'Fehler/Bemerkung', 1),
-(2, 'AC 02', 'Rückholung', 100, 'NH 02', 'Fehler/Bemerkung', 1),
+(2, 'AC 02', 'Reserviert', 100, 'NH 02', 'Fehler/Bemerkung', 1),
 (3, 'AC 03', 'Standort', 100, 'NH 03', 'Fehler/Bemerkung', 1),
-(4, 'AC 04', 'Lager', 100, 'NH 04', 'Fehler/Bemerkung', 3),
-(5, 'AC 05', 'Versand', 41, 'NH 05', 'Fehler/Bemerkung', 3),
-(6, 'AC 06', 'Versand', 100, 'NH 06', 'Fehler/Bemerkung', 3),
-(7, 'AC 07', 'Lager', 100, 'NH 07', 'Fehler/Bemerkung', 3),
-(8, 'AC 08', 'Lager', 100, 'NH 08', 'Fehler/Bemerkung', 3),
-(9, 'AC  09', 'Lager', 100, 'NH 01', 'Fehler/Bemerkung', 3),
+(4, 'AC 04', 'Reserviert', 100, 'NH 04', 'Fehler/Bemerkung', 3),
+(5, 'AC 05', 'Standort', 41, 'NH 05', 'Fehler/Bemerkung', 3),
+(6, 'AC 06', 'Standort', 100, 'NH 06', 'Fehler/Bemerkung', 3),
+(7, 'AC 07', 'Reserviert', 100, 'NH 07', 'Fehler/Bemerkung', 3),
+(8, 'AC 08', 'Versand', 100, 'NH 08', 'Fehler/Bemerkung', 3),
+(9, 'AC  09', 'Versand', 100, 'NH 01', 'Fehler/Bemerkung', 3),
 (10, 'AC 10', 'Standort', 100, 'NH 10', 'Fehler/Bemerkung', 3),
-(11, 'AC 11', 'Lager', 100, 'NH 11', 'Fehler/Bemerkung', 3),
-(12, 'AC 12', 'Lager', 100, 'NH 12', 'Fehler/Bemerkung', 3),
-(13, 'AC 13', 'Imagen', 100, 'NH 13', 'Fehler/Bemerkung', 3),
-(14, 'AC 14', 'Lager', 100, 'NH 14', 'Fehler/Bemerkung', 3),
-(15, 'AC 15', 'Lager', 100, 'NH 15', 'Fehler/Bemerkung', 3);
+(11, 'AC 11', 'Reserviert', 100, 'NH 11', 'Fehler/Bemerkung', 3),
+(12, 'AC 12', 'Reserviert', 100, 'NH 12', 'Fehler/Bemerkung', 3),
+(13, 'AC 13', 'Reserviert', 100, 'NH 13', 'Fehler/Bemerkung', 3),
+(14, 'AC 14', 'Reserviert', 100, 'NH 14', 'Fehler/Bemerkung', 3),
+(15, 'AC 15', 'Reserviert', 100, 'NH 15', 'Fehler/Bemerkung', 3),
+(16, 'HP 01', 'Lager', 100, 'HP 01', 'Fehler/Bemerkung', 4),
+(17, 'HP 02', 'Lager', 100, 'NH 16', 'Fehler/Bemerkung', 4);
 
 -- --------------------------------------------------------
 
@@ -739,12 +903,12 @@ INSERT INTO `pit_schiene` (`id`, `name`, `status`, `DruckerFuellstand`, `Nightha
 --
 
 CREATE TABLE `pit_server` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint NOT NULL,
   `name` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL,
   `Bemerkung` longtext NOT NULL,
-  `image_id` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+  `image_id` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Daten für Tabelle `pit_server`
@@ -752,15 +916,21 @@ CREATE TABLE `pit_server` (
 
 INSERT INTO `pit_server` (`id`, `name`, `status`, `Bemerkung`, `image_id`) VALUES
 (1, 'SWS 01', 'Lager', 'Fehler/Bemerkung', 1),
-(2, 'SWS 02', 'Lager', 'Fehler/Bemerkung', 1),
+(2, 'SWS 02', 'Reserviert', 'Fehler/Bemerkung', 1),
 (3, 'SWS 03', 'Standort', 'Fehler/Bemerkung', 1),
-(4, 'SWS 04', 'Lager', 'Fehler/Bemerkung', 1),
-(5, 'SWS 05', 'Rückholung', 'Fehler/Bemerkung', 1),
-(6, 'SWS 06', 'Versand', 'Fehler/Bemerkung', 1),
+(4, 'SWS 04', 'Reserviert', 'Fehler/Bemerkung', 1),
+(5, 'SWS 05', 'Reserviert', 'Fehler/Bemerkung', 1),
+(6, 'SWS 06', 'Standort', 'Fehler/Bemerkung', 1),
 (7, 'SWS 07', 'Standort', 'Fehler/Bemerkung', 1),
-(8, 'SWS 08', 'Lager', 'Fehler/Bemerkung', 1),
-(9, 'SWS 09', 'Lager', 'Fehler/Bemerkung', 1),
-(10, 'SWS 10', 'Versand', 'Fehler/Bemerkung', 1);
+(8, 'SWS 08', 'Versand', 'Fehler/Bemerkung', 1),
+(9, 'SWS 09', 'Versand', 'Fehler/Bemerkung', 1),
+(10, 'SWS 10', 'Standort', 'Fehler/Bemerkung', 1),
+(12, 'noch ungeplant', 'Lager', 'Fehler/Bemerkung', NULL),
+(13, 'SWS 11', 'Reserviert', 'Fehler/Bemerkung', 1),
+(14, 'SWS 12', 'Reserviert', 'Fehler/Bemerkung', 1),
+(15, 'SWS 13', 'Reserviert', 'Fehler/Bemerkung', 1),
+(16, 'SWS 14', 'Reserviert', 'Fehler/Bemerkung', 1),
+(17, 'SWS 15', 'Reserviert', 'Fehler/Bemerkung', 1);
 
 -- --------------------------------------------------------
 
@@ -769,24 +939,30 @@ INSERT INTO `pit_server` (`id`, `name`, `status`, `Bemerkung`, `image_id`) VALUE
 --
 
 CREATE TABLE `pit_versand` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint NOT NULL,
   `Datum` date DEFAULT NULL,
-  `Kunde_id` bigint(20) DEFAULT NULL,
-  `Schiene_id` bigint(20) DEFAULT NULL,
-  `Server_id` bigint(20) DEFAULT NULL,
-  `VA_Nummer_id` bigint(20) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+  `Kunde_id` bigint DEFAULT NULL,
+  `Schiene_id` bigint DEFAULT NULL,
+  `Server_id` bigint DEFAULT NULL,
+  `VA_Nummer_id` bigint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Daten für Tabelle `pit_versand`
 --
 
 INSERT INTO `pit_versand` (`id`, `Datum`, `Kunde_id`, `Schiene_id`, `Server_id`, `VA_Nummer_id`) VALUES
-(12, '2024-02-19', 5, 8, 8, 4),
-(13, '2024-02-19', 6, 9, 9, 5),
-(14, '2024-02-26', 7, 12, 1, 6),
-(15, '2024-02-26', 8, 11, 2, 7),
-(16, '2024-02-26', 9, 4, 4, 8);
+(14, '2024-02-26', 7, 12, 14, 6),
+(15, '2024-02-26', 8, 11, 13, 7),
+(16, '2024-02-26', 9, 4, 4, 8),
+(17, '2024-02-26', 1, 2, 2, 1),
+(18, '2024-03-04', 11, 7, 5, 10),
+(19, '2024-03-04', 12, 10, 10, 11),
+(20, '2024-03-04', 13, 13, 15, 12),
+(21, '2024-03-04', 14, 14, 16, 13),
+(22, '2024-02-04', 15, 15, 17, 14),
+(23, '2024-03-04', 16, 16, 12, 15),
+(24, '2024-04-01', 17, NULL, NULL, 16);
 
 -- --------------------------------------------------------
 
@@ -795,14 +971,14 @@ INSERT INTO `pit_versand` (`id`, `Datum`, `Kunde_id`, `Schiene_id`, `Server_id`,
 --
 
 CREATE TABLE `postits_postit` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint NOT NULL,
   `title` varchar(100) NOT NULL,
   `text` longtext NOT NULL,
-  `position_x` int(11) DEFAULT NULL,
-  `position_y` int(11) DEFAULT NULL,
+  `position_x` int DEFAULT NULL,
+  `position_y` int DEFAULT NULL,
   `created_at` datetime(6) NOT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+  `user_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Daten für Tabelle `postits_postit`
@@ -819,11 +995,11 @@ INSERT INTO `postits_postit` (`id`, `title`, `text`, `position_x`, `position_y`,
 --
 
 CREATE TABLE `start_adresse` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint NOT NULL,
   `strasse` varchar(255) NOT NULL,
   `plz` varchar(10) NOT NULL,
   `stadt` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Daten für Tabelle `start_adresse`
@@ -837,7 +1013,15 @@ INSERT INTO `start_adresse` (`id`, `strasse`, `plz`, `stadt`) VALUES
 (5, 'Nürnberger Str. 184', '70374', 'Stuttgart'),
 (6, 'Landsberger Str. 133', '04157', 'Leipzig'),
 (7, 'Kugelfangtrift 1', '30179', 'Hannover'),
-(8, 'Berliner Str. 100', '34560', 'Fritzlar');
+(8, 'Berliner Str. 100', '34560', 'Fritzlar'),
+(9, 'Maxhofstraße 1', '82343', 'Pöcking'),
+(10, 'Marburger Str. 75', '35066', 'Frankenberg/Eder'),
+(11, 'Zeppelinstr. 18', '99096', 'Erfurt'),
+(12, 'Gnoiener Chaussee', '18334', 'Bad Sülze'),
+(13, 'Peter-Strasser-Platz 1', '27639', 'Wurster Nordseeküste'),
+(14, 'Fliegerhorst 1', '04916', 'Schönewalde OT Brandis'),
+(15, 'Kurt-Schumacher-Damm 41', '13405', 'Berlin'),
+(16, 'Philipp-Reis-Str. 2', '54568', 'Gerolstein');
 
 -- --------------------------------------------------------
 
@@ -846,7 +1030,7 @@ INSERT INTO `start_adresse` (`id`, `strasse`, `plz`, `stadt`) VALUES
 --
 
 CREATE TABLE `trainer_trainer` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint NOT NULL,
   `Name` varchar(100) DEFAULT NULL,
   `Vorname` varchar(100) DEFAULT NULL,
   `Outlook` tinyint(1) NOT NULL,
@@ -854,7 +1038,7 @@ CREATE TABLE `trainer_trainer` (
   `SMS` tinyint(1) NOT NULL,
   `Mobil` varchar(17) DEFAULT NULL,
   `Email` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 --
 -- Indizes der exportierten Tabellen
@@ -945,7 +1129,7 @@ ALTER TABLE `kunden_ansprechpartner`
 --
 ALTER TABLE `kunden_kunde`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `kunden_kunde_adresse_id_68ab835a_fk_start_adresse_id` (`adresse_id`);
+  ADD UNIQUE KEY `kunden_kunde_adresse_id_68ab835a_uniq` (`adresse_id`);
 
 --
 -- Indizes für die Tabelle `kurse_kurs`
@@ -1043,133 +1227,133 @@ ALTER TABLE `trainer_trainer`
 -- AUTO_INCREMENT für Tabelle `auth_group`
 --
 ALTER TABLE `auth_group`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT für Tabelle `auth_group_permissions`
 --
 ALTER TABLE `auth_group_permissions`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- AUTO_INCREMENT für Tabelle `auth_permission`
 --
 ALTER TABLE `auth_permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT für Tabelle `auth_user`
 --
 ALTER TABLE `auth_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT für Tabelle `auth_user_groups`
 --
 ALTER TABLE `auth_user_groups`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT für Tabelle `auth_user_user_permissions`
 --
 ALTER TABLE `auth_user_user_permissions`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `django_admin_log`
 --
 ALTER TABLE `django_admin_log`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=132;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `django_content_type`
 --
 ALTER TABLE `django_content_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT für Tabelle `django_migrations`
 --
 ALTER TABLE `django_migrations`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT für Tabelle `kunden_ansprechpartner`
 --
 ALTER TABLE `kunden_ansprechpartner`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `kunden_kunde`
 --
 ALTER TABLE `kunden_kunde`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT für Tabelle `kurse_kurs`
 --
 ALTER TABLE `kurse_kurs`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT für Tabelle `pit_abholung`
 --
 ALTER TABLE `pit_abholung`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT für Tabelle `pit_festplattenimagenotebook`
 --
 ALTER TABLE `pit_festplattenimagenotebook`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT für Tabelle `pit_festplattenimageserver`
 --
 ALTER TABLE `pit_festplattenimageserver`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT für Tabelle `pit_rueckholung`
 --
 ALTER TABLE `pit_rueckholung`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT für Tabelle `pit_schiene`
 --
 ALTER TABLE `pit_schiene`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT für Tabelle `pit_server`
 --
 ALTER TABLE `pit_server`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT für Tabelle `pit_versand`
 --
 ALTER TABLE `pit_versand`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT für Tabelle `postits_postit`
 --
 ALTER TABLE `postits_postit`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT für Tabelle `start_adresse`
 --
 ALTER TABLE `start_adresse`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT für Tabelle `trainer_trainer`
 --
 ALTER TABLE `trainer_trainer`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints der exportierten Tabellen
@@ -1214,12 +1398,6 @@ ALTER TABLE `django_admin_log`
 --
 ALTER TABLE `kunden_ansprechpartner`
   ADD CONSTRAINT `kunden_ansprechpartner_kunde_id_e2fe9f22_fk_kunden_kunde_id` FOREIGN KEY (`kunde_id`) REFERENCES `kunden_kunde` (`id`);
-
---
--- Constraints der Tabelle `kunden_kunde`
---
-ALTER TABLE `kunden_kunde`
-  ADD CONSTRAINT `kunden_kunde_adresse_id_68ab835a_fk_start_adresse_id` FOREIGN KEY (`adresse_id`) REFERENCES `start_adresse` (`id`);
 
 --
 -- Constraints der Tabelle `kurse_kurs`

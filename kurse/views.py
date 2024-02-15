@@ -3,6 +3,10 @@ from .models import Trainer
 from .forms import KursForm
 
 
+def is_orga_group(user):
+    return user.groups.filter(name='orga').exists()
+
+
 # Create your views here.
 
 def create_kurs(request):
