@@ -159,3 +159,12 @@ div.course {
     .bd-mode-toggle {
         z-index: 1500;
     }
+
+
+.trainer-vorhanden {
+    background-color: green;
+}
+
+.trainer-fehlt {
+    background-color: red;
+}

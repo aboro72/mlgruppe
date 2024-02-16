@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block content %}
+    <h2>Kursübersicht</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Kunde / Adresse</th>
+                    {% for week in calendar_weeks %}
+                    <th>{{ week }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+{% for kunde, wochen_kurse in kurs_table.items %}
+<tr>
+    <td>{{ kunde }}</td>
+    {% for week in calendar_weeks %}
+    <td>
+        {% with wochen_kurse|get_item:week as kurse_der_woche %}
+            {% if kurse_der_woche %}
+                {% with kurse_der_woche|first as erster_kurs %}
+                    {% if erster_kurs.trainer %}
+                        <div style="background-color: green;">
+                            {% for kurs in kurse_der_woche %}
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#detailsModal{{ kurs.va_nummer }}">
+                                    {{ kurs.va_nummer }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div style="background-color: red;">
+                            {% for kurs in kurse_der_woche %}
+                                <a href="#" style="color: white;" data-bs-toggle="modal" data-bs-target="#detailsModal{{ kurs.va_nummer }}">
+                                    {{ kurs.va_nummer }}
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            {% endif %}
+        {% endwith %}
+    </td>
+    {% endfor %}
+</tr>
+{% endfor %}
+
+
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
