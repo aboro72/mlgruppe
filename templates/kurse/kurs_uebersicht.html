@@ -24,7 +24,7 @@
                     {% if erster_kurs.trainer %}
                         <div style="background-color: green;">
                             {% for kurs in kurse_der_woche %}
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#detailsModal{{ kurs.va_nummer }}">
+                                <a href="#" style="color: white;" data-bs-toggle="modal" data-bs-target="#detailsModal{{ kurs.va_nummer }}">
                                     {{ kurs.va_nummer }}
                                 </a>
                             {% endfor %}

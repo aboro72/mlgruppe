@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Erstellungszeit: 15. Feb 2024 um 13:37
+-- Erstellungszeit: 16. Feb 2024 um 12:56
 -- Server-Version: 8.0.30
 -- PHP-Version: 8.1.10
 
@@ -262,7 +262,7 @@ CREATE TABLE `auth_user` (
 --
 
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
-(1, 'pbkdf2_sha256$720000$F124uyUiSDXE0fKPGxdOBZ$SIBkiFSQSrYXxcfXRntab6Q3l95VKuBdPBvISphQhrw=', '2024-02-15 11:10:27.000000', 1, 'admin', '', '', '', 1, 1, '2024-02-06 17:14:05.000000'),
+(1, 'pbkdf2_sha256$720000$F124uyUiSDXE0fKPGxdOBZ$SIBkiFSQSrYXxcfXRntab6Q3l95VKuBdPBvISphQhrw=', '2024-02-16 05:33:14.183842', 1, 'admin', '', '', '', 1, 1, '2024-02-06 17:14:05.000000'),
 (2, 'pbkdf2_sha256$720000$VczO8RLn7gzzY9Q7vsp1Lm$Xvx/Bd401YfdkEqPEZJFsy+966zSJZqEsXLLELrrqG4=', NULL, 0, 'rpanske', 'Rainer', 'Panske', 'r.panske@mlgruppe.de', 1, 1, '2024-02-07 08:16:52.000000'),
 (3, 'pbkdf2_sha256$720000$5FIa8LNRxa4UVuSAzOTdQN$vtLGPrlytuwPHSWbSVIs2WAXnRS8tIsjwWIsjcBUeqs=', NULL, 0, 'mukarram', 'Mukarram-Ali', 'Mehar', 'm.mehar@mlgruppe.de', 1, 1, '2024-02-07 08:18:18.000000'),
 (4, 'pbkdf2_sha256$720000$IZZq7zl3KdVk8zQtrYtlNV$DxaVYdUBUGSsgGCijPyS7XE8KDgJYuBjlcZAHVHv6CM=', NULL, 0, 'aborowczak', 'Andreas', 'Borowczak', 'a.borowczak@mlgruppe.de', 1, 1, '2024-02-07 08:20:46.000000');
@@ -558,7 +558,26 @@ INSERT INTO `django_admin_log` (`id`, `action_time`, `object_id`, `object_repr`,
 (232, '2024-02-15 11:11:02.458270', '1', 'admin', 2, '[{\"changed\": {\"fields\": [\"Groups\"]}}]', 4, 1),
 (233, '2024-02-15 13:12:18.710268', '16', 'Philipp-Reis-Str. 2, 54568 Gerolstein', 1, '[{\"added\": {}}]', 7, 1),
 (234, '2024-02-15 13:12:21.496604', '17', 'Informationstechnikbatallion 281 (Behörde)', 1, '[{\"added\": {}}]', 16, 1),
-(235, '2024-02-15 13:15:36.265627', '16', '52110', 1, '[{\"added\": {}}]', 18, 1);
+(235, '2024-02-15 13:15:36.265627', '16', '52110', 1, '[{\"added\": {}}]', 18, 1),
+(236, '2024-02-16 11:29:20.184772', '17', '51981', 1, '[{\"added\": {}}]', 18, 1),
+(237, '2024-02-16 11:32:59.364274', '18', '51989', 1, '[{\"added\": {}}]', 18, 1),
+(238, '2024-02-16 11:35:22.749625', '19', '52016', 1, '[{\"added\": {}}]', 18, 1),
+(239, '2024-02-16 11:55:41.465562', '2', 'Derntl, Franz', 1, '[{\"added\": {}}]', 19, 1),
+(240, '2024-02-16 11:56:08.220666', '19', '52016', 2, '[{\"changed\": {\"fields\": [\"Trainer\"]}}]', 18, 1),
+(241, '2024-02-16 11:56:17.015177', '18', '51989', 2, '[{\"changed\": {\"fields\": [\"Trainer\"]}}]', 18, 1),
+(242, '2024-02-16 11:56:23.636746', '17', '51981', 2, '[{\"changed\": {\"fields\": [\"Trainer\"]}}]', 18, 1),
+(243, '2024-02-16 11:58:16.432566', '16', '52110', 2, '[]', 18, 1),
+(244, '2024-02-16 11:59:00.207087', '9', '51982', 2, '[{\"changed\": {\"fields\": [\"Trainer\"]}}]', 18, 1),
+(245, '2024-02-16 11:59:09.779749', '19', '52016', 2, '[]', 18, 1),
+(246, '2024-02-16 12:02:13.762737', '19', '52016', 2, '[{\"changed\": {\"fields\": [\"Hardware Status\"]}}]', 18, 1),
+(247, '2024-02-16 12:03:06.075474', '9', '51982', 3, '', 18, 1),
+(248, '2024-02-16 12:04:25.544018', '17', '51981', 3, '', 18, 1),
+(249, '2024-02-16 12:10:05.855254', '20', '51983', 1, '[{\"added\": {}}]', 18, 1),
+(250, '2024-02-16 12:11:08.633554', '21', '51999', 1, '[{\"added\": {}}]', 18, 1),
+(251, '2024-02-16 12:13:01.978679', '22', '52017', 1, '[{\"added\": {}}]', 18, 1),
+(252, '2024-02-16 12:14:43.586191', '23', '52000', 1, '[{\"added\": {}}]', 18, 1),
+(253, '2024-02-16 12:16:01.501161', '23', '52000', 2, '[{\"changed\": {\"fields\": [\"Kunde\"]}}]', 18, 1),
+(254, '2024-02-16 12:18:44.283956', '21', '51999', 2, '[]', 18, 1);
 
 -- --------------------------------------------------------
 
@@ -661,12 +680,12 @@ CREATE TABLE `django_session` (
 --
 
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
+('49a7nuybm37bkj7lv8c51haroo02o452', '.eJxVjDsOwjAQBe_iGlmO_0tJnzNYXnuNA8iR4qRC3J1ESgHtm5n3ZiFuaw1bpyVMmV3ZwC6_G8b0pHaA_IjtPvM0t3WZkB8KP2nn45zpdTvdv4Mae91rGAjAGpuNKmAFaa8NlmSFx0xSYczSKWkgFW18FNopS1C8Ra0c7DL7fAHOODcQ:1raqqY:2e33OLmHDtqo7zxlVdx2MZ4FUjV0X4RHpJ1f0uIg--0', '2024-03-01 05:33:14.186908'),
 ('6u2ff165z1dx9zelj1ixuy9ns2kz5tj6', '.eJxVjDsOwjAQBe_iGlmO_0tJnzNYXnuNA8iR4qRC3J1ESgHtm5n3ZiFuaw1bpyVMmV3ZwC6_G8b0pHaA_IjtPvM0t3WZkB8KP2nn45zpdTvdv4Mae91rGAjAGpuNKmAFaa8NlmSFx0xSYczSKWkgFW18FNopS1C8Ra0c7DL7fAHOODcQ:1ra88D:ImPaeIHoSKqXXZXIvnmPQzYZ1oo3_qD9EUs_cXENuw4', '2024-02-28 05:48:29.470068'),
 ('9viuq9dy1zqr5rtdajx75k4yqbwwf5zj', '.eJxVjDsOwjAQBe_iGlmO_0tJnzNYXnuNA8iR4qRC3J1ESgHtm5n3ZiFuaw1bpyVMmV3ZwC6_G8b0pHaA_IjtPvM0t3WZkB8KP2nn45zpdTvdv4Mae91rGAjAGpuNKmAFaa8NlmSFx0xSYczSKWkgFW18FNopS1C8Ra0c7DL7fAHOODcQ:1rYVLn:qV9SKsM4jIKMqYssEzaMKdvW9-YjuiP-95o4cwSYj_k', '2024-02-23 18:11:47.105505'),
 ('e9ajjgiitkdcjq6hzyvw7k6vj9yv2qdu', '.eJxVjDsOwjAQBe_iGlmO_0tJnzNYXnuNA8iR4qRC3J1ESgHtm5n3ZiFuaw1bpyVMmV3ZwC6_G8b0pHaA_IjtPvM0t3WZkB8KP2nn45zpdTvdv4Mae91rGAjAGpuNKmAFaa8NlmSFx0xSYczSKWkgFW18FNopS1C8Ra0c7DL7fAHOODcQ:1rXP2V:jKd_-BfgHKnilXr_yHV9-fv8w7POmgeRYeZadMFnhyc', '2024-02-20 17:15:19.264590'),
 ('erb5fu6m5p7vx83leyomq4f4vbccmosg', '.eJxVjDsOwjAQBe_iGlmO_0tJnzNYXnuNA8iR4qRC3J1ESgHtm5n3ZiFuaw1bpyVMmV3ZwC6_G8b0pHaA_IjtPvM0t3WZkB8KP2nn45zpdTvdv4Mae91rGAjAGpuNKmAFaa8NlmSFx0xSYczSKWkgFW18FNopS1C8Ra0c7DL7fAHOODcQ:1rZouy:esF_NsDjwykKRz3rvVAlMKI8xR2ukQzF4djorLEL8iQ', '2024-02-27 09:17:32.638356'),
 ('kbx24o7rvvpkvaz23p51wj1z3sx51jc5', '.eJxVjDsOwjAQBe_iGlmO_0tJnzNYXnuNA8iR4qRC3J1ESgHtm5n3ZiFuaw1bpyVMmV3ZwC6_G8b0pHaA_IjtPvM0t3WZkB8KP2nn45zpdTvdv4Mae91rGAjAGpuNKmAFaa8NlmSFx0xSYczSKWkgFW18FNopS1C8Ra0c7DL7fAHOODcQ:1rXatd:yjCqCmbCuRrMd_x1a1JpZDkWLCsoSNH7LbNZNSOdw5E', '2024-02-21 05:54:57.517227'),
-('p70wwj5xn4r3lntatgevcz2mm7ck819f', '.eJxVjDsOwjAQBe_iGlmO_0tJnzNYXnuNA8iR4qRC3J1ESgHtm5n3ZiFuaw1bpyVMmV3ZwC6_G8b0pHaA_IjtPvM0t3WZkB8KP2nn45zpdTvdv4Mae91rGAjAGpuNKmAFaa8NlmSFx0xSYczSKWkgFW18FNopS1C8Ra0c7DL7fAHOODcQ:1raZdL:WVX5GmqoIQyYp_YXvG8XBFaUvS3yMI8kJZwt2AAb5Io', '2024-02-29 11:10:27.014598'),
 ('sdrx9od58je8u4tkfez76ew9c63h12sk', '.eJxVjDsOwjAQBe_iGlmO_0tJnzNYXnuNA8iR4qRC3J1ESgHtm5n3ZiFuaw1bpyVMmV3ZwC6_G8b0pHaA_IjtPvM0t3WZkB8KP2nn45zpdTvdv4Mae91rGAjAGpuNKmAFaa8NlmSFx0xSYczSKWkgFW18FNopS1C8Ra0c7DL7fAHOODcQ:1rXiQk:b7LUfahY15JJMUrL6e3W_8wv2P8ETTC5qjTV0jrfHS8', '2024-02-21 13:57:38.708521'),
 ('vvrtp1ildh1u0rexu7nw1pjb0hv96b6l', '.eJxVjDsOwjAQBe_iGlmO_0tJnzNYXnuNA8iR4qRC3J1ESgHtm5n3ZiFuaw1bpyVMmV3ZwC6_G8b0pHaA_IjtPvM0t3WZkB8KP2nn45zpdTvdv4Mae91rGAjAGpuNKmAFaa8NlmSFx0xSYczSKWkgFW18FNopS1C8Ra0c7DL7fAHOODcQ:1rYMBJ:Zo_m8f90fHJ3oi9dJD3V3deQbD24S6t95EoIvP31sXo', '2024-02-23 08:24:21.835305'),
 ('zsv7mtab5miijsa3tfump5djzuce2av4', '.eJxVjDsOwjAQBe_iGlmO_0tJnzNYXnuNA8iR4qRC3J1ESgHtm5n3ZiFuaw1bpyVMmV3ZwC6_G8b0pHaA_IjtPvM0t3WZkB8KP2nn45zpdTvdv4Mae91rGAjAGpuNKmAFaa8NlmSFx0xSYczSKWkgFW18FNopS1C8Ra0c7DL7fAHOODcQ:1rXdHE:RYLOr35zWY3JszDwIxONCFxwCDNExdyHLw_RTs9bWVY', '2024-02-21 08:27:28.872487');
@@ -751,14 +770,19 @@ INSERT INTO `kurse_kurs` (`id`, `va_nummer`, `thema`, `kurs_start`, `kurs_ende`,
 (6, 52430, 'Kombi', '2024-03-04 06:30:00.000000', '2024-03-08 10:30:00.000000', 7, NULL, 'mit HW'),
 (7, 52420, 'Word GL', '2024-03-04 06:30:00.000000', '2024-02-05 15:00:00.000000', 8, NULL, 'mit HW'),
 (8, 51916, 'Outlook', '2024-03-04 06:30:00.000000', '2024-03-06 15:00:00.000000', 9, NULL, 'mit HW'),
-(9, 51982, 'Word GL', '2024-02-29 06:30:00.000000', '2024-03-01 10:30:00.000000', 10, NULL, 'mit HW'),
 (10, 52562, 'Word GL', '2024-03-11 06:30:00.000000', '2024-03-12 15:00:00.000000', 11, NULL, 'mit HW'),
 (11, 52585, 'Kombi', '2024-03-11 06:30:00.000000', '2024-03-15 10:30:00.000000', 12, NULL, 'mit HW'),
 (12, 52665, 'Kombi', '2024-03-11 06:30:00.000000', '2024-03-15 10:30:00.000000', 13, NULL, 'mit HW'),
 (13, 52744, 'Word GL', '2024-03-11 06:30:00.000000', '2024-03-12 15:00:00.000000', 14, NULL, 'mit HW'),
 (14, 52676, 'SharePoint GL', '2024-03-12 06:30:00.000000', '2024-03-14 15:00:00.000000', 15, NULL, 'mit HW'),
 (15, 52695, 'Kombi', '2024-03-11 06:30:00.000000', '2024-03-15 10:30:00.000000', 16, NULL, 'mit HW'),
-(16, 52110, 'Excel GL', '2024-04-08 05:30:00.000000', '2024-04-09 14:00:00.000000', 17, NULL, 'mit HW');
+(16, 52110, 'Excel GL', '2024-04-08 05:30:00.000000', '2024-04-09 14:00:00.000000', 17, NULL, 'mit HW'),
+(18, 51989, 'Outlook GL', '2024-02-07 06:30:00.000000', '2024-02-09 10:30:00.000000', 10, 2, 'HW vo Ort'),
+(19, 52016, 'PPT GL', '2024-02-27 06:30:00.000000', '2024-02-28 15:00:00.000000', 10, 2, 'Rückholung'),
+(20, 51983, 'Word GL', '2024-04-02 05:30:00.000000', '2024-02-03 15:00:00.000000', 10, 2, 'mit HW'),
+(21, 51999, 'Excel GL', '2024-04-04 05:30:00.000000', '2024-04-05 09:30:00.000000', 10, 2, 'HW vo Ort'),
+(22, 52017, 'PPT GL', '2024-04-15 05:30:00.000000', '2024-04-16 14:00:00.000000', 10, 2, 'mit HW'),
+(23, 52000, 'Excel GL', '2024-04-17 05:30:00.000000', '2024-04-18 13:30:00.000000', 10, 2, 'HW vo Ort');
 
 -- --------------------------------------------------------
 
@@ -850,12 +874,12 @@ CREATE TABLE `pit_rueckholung` (
 --
 
 INSERT INTO `pit_rueckholung` (`id`, `RueckDatum`, `Kunde_id`, `VA_Nummer_id`, `Schiene_id`, `Server_id`) VALUES
-(1, '2024-03-04', 10, 9, 1, 7),
 (2, '2024-03-04', 5, 4, 8, 8),
 (3, '2024-03-04', 6, 5, 9, 9),
 (4, '2024-03-11', 1, 1, 2, 2),
 (5, '2024-03-11', 9, 8, 4, 4),
-(6, '2024-03-11', 7, 6, 12, 14);
+(6, '2024-03-11', 7, 6, 12, 14),
+(7, '2024-03-04', 10, 19, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -962,7 +986,10 @@ INSERT INTO `pit_versand` (`id`, `Datum`, `Kunde_id`, `Schiene_id`, `Server_id`,
 (21, '2024-03-04', 14, 14, 16, 13),
 (22, '2024-02-04', 15, 15, 17, 14),
 (23, '2024-03-04', 16, 16, 12, 15),
-(24, '2024-04-01', 17, NULL, NULL, 16);
+(24, '2024-04-01', 17, NULL, NULL, 16),
+(27, '2024-04-01', 17, NULL, NULL, 16),
+(29, '2024-03-25', 10, NULL, NULL, 20),
+(30, '2024-04-08', 10, NULL, NULL, 22);
 
 -- --------------------------------------------------------
 
@@ -1039,6 +1066,13 @@ CREATE TABLE `trainer_trainer` (
   `Mobil` varchar(17) DEFAULT NULL,
   `Email` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+
+--
+-- Daten für Tabelle `trainer_trainer`
+--
+
+INSERT INTO `trainer_trainer` (`id`, `Name`, `Vorname`, `Outlook`, `SharePoint`, `SMS`, `Mobil`, `Email`) VALUES
+(2, 'Derntl', 'Franz', 0, 0, 0, '+49 151 120 325 7', 'info@FDerntl.de');
 
 --
 -- Indizes der exportierten Tabellen
@@ -1293,7 +1327,7 @@ ALTER TABLE `kunden_kunde`
 -- AUTO_INCREMENT für Tabelle `kurse_kurs`
 --
 ALTER TABLE `kurse_kurs`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT für Tabelle `pit_abholung`
@@ -1317,7 +1351,7 @@ ALTER TABLE `pit_festplattenimageserver`
 -- AUTO_INCREMENT für Tabelle `pit_rueckholung`
 --
 ALTER TABLE `pit_rueckholung`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT für Tabelle `pit_schiene`
@@ -1335,7 +1369,7 @@ ALTER TABLE `pit_server`
 -- AUTO_INCREMENT für Tabelle `pit_versand`
 --
 ALTER TABLE `pit_versand`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT für Tabelle `postits_postit`
@@ -1353,7 +1387,7 @@ ALTER TABLE `start_adresse`
 -- AUTO_INCREMENT für Tabelle `trainer_trainer`
 --
 ALTER TABLE `trainer_trainer`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints der exportierten Tabellen
