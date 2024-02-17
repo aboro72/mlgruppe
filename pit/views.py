@@ -58,8 +58,8 @@ def schiene_chart(request):
 
     # Sontiges
     abholung = Abholung.objects.all()
-    versand_liste = Versand.objects.all()
-    rueckholung_liste = Rueckholung.objects.all()
+    versand_liste = Versand.objects.all().order_by('Datum' )
+    rueckholung_liste = Rueckholung.objects.all().order_by('RueckDatum')
     # Sammle Elemente, die zurückgesetzt werden müssen
     items_to_reset = list(Schiene.objects.filter(status='Zurücksetzen')) + list(
         Server.objects.filter(status='Zurücksetzen'))
