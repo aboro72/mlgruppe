@@ -40,7 +40,7 @@
                     <th>VA</th>
                     <th>Schiene</th>
                     <th>Server</th>
-                    <th>DPD Beautragt</th>
+                    <th>DPD Beaufragt/Bearbeiten</th>
                 </tr>
             </thead>
             <tbody>
@@ -58,6 +58,9 @@
                             <button type="submit" class="btn btn-success">Ja</button>
                         </form>
                         {% endif %}
+                        
+                            <a href="{% url 'pit:edit_versand' versand.id %}" class="btn btn-warning">Bearbeiten</a>
+                     
                     </td>
                 </tr>
                 {% endfor %}

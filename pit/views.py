@@ -372,3 +372,29 @@ def create_schiene(request):
         form = SchieneForm()
 
     return render(request, 'pit/create_schiene.html', {'form': form})
+
+
+@user_passes_test(is_pit_group)
+def edit_schiene(request, schiene_id):
+    schiene = get_object_or_404(Schiene, pk=schiene_id)
+    if request.method == 'POST':
+        form = SchieneForm(request.POST, instance=schiene)
+        if form.is_valid():
+            form.save()
+            return redirect('pit:info')
+    else:
+        form = SchieneForm(instance=schiene)
+    return render(request, 'pit/edit_Schiene.html', {'form': form})
+
+
+def edit_versand(request, versand_id):
+    versand = get_object_or_404(Versand, pk=versand_id)
+    if request.method == 'POST':
+        form = VersandForm(request.POST, instance=versand)
+        if form.is_valid():
+            form.save()
+            return redirect('pit:info')  # oder eine andere relevante URL
+    else:
+        form = VersandForm(instance=versand)
+
+    return render(request, 'pit/edit_versand.html', {'form': form})

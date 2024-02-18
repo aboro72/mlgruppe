@@ -9,7 +9,7 @@
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
     <data-source source="LOCAL" name="hardware_inventory" uuid="f9f179e3-ca2a-4a7d-a0bb-edf07116f3d0">
-      <driver-ref>ea3eb227-778f-4df7-9594-636c041846b0</driver-ref>
+      <driver-ref>a8476d1f-c5e5-4728-98ce-095b875982ab</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:C:\Users\aborowczak\PycharmProjects\mlgruppe\hardware_inventory.db</jdbc-url>
@@ -24,7 +24,7 @@
       </libraries>
     </data-source>
     <data-source source="LOCAL" name="db-test" uuid="a9dc9fc0-1941-474c-b530-efe718cfa8d7">
-      <driver-ref>ea3eb227-778f-4df7-9594-636c041846b0</driver-ref>
+      <driver-ref>a8476d1f-c5e5-4728-98ce-095b875982ab</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:C:\Users\aborowczak\PycharmProjects\mlgruppe\db-test.sqlite3</jdbc-url>
@@ -39,7 +39,7 @@
       </libraries>
     </data-source>
     <data-source source="LOCAL" name="db2" uuid="b28e6dab-5237-49c6-a745-0dd85a8f06ef">
-      <driver-ref>ea3eb227-778f-4df7-9594-636c041846b0</driver-ref>
+      <driver-ref>a8476d1f-c5e5-4728-98ce-095b875982ab</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:C:\Users\aborowczak\PycharmProjects\mlgruppe\db2.sqlite3</jdbc-url>
