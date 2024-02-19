@@ -141,3 +141,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    $('#kursDetailsModal').on('show.bs.modal', function (event) {
+        var button = event.relatedTarget;
+        var vaNummer = button.getAttribute('data-va-nummer');
+        // Hier können Sie AJAX verwenden, um Kursdetails basierend auf vaNummer zu laden und im Modal anzuzeigen
+    })
+});
+</script>

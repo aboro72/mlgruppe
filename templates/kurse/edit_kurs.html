@@ -1,0 +1,15 @@
+{% extends 'base_dash.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-5 shadow">Kurs bearbeiten - {{ va_nummer }}</h1>
+        <div class="mt-5 shadow">
+        
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Speichern</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

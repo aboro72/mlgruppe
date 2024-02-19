@@ -18,7 +18,7 @@ class Kurs(models.Model):
     kurs_ende = models.DateTimeField(null=True, blank=True)  # Endzeitpunkt des Kurses
     Hardware_Status = models.CharField(max_length=255, choices=[('Ohne HW', 'Ohne HW'),
                                                                 ('mit HW', 'mit HW'),
-                                                                ('HW vo Ort', 'HW vo Ort'),
+                                                                ('HW vor Ort', 'HW vor Ort'),
                                                                 ('Rückholung', 'Rückholung'),
                                                                 ], default='mit HW')
 

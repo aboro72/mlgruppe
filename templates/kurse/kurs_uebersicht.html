@@ -1,53 +1,99 @@
+
 {% extends 'base.html' %}
+{% load static %}
 {% load custom_filters %}
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="{% static 'boostrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'prism/css/prism.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'style1.css' %}">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+<style>
+    .sticky-col {
+        position: sticky;
+        position: -webkit-sticky; /* Für Safari-Browser */
+        left: 0;
+        background-color: white;
+        z-index: 2;
+    }
+    .table-responsive {
+        overflow-x: auto; /* Ermöglicht horizontalen Scroll für die Tabelle */
+    }
+    .kurs-table-responsive {
+        overflow-y: auto;
+        max-height: 750px; /* Passen Sie diese Höhe nach Bedarf an */
+    }
+</style>
+{% endblock %}
 {% block content %}
     <h2>Kursübersicht</h2>
-    <div class="table-responsive">
+    <div class="kurs-table-responsive">
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>Kunde / Adresse</th>
+                    <th class="sticky-col">Kunde / Adresse</th>
                     {% for week in calendar_weeks %}
                     <th>{{ week }}</th>
                     {% endfor %}
                 </tr>
             </thead>
             <tbody>
-{% for kunde, wochen_kurse in kurs_table.items %}
-<tr>
-    <td>{{ kunde }}</td>
-    {% for week in calendar_weeks %}
-    <td>
-        {% with wochen_kurse|get_item:week as kurse_der_woche %}
-            {% if kurse_der_woche %}
-                {% with kurse_der_woche|first as erster_kurs %}
-                    {% if erster_kurs.trainer %}
-                        <div style="background-color: green;">
-                            {% for kurs in kurse_der_woche %}
-                                <a href="#" style="color: white;" data-bs-toggle="modal" data-bs-target="#detailsModal{{ kurs.va_nummer }}">
+            {% for kunde, wochen_kurse in kurs_table.items %}
+            <tr>
+                <td class="sticky-col">{{ kunde }}</td>
+                {% for week in calendar_weeks %}
+                <td>
+                    {% with wochen_kurse|get_item:week as kurse_der_woche %}
+                    {% if kurse_der_woche %}
+                        {% for kurs in kurse_der_woche %}
+                            <div style="{% if kurs.trainer %}background-color: green;{% else %}background-color: red;{% endif %}">
+                                <a href="#" style="color: white" data-bs-toggle="modal" data-bs-target="#kursDetailsModal{{ kurs.va_nummer }}">
                                     {{ kurs.va_nummer }}
                                 </a>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        <div style="background-color: red;">
-                            {% for kurs in kurse_der_woche %}
-                                <a href="#" style="color: white;" data-bs-toggle="modal" data-bs-target="#detailsModal{{ kurs.va_nummer }}">
-                                    {{ kurs.va_nummer }}
-                                </a>
-                            {% endfor %}
-                        </div>
+                            </div>
+
+                            <!-- Kurs Details Modal für diesen spezifischen Kurs -->
+                            <div class="modal fade" id="kursDetailsModal{{ kurs.va_nummer }}" tabindex="-1" aria-labelledby="kursDetailsModalLabel{{ kurs.va_nummer }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="kursDetailsModalLabel{{ kurs.va_nummer }}">Kurs Details - {{ kurs.va_nummer }}</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            {% for va_nummer, details in kurs_details.items %}
+                                                {% if va_nummer == kurs.va_nummer %}
+                                                    <h2>Thema: {{ details.thema }} </h2>
+                                                    <p>Trainer: {{ details.trainer }} </p>
+                                                    <p>Start: {{ details.kurs_start }}</p>
+                                                    <p>Ende: {{ details.kurs_ende }}</p>
+                                                    <hr>
+                                                    <p> HW Status: {{ details.Hardware_Status}}</p>
+                                                    <hr> 
+                                                    <h3>{{ details.kunde }}</h3>
+                                                    <br>
+                                                    <!-- Weitere Kursdetails hier anzeigen -->
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="{% url 'kurs:edit_kurs' kurs.va_nummer %}" type="button" class="btn btn-warning">Bearbeiten</a>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Schließen</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
                     {% endif %}
-                {% endwith %}
-            {% endif %}
-        {% endwith %}
-    </td>
-    {% endfor %}
-</tr>
-{% endfor %}
-
-
+                    {% endwith %}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>
+
 {% endblock %}
+
