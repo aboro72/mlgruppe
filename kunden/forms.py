@@ -2,6 +2,7 @@ from django import forms
 from .models import Kunde
 from start.forms import AdresseForm
 
+
 class KundeForm(forms.ModelForm):
     class Meta:
         model = Kunde

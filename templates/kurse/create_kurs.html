@@ -7,9 +7,10 @@
 
             <form method="post">
                 {% csrf_token %}
-
+                {{ form.media }}
                 {{ form.as_p }}
 
+                
                 <button type="submit" class="btn btn-primary">Kurs erstellen</button>
             </form>
     </div>

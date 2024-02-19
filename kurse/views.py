@@ -46,11 +46,11 @@ def create_kurs(request):
         form = KursForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('trainer_list')  # Nach dem Speichern zum Kursliste-View weiterleiten
+            return redirect('kurs:kurs_uebersicht')  # Nach dem Speichern zum Kursliste-View weiterleiten
     else:
         form = KursForm()
 
-    return render(request, 'trainer/create_trainer.html', {'form': form})
+    return render(request, 'kurse/create_kurs.html', {'form': form})
 
 
 def kurs_details(request, va_nummer):

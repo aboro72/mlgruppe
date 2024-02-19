@@ -19,10 +19,18 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'pit:info' %}">PIT</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true" href="#">ORGA</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Orga
+          </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" aria-disabled="true" href="{% url 'kurs:kurs_uebersicht' %}">Kursübersicht</a></li>  
+                <li><a class="dropdown-item" aria-disabled="true" href="{% url 'kurs:create_kurs' %}">Kurs erstellen</a></li>
+                <li><a class="dropdown-item" aria-disabled="true" href="{% url 'trainer:create_trainer' %}">Trainer erstellen</a> </li>
+            </ul>
         </li>
-        {% comment %}
+      </ul>      
+            {% comment %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             KI-TEST
@@ -37,7 +45,7 @@
         {% endcomment %}
         {% endif %}
 
-      </ul>
+      
       <div class="d-flex" >
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               {% if user.is_authenticated %}
