@@ -12,13 +12,15 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'wiki:index' %}">Wiki</a>
         </li>
-        {% if user.is_authenticated %}
+        {% if request.user.groups.all.0.name == "pit" or request.user.is_superuser %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'postits:postit_list' %}">Post-It</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'pit:info' %}">PIT</a>
         </li>
+        {% endif %}  
+        {% if request.user.groups.all.0.name == "orga" or request.user.is_superuser %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Orga
@@ -29,6 +31,7 @@
                 <li><a class="dropdown-item" aria-disabled="true" href="{% url 'trainer:create_trainer' %}">Trainer erstellen</a> </li>
             </ul>
         </li>
+        {% endif %}      
       </ul>      
             {% comment %}
         <li class="nav-item dropdown">
@@ -43,7 +46,7 @@
           </ul>
         </li>
         {% endcomment %}
-        {% endif %}
+       
 
       
       <div class="d-flex" >
